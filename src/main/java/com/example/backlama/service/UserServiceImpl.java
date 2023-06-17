@@ -1,4 +1,4 @@
 package com.example.backlama.service;
 
-public class UserService {
+public class UserServiceImpl {
 }

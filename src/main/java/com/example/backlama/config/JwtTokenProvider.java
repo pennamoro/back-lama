@@ -1,4 +1,4 @@
 package com.example.backlama.config;
 
-public class SecurityConfig {
+public class JwtTokenProvider {
 }
