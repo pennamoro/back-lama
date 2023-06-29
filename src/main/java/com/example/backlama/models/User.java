@@ -1,46 +1,43 @@
 package com.example.backlama.models;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "pessoa")
-
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
+    @Id
+    @Column(name="id_pessoa")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id_pessoa;
+
+    @Column(name="nome")
+    @JsonProperty("nome")
     private String nome;
 
+    @Column(name="apelido")
+    @JsonProperty("apelido")
     private String apelido;
 
+    @Column(name="email")
+    @JsonProperty("email")
     private String email;
 
+    @Column(name="senha")
+    @JsonProperty("senha")
     private String senha;
 
-    private String nivelExperiencia;
+    @Column(name="nivel_experiencia")
+    @JsonProperty("nivel_experiencia")
+    private String nivel_experiencia;
 
-    public User(Long id, String nome, String apelido, String email, String senha, String nivelExperiencia) {
-        this.id = id;
-        this.nome = nome;
-        this.apelido = apelido;
-        this.email = email;
-        this.senha = senha;
-        this.nivelExperiencia = nivelExperiencia;
-    }
+    public User() {}
 
-    public User() {
+    public Long getId() { return id_pessoa; }
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Long id_pessoa) { this.id_pessoa = id_pessoa; }
 
     public String getNome() {
         return nome;
@@ -75,10 +72,10 @@ public class User {
     }
 
     public String getNivelExperiencia() {
-        return nivelExperiencia;
+        return nivel_experiencia;
     }
 
-    public void setNivelExperiencia(String nivelExperiencia) {
-        this.nivelExperiencia = nivelExperiencia;
+    public void setNivelExperiencia(String nivel_experiencia) {
+        this.nivel_experiencia = nivel_experiencia;
     }
 }

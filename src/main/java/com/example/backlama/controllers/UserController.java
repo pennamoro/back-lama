@@ -2,6 +2,7 @@ package com.example.backlama.controllers;
 
 import com.example.backlama.models.User;
 import com.example.backlama.services.UserService;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,14 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    @PermitAll
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         User registeredUser = userService.registerUser(user);
         return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
+    @PermitAll
     public ResponseEntity<String> loginUser(@RequestBody User user) {
         String token = userService.loginUser(user.getEmail(), user.getSenha());
         return new ResponseEntity<>(token, HttpStatus.OK);

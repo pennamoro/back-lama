@@ -1,12 +1,13 @@
 package com.example.backlama;
 
 import com.example.backlama.controllers.UserController;
+import com.example.backlama.security.SecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackageClasses = UserController.class)
+@ComponentScan(basePackageClasses = {SecurityConfig.class, UserController.class})
 public class BackLamaApplication {
 
 	public static void main(String[] args) {
