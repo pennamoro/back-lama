@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @ComponentScan(basePackageClasses = UserService.class)
 public class UserController {
     private final UserService userService;
@@ -33,4 +34,5 @@ public class UserController {
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }
+
 
