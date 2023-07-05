@@ -48,6 +48,9 @@ public class UserService {
         if (user == null || !passwordEncoder.matches(senha, user.getSenha())) {
             throw new RuntimeException("Credenciais inválidas");
         }
+        if (!user.isConfirmed()){
+            throw new RuntimeException("Conta ainda não verificada");
+        }
 
         return Jwts.builder()
                 .setSubject(user.getEmail())
