@@ -33,6 +33,8 @@ public class User {
     @JsonProperty("nivel_experiencia")
     private String nivel_experiencia;
 
+    private boolean confirmed;
+
     public User() {}
 
     public Long getId() { return id_pessoa; }
@@ -77,5 +79,13 @@ public class User {
 
     public void setNivelExperiencia(String nivel_experiencia) {
         this.nivel_experiencia = nivel_experiencia;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
     }
 }

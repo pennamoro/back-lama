@@ -39,6 +39,7 @@ public class UserService {
         // Criptografar a senha antes de salvar
         user.setSenha(passwordEncoder.encode(user.getSenha()));
 
+        user.setConfirmed(false);
         return userRepository.save(user);
     }
 
@@ -47,14 +48,22 @@ public class UserService {
         if (user == null || !passwordEncoder.matches(senha, user.getSenha())) {
             throw new RuntimeException("Credenciais inválidas");
         }
-        String token = Jwts.builder()
+
+        return Jwts.builder()
                 .setSubject(user.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
-
-        return token;
+    }
+    public boolean confirmRegistration(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && !user.isConfirmed()) {
+            user.setConfirmed(true);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 }
 
