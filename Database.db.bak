@@ -1,22 +1,21 @@
 CREATE TABLE usuario (
     id_usuario SERIAL PRIMARY KEY,
-    nome VARCHAR(255),
-    email VARCHAR(255),
-    apelido VARCHAR(255),
-    senha VARCHAR(255),
-    nivel_experiencia VARCHAR(255),
-    foto VARCHAR(255),
-    is_admin BOOLEAN,
-	confirmed BOOLEAN NOT NULL,
+    nome VARCHAR(50),
+    email VARCHAR(50),
+    apelido VARCHAR(50),
+    senha VARCHAR(50),
+    nivel_experiencia VARCHAR(50),
+    foto VARCHAR(50),
+    is_admin BOOLEAN
 );
 
 CREATE TABLE receita (
     id_receita SERIAL PRIMARY KEY,
-    nome VARCHAR(255),
-    descricao VARCHAR(255),
-    foto VARCHAR(255),
-    nivel_experiencia VARCHAR(255),
-    visibilidade VARCHAR(255)
+    nome VARCHAR(50),
+    descricao VARCHAR(50),
+    foto VARCHAR(50),
+    nivel_experiencia VARCHAR(50),
+    visibilidade VARCHAR(50)
 );
 
 CREATE TABLE avaliacao (
@@ -24,14 +23,14 @@ CREATE TABLE avaliacao (
     id_usuario INTEGER REFERENCES usuario(id_usuario),
     estrelas INTEGER,
     comentario TEXT,
-    titulo VARCHAR(255),
+    titulo VARCHAR(50),
     PRIMARY KEY (id_receita, id_usuario)
 );
 
 CREATE TABLE lista_pessoal (
     id_receita INTEGER REFERENCES receita(id_receita),
     id_usuario INTEGER REFERENCES usuario(id_usuario),
-    progresso VARCHAR(255),
+    progresso VARCHAR(50),
     PRIMARY KEY (id_receita, id_usuario)
 );
 
@@ -43,14 +42,14 @@ CREATE TABLE usuario_cria_receita (
 
 CREATE TABLE tipo (
     id_tipo SERIAL PRIMARY KEY,
-    nome VARCHAR(255)
+    nome VARCHAR(50)
 );
 
 CREATE TABLE material (
     id_material SERIAL,
     id_tipo INTEGER REFERENCES tipo(id_tipo),
-    nome VARCHAR(255),
-    icone VARCHAR(255),
+    nome VARCHAR(50),
+    icone VARCHAR(50),
     PRIMARY KEY (id_material, id_tipo)
 );
 
