@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "pessoa")
+@Table(name = "usuario")
 public class User {
 
     @Id
-    @Column(name="id_pessoa")
+    @Column(name="id_usuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pessoa;
 
