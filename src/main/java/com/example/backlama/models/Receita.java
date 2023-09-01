@@ -16,9 +16,9 @@ public class Receita {
     @JsonProperty("nome")
     private String nome;
 
-    @Column(name = "descricao")
-    @JsonProperty("descricao")
-    private String descricao;
+    @Column(name = "materiais")
+    @JsonProperty("materiais")
+    private String materiais;
 
     @Column(name = "foto")
     @JsonProperty("foto")
@@ -31,6 +31,10 @@ public class Receita {
     @Column(name = "visibilidade")
     @JsonProperty("visibilidade")
     private String visibilidade;
+
+    @Column(name = "cores")
+    @JsonProperty("cores")
+    private String cores;
 
     public Receita() {}
 
@@ -50,12 +54,12 @@ public class Receita {
         this.nome = nome;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getMateriais() {
+        return materiais;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setMateriais(String materiais) {
+        this.materiais = materiais;
     }
 
     public String getFoto() {
@@ -81,4 +85,8 @@ public class Receita {
     public void setVisibilidade(String visibilidade) {
         this.visibilidade = visibilidade;
     }
+
+    public String getCores() { return cores; }
+
+    public void setCores(String cores) {this.cores = cores;}
 }
