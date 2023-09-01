@@ -34,7 +34,7 @@ public class Receita {
 
     @Column(name = "cores")
     @JsonProperty("cores")
-    private String cores;
+    private Boolean cores;
 
     public Receita() {}
 
@@ -86,7 +86,11 @@ public class Receita {
         this.visibilidade = visibilidade;
     }
 
-    public String getCores() { return cores; }
+    public Boolean getCores() {
+        return cores;
+    }
 
-    public void setCores(String cores) {this.cores = cores;}
+    public void setCores(Boolean cores) {
+        this.cores = cores;
+    }
 }
