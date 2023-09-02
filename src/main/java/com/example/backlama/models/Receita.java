@@ -10,7 +10,7 @@ public class Receita {
     @Id
     @Column(name = "id_receita")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idReceita;
+    private Long id_receita;
 
     @Column(name = "nome")
     @JsonProperty("nome")
@@ -35,11 +35,11 @@ public class Receita {
     public Receita() {}
 
     public Long getIdReceita() {
-        return idReceita;
+        return id_receita;
     }
 
     public void setIdReceita(Long idReceita) {
-        this.idReceita = idReceita;
+        this.id_receita = idReceita;
     }
 
     public String getNome() {

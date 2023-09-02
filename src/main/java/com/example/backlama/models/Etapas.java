@@ -9,18 +9,18 @@ import jakarta.persistence.*;
 public class Etapas {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_etapas")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_etapas;
 
     @Id
     @ManyToOne
-    @JsonProperty("id_passos")
     @JoinColumn(name = "id_passos", referencedColumnName = "id_passos")
+    @JsonProperty("id_passos")
     private Passos id_passos;
 
-    @JsonProperty("descricao")
     @Column(name = "descricao", columnDefinition = "TEXT", nullable = false)
+    @JsonProperty("descricao")
     private String descricao;
 
     public Etapas() {}
