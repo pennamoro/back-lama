@@ -15,7 +15,8 @@ CREATE TABLE receita (
     nome VARCHAR(255) NOT NULL,
     foto VARCHAR(255) NOT NULL,
     nivel_experiencia VARCHAR(255) NOT NULL,
-    visibilidade VARCHAR(255) NOT NULL
+    visibilidade VARCHAR(255) NOT NULL,
+    cores BOOLEAN NOT NULL
 );
 
 CREATE TABLE avaliacao (

@@ -16,10 +16,6 @@ public class Receita {
     @JsonProperty("nome")
     private String nome;
 
-    @Column(name = "materiais")
-    @JsonProperty("materiais")
-    private String materiais;
-
     @Column(name = "foto")
     @JsonProperty("foto")
     private String foto;
@@ -52,14 +48,6 @@ public class Receita {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getMateriais() {
-        return materiais;
-    }
-
-    public void setMateriais(String materiais) {
-        this.materiais = materiais;
     }
 
     public String getFoto() {
