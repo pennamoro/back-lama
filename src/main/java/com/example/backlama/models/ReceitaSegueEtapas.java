@@ -3,71 +3,69 @@ package com.example.backlama.models;
 import jakarta.persistence.*;
 
 @Entity
+@IdClass(ReceitaSegueEtapasId.class)
 @Table(name = "receita_segue_etapas")
 public class ReceitaSegueEtapas {
 
     @Id
     @ManyToOne
     @JoinColumn(name = "id_receita", referencedColumnName = "id_receita")
-    private Receita receita;
+    private Receita id_receita;
 
     @Id
-    @Column(name = "id_etapas")
-    private Long idEtapas;
-
-    @Id
-    @Column(name = "id_passos")
-    private Long idPassos;
-
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "id_etapas", referencedColumnName = "id_etapas", insertable = false, updatable = false),
             @JoinColumn(name = "id_passos", referencedColumnName = "id_passos", insertable = false, updatable = false)
     })
-    private Etapas etapas;
-
-    @Column(name = "descricao", columnDefinition = "TEXT", nullable = false)
-    private String descricao;
+    private Etapas id_etapas;
 
     public ReceitaSegueEtapas() {}
 
     public Receita getReceita() {
-        return receita;
+        return id_receita;
     }
 
     public void setReceita(Receita receita) {
-        this.receita = receita;
+        this.id_receita = receita;
     }
 
     public Long getIdEtapas() {
-        return idEtapas;
+        return id_etapas != null ? id_etapas.getIdEtapas() : null;
     }
 
     public void setIdEtapas(Long idEtapas) {
-        this.idEtapas = idEtapas;
+        if (id_etapas == null) {
+            id_etapas = new Etapas();
+        }
+        id_etapas.setIdEtapas(idEtapas);
     }
 
     public Long getIdPassos() {
-        return idPassos;
+        return id_etapas != null ? id_etapas.getIdPassos() : null;
     }
 
     public void setIdPassos(Long idPassos) {
-        this.idPassos = idPassos;
+        if (id_etapas == null) {
+            id_etapas = new Etapas();
+        }
+        id_etapas.setIdPassos(idPassos);
     }
 
-    public Etapas getEtapas() {
-        return etapas;
-    }
+    public Etapas getEtapas() { return id_etapas; }
 
     public void setEtapas(Etapas etapas) {
-        this.etapas = etapas;
+        this.id_etapas = etapas;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Long getIdReceita(){
+        return id_receita != null ? id_receita.getIdReceita() : null;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setIdReceita(Long idReceita){
+        if (id_receita == null) {
+            id_receita = new Receita();
+        }
+        id_receita.setIdReceita(idReceita);
     }
 }

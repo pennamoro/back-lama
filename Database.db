@@ -13,7 +13,6 @@ CREATE TABLE usuario (
 CREATE TABLE receita (
     id_receita SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    descricao VARCHAR(255) NOT NULL,
     foto VARCHAR(255) NOT NULL,
     nivel_experiencia VARCHAR(255) NOT NULL,
     visibilidade VARCHAR(255) NOT NULL
@@ -78,7 +77,6 @@ CREATE TABLE receita_segue_etapas (
     id_receita INTEGER REFERENCES receita(id_receita),
     id_etapas INTEGER NOT NULL,
     id_passos INTEGER NOT NULL,
-    descricao TEXT NOT NULL,
     PRIMARY KEY (id_receita, id_etapas, id_passos),
     FOREIGN KEY (id_etapas, id_passos) REFERENCES etapas(id_etapas, id_passos)
 );
