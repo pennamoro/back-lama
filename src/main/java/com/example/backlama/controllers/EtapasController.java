@@ -1,10 +1,7 @@
 package com.example.backlama.controllers;
 
 import com.example.backlama.models.Etapas;
-import com.example.backlama.models.EtapasId;
-import com.example.backlama.repositories.PassosRepository;
 import com.example.backlama.services.EtapasService;
-import com.example.backlama.services.PassosService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +20,7 @@ public class EtapasController {
         return new ResponseEntity<>(novaEtapas, HttpStatus.CREATED);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Etapas> visualizarEtapas(@PathVariable EtapasId id) {
+    public ResponseEntity<Etapas> visualizarEtapas(@PathVariable Long id) {
         Etapas etapas = etapasService.buscarEtapasPorId(id);
         if (etapas != null) {
             return new ResponseEntity<>(etapas, HttpStatus.OK);
@@ -33,7 +30,7 @@ public class EtapasController {
     }
 
     @PutMapping("/editar/{id}")
-    public ResponseEntity<Etapas> editarEtapas(@PathVariable EtapasId id, @RequestBody Etapas etapas) {
+    public ResponseEntity<Etapas> editarEtapas(@PathVariable Long id, @RequestBody Etapas etapas) {
         Etapas etapasEditada = etapasService.editarEtapas(id, etapas);
         if (etapasEditada != null) {
             return new ResponseEntity<>(etapasEditada, HttpStatus.OK);

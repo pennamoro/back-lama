@@ -3,21 +3,25 @@ package com.example.backlama.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "receita_utiliza_material")
+@Table(name = "receita_utiliza_material", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_receita", "id_material", "id_tipo"})
+})
 public class ReceitaUtilizaMaterial {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_receita_utiliza_material")
+    private Long id_receita_utiliza_material;
+
     @ManyToOne
     @JoinColumn(name = "id_receita", referencedColumnName = "id_receita")
     private Receita receita;
 
-    @Id
     @Column(name = "id_material")
-    private Long idMaterial;
+    private Long id_material;
 
-    @Id
     @Column(name = "id_tipo")
-    private Long idTipo;
+    private Long id_tipo;
 
     @ManyToOne
     @JoinColumns({
@@ -36,20 +40,24 @@ public class ReceitaUtilizaMaterial {
         this.receita = receita;
     }
 
+    public Long getIdReceita(Receita recetia){return this.receita.getIdReceita();}
+
+    public void setIdReceita(Long id_receita){this.receita.setIdReceita(id_receita);}
+
     public Long getIdMaterial() {
-        return idMaterial;
+        return id_material;
     }
 
     public void setIdMaterial(Long idMaterial) {
-        this.idMaterial = idMaterial;
+        this.id_material = idMaterial;
     }
 
     public Long getIdTipo() {
-        return idTipo;
+        return id_tipo;
     }
 
-    public void setIdTipo(Long idTipo) {
-        this.idTipo = idTipo;
+    public void setIdTipo(Long id_tipo) {
+        this.id_tipo = id_tipo;
     }
 
     public Material getMaterial() {
@@ -58,5 +66,9 @@ public class ReceitaUtilizaMaterial {
 
     public void setMaterial(Material material) {
         this.material = material;
+    }
+
+    public Long getId_receita_utiliza_material() {
+        return id_receita_utiliza_material;
     }
 }

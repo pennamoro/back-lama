@@ -9,7 +9,7 @@ public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_material")
-    private Long idMaterial;
+    private Long id_material;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo", referencedColumnName = "id_tipo")
@@ -23,12 +23,12 @@ public class Material {
 
     public Material() {}
 
-    public Long getIdMaterial() {
-        return idMaterial;
+    public Long getId_material() {
+        return id_material;
     }
 
-    public void setIdMaterial(Long idMaterial) {
-        this.idMaterial = idMaterial;
+    public void setId_material(Long id_material) {
+        this.id_material = id_material;
     }
 
     public Tipo getTipo() {
@@ -38,6 +38,10 @@ public class Material {
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
+
+    public Long getIdTipo(Tipo tipo){return tipo.getIdTipo();}
+
+    public void setIdTipo(Long id_tipo){this.tipo.setIdTipo(id_tipo);}
 
     public String getNome() {
         return nome;

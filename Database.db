@@ -20,25 +20,28 @@ CREATE TABLE receita (
 );
 
 CREATE TABLE avaliacao (
+    id_avaliacao SERIAL PRIMARY KEY,
     id_receita INTEGER REFERENCES receita(id_receita),
     id_usuario INTEGER REFERENCES usuario(id_usuario),
     estrelas INTEGER NOT NULL,
     comentario TEXT NOT NULL,
     titulo VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id_receita, id_usuario)
+    UNIQUE (id_receita, id_usuario)
 );
 
 CREATE TABLE lista_pessoal (
+    id_lista_pessoal SERIAL PRIMARY KEY,
     id_receita INTEGER REFERENCES receita(id_receita),
     id_usuario INTEGER REFERENCES usuario(id_usuario),
     progresso VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id_receita, id_usuario)
+    UNIQUE (id_receita, id_usuario)
 );
 
 CREATE TABLE usuario_cria_receita (
+    id_usuario_cria_receita SERIAL PRIMARY KEY,
     id_receita INTEGER REFERENCES receita(id_receita),
     id_usuario INTEGER REFERENCES usuario(id_usuario),
-    PRIMARY KEY (id_receita, id_usuario)
+    UNIQUE (id_receita, id_usuario)
 );
 
 CREATE TABLE tipo (
@@ -47,19 +50,18 @@ CREATE TABLE tipo (
 );
 
 CREATE TABLE material (
-    id_material SERIAL,
+    id_material SERIAL PRIMARY KEY,
     id_tipo INTEGER REFERENCES tipo(id_tipo),
     nome VARCHAR(255) NOT NULL,
     icone VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id_material, id_tipo)
 );
 
 CREATE TABLE receita_utiliza_material (
+    id_receita_utiliza_material SERIAL PRIMARY KEY,
     id_receita INTEGER REFERENCES receita(id_receita),
-    id_material INTEGER NOT NULL,
-    id_tipo INTEGER NOT NULL,
-    PRIMARY KEY (id_receita, id_material, id_tipo),
-    FOREIGN KEY (id_material, id_tipo) REFERENCES material(id_material, id_tipo)
+    id_material INTEGER REFERENCES material(id_material),
+    id_tipo INTEGER REFERENCES material(id_tipo),
+    UNIQUE (id_receita, id_material, id_tipo),
 );
 
 CREATE TABLE passos (
@@ -68,18 +70,17 @@ CREATE TABLE passos (
 );
 
 CREATE TABLE etapas (
-    id_etapas SERIAL NOT NULL,
+    id_etapas SERIAL NOT NULL PRIMARY KEY,
     id_passos INTEGER REFERENCES passos(id_passos),
     descricao TEXT NOT NULL,
-    PRIMARY KEY (id_etapas, id_passos)
 );
 
 CREATE TABLE receita_segue_etapas (
+    id_receita_segue_etapas SERIAL PRIMARY KEY,
     id_receita INTEGER REFERENCES receita(id_receita),
-    id_etapas INTEGER NOT NULL,
-    id_passos INTEGER NOT NULL,
-    PRIMARY KEY (id_receita, id_etapas, id_passos),
-    FOREIGN KEY (id_etapas, id_passos) REFERENCES etapas(id_etapas, id_passos)
+    id_etapas INTEGER REFERENCES etapas(id_etapas),
+    id_passos INTEGER REFERENCES etapas(id_passos),
+    UNIQUE (id_receita, id_etapas, id_passos),
 );
 
 CREATE TABLE categoria (
@@ -88,7 +89,8 @@ CREATE TABLE categoria (
 );
 
 CREATE TABLE receita_separada_categoria (
+    id_receita_separada_categoria SERIAL PRIMARY KEY,
     id_receita INTEGER REFERENCES receita(id_receita),
     id_categoria INTEGER REFERENCES categoria(id_categoria),
-    PRIMARY KEY (id_receita, id_categoria)
+    UNIQUE (id_receita, id_categoria)
 );

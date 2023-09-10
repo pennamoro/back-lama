@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
-@IdClass(EtapasId.class)
 @Table(name = "etapas")
 public class Etapas {
 
@@ -13,7 +12,6 @@ public class Etapas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_etapas;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "id_passos", referencedColumnName = "id_passos")
     @JsonProperty("id_passos")
