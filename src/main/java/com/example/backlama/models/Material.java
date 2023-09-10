@@ -3,7 +3,9 @@ package com.example.backlama.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "material")
+@Table(name = "material", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_tipo"})
+})
 public class Material {
 
     @Id

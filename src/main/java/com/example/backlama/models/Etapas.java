@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "etapas")
+@Table(name = "etapas", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_passos"})
+})
 public class Etapas {
 
     @Id

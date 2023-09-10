@@ -54,6 +54,7 @@ CREATE TABLE material (
     id_tipo INTEGER REFERENCES tipo(id_tipo),
     nome VARCHAR(255) NOT NULL,
     icone VARCHAR(255) NOT NULL,
+	UNIQUE (id_tipo)
 );
 
 CREATE TABLE receita_utiliza_material (
@@ -61,7 +62,7 @@ CREATE TABLE receita_utiliza_material (
     id_receita INTEGER REFERENCES receita(id_receita),
     id_material INTEGER REFERENCES material(id_material),
     id_tipo INTEGER REFERENCES material(id_tipo),
-    UNIQUE (id_receita, id_material, id_tipo),
+    UNIQUE (id_receita, id_material, id_tipo)
 );
 
 CREATE TABLE passos (
@@ -73,6 +74,7 @@ CREATE TABLE etapas (
     id_etapas SERIAL NOT NULL PRIMARY KEY,
     id_passos INTEGER REFERENCES passos(id_passos),
     descricao TEXT NOT NULL,
+	UNIQUE (id_passos)
 );
 
 CREATE TABLE receita_segue_etapas (
@@ -80,7 +82,7 @@ CREATE TABLE receita_segue_etapas (
     id_receita INTEGER REFERENCES receita(id_receita),
     id_etapas INTEGER REFERENCES etapas(id_etapas),
     id_passos INTEGER REFERENCES etapas(id_passos),
-    UNIQUE (id_receita, id_etapas, id_passos),
+    UNIQUE (id_receita, id_etapas, id_passos)
 );
 
 CREATE TABLE categoria (
