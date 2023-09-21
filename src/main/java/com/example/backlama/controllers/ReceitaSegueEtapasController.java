@@ -18,9 +18,4 @@ public class ReceitaSegueEtapasController {
         this.receitaSegueEtapasService = receitaSegueEtapasService;
     }
 
-    @PostMapping()
-    public ResponseEntity<ReceitaSegueEtapas> criarPassos(@RequestBody ReceitaSegueEtapas receitaSegueEtapas) {
-        ReceitaSegueEtapas novaReceitaSegueEtapas = receitaSegueEtapasService.criarReceitaSegueEtapas(receitaSegueEtapas);
-        return new ResponseEntity<>(novaReceitaSegueEtapas, HttpStatus.CREATED);
-    }
 }
