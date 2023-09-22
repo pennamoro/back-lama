@@ -25,20 +25,10 @@ public class ReceitaSegueEtapasService {
         return receitaSegueEtapasRepository.findByReceita_IdReceita(idReceita);
     }
 
-    public List<ReceitaSegueEtapas> editarReceitaSegueEtapas(Long idReceita, List<ReceitaSegueEtapas> novasEtapas) {
-        List<ReceitaSegueEtapas> receitaSegueEtapasList = receitaSegueEtapasRepository.findByReceita_IdReceita(idReceita);
-
-        if (receitaSegueEtapasList != null) {
-            for (ReceitaSegueEtapas novaEtapa : novasEtapas) {
-                for (ReceitaSegueEtapas etapasExistentes : receitaSegueEtapasList) {
-                    if (Objects.equals(etapasExistentes.getEtapas(), novaEtapa.getEtapas())) {
-                        etapasExistentes.setEtapas(novaEtapa.getEtapas());
-                        etapasExistentes.setReceita(novaEtapa.getReceita());
-                    }
-                }
-            }
-            receitaSegueEtapasRepository.saveAll(receitaSegueEtapasList);
-            return receitaSegueEtapasList;
+    public ReceitaSegueEtapas editarReceitaSegueEtapas(Long id, ReceitaSegueEtapas novaRSE) {
+        if (receitaSegueEtapasRepository.existsById(id)) {
+            novaRSE.setId_receita_segue_etapas(id);
+            return receitaSegueEtapasRepository.save(novaRSE);
         }
         return null;
     }

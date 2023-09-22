@@ -24,20 +24,10 @@ public class ReceitaSeparadaCategoriaService {
     public List<ReceitaSeparadaCategoria> buscarReceitaSeparadaCategoriaPorIdReceita(Long idReceita) {
         return receitaSeparadaCategoriaRepository.findByReceita_IdReceita(idReceita);
     }
-    public List<ReceitaSeparadaCategoria> editarReceitaSeparadaCategoria(Long idReceita, List<ReceitaSeparadaCategoria> novasCategorias) {
-        List<ReceitaSeparadaCategoria> receitaSeparadaCategoriaList = receitaSeparadaCategoriaRepository.findByReceita_IdReceita(idReceita);
-
-        if (receitaSeparadaCategoriaList != null) {
-            for (ReceitaSeparadaCategoria novaCategoria : novasCategorias) {
-                for (ReceitaSeparadaCategoria categoriasExistentes : receitaSeparadaCategoriaList) {
-                    if (Objects.equals(categoriasExistentes.getCategoria(), novaCategoria.getCategoria())) {
-                        categoriasExistentes.setCategoria(novaCategoria.getCategoria());
-                        categoriasExistentes.setReceita(novaCategoria.getReceita());
-                    }
-                }
-            }
-            receitaSeparadaCategoriaRepository.saveAll(receitaSeparadaCategoriaList);
-            return receitaSeparadaCategoriaList;
+    public ReceitaSeparadaCategoria editarReceitaSeparadaCategoria(Long id, ReceitaSeparadaCategoria novaRSC) {
+        if (receitaSeparadaCategoriaRepository.existsById(id)) {
+            novaRSC.setId_receita_separada_categoria(id);
+            return receitaSeparadaCategoriaRepository.save(novaRSC);
         }
         return null;
     }

@@ -50,5 +50,9 @@ public class ReceitaSeparadaCategoria {
     public Long getId_receita_separada_categoria() {
         return id_receita_separada_categoria;
     }
+
+    public void setId_receita_separada_categoria(Long id_receita_separada_categoria) {
+        this.id_receita_separada_categoria = id_receita_separada_categoria;
+    }
 }
 

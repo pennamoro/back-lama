@@ -40,7 +40,7 @@ public class ReceitaUtilizaMaterial {
         this.receita = receita;
     }
 
-    public Long getIdReceita(Receita recetia){return this.receita.getIdReceita();}
+    public Long getIdReceita(){return receita.getIdReceita();}
 
     public void setIdReceita(Long id_receita){this.receita.setIdReceita(id_receita);}
 
@@ -70,5 +70,9 @@ public class ReceitaUtilizaMaterial {
 
     public Long getId_receita_utiliza_material() {
         return id_receita_utiliza_material;
+    }
+
+    public void setId_receita_utiliza_material(Long id_receita_utiliza_material) {
+        this.id_receita_utiliza_material = id_receita_utiliza_material;
     }
 }

@@ -26,10 +26,6 @@ public class ReceitaDTO {
         this.receitaUtilizaMaterial = receitaUtilizaMaterial;
     }
 
-    public void setMaterial(List<ReceitaUtilizaMaterial> receitaUtilizaMaterial, Material material) {
-        this.receitaUtilizaMaterial = receitaUtilizaMaterial;
-    }
-
     public List<ReceitaSeparadaCategoria> getReceitaSeparadaCategoria() {
         return receitaSeparadaCategoria;
     }

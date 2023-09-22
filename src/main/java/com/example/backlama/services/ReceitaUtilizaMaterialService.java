@@ -24,20 +24,10 @@ public class ReceitaUtilizaMaterialService {
     public List<ReceitaUtilizaMaterial> buscarReceitaUtilizaMaterialPorIdReceita(Long idReceita) {
         return receitaUtilizaMaterialRepository.findByReceita_IdReceita(idReceita);
     }
-    public List<ReceitaUtilizaMaterial> editarReceitaUtilizaMaterial(Long idReceita, List<ReceitaUtilizaMaterial> novosMateriais) {
-        List<ReceitaUtilizaMaterial> receitaUtilizaMaterialList = receitaUtilizaMaterialRepository.findByReceita_IdReceita(idReceita);
-
-        if (receitaUtilizaMaterialList != null) {
-            for (ReceitaUtilizaMaterial novoMaterial : novosMateriais) {
-                for (ReceitaUtilizaMaterial materialExistente : receitaUtilizaMaterialList) {
-                    if (Objects.equals(materialExistente.getIdMaterial(), novoMaterial.getIdMaterial())) {
-                        materialExistente.setMaterial(novoMaterial.getMaterial());
-                        materialExistente.setReceita(novoMaterial.getReceita());
-                    }
-                }
-            }
-            receitaUtilizaMaterialRepository.saveAll(receitaUtilizaMaterialList);
-            return receitaUtilizaMaterialList;
+    public ReceitaUtilizaMaterial editarReceitaUtilizaMaterial(Long id, ReceitaUtilizaMaterial novaRUM) {
+        if (receitaUtilizaMaterialRepository.existsById(id)) {
+            novaRUM.setId_receita_utiliza_material(id);
+            return receitaUtilizaMaterialRepository.save(novaRUM);
         }
         return null;
     }

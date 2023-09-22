@@ -53,4 +53,8 @@ public class ReceitaSegueEtapas {
     public Long getIdReceitaSegueEtapas() {
         return id_receita_segue_etapas;
     }
+
+    public void setId_receita_segue_etapas(Long id_receita_segue_etapas) {
+        this.id_receita_segue_etapas = id_receita_segue_etapas;
+    }
 }

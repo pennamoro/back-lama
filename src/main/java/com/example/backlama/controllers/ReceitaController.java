@@ -84,19 +84,40 @@ public class ReceitaController {
 
     @PutMapping("/editar/{id}")
     public ResponseEntity<ReceitaDTO> editarReceita(@PathVariable Long id, @RequestBody ReceitaDTO receitaDTO) {
-        Receita receitaEditada = receitaService.editarReceita(id, receitaDTO.getReceita());
-        List<ReceitaUtilizaMaterial> receitaUtilizaMaterialsList = receitaUtilizaMaterialService.editarReceitaUtilizaMaterial(id, receitaDTO.getReceitaUtilizaMaterial());
-        List<ReceitaSeparadaCategoria> receitaSeparadaCategoriaList = receitaSeparadaCategoriaService.editarReceitaSeparadaCategoria(id, receitaDTO.getReceitaSeparadaCategoria());
-        List<ReceitaSegueEtapas> receitaSegueEtapasList = receitaSegueEtapasService.editarReceitaSegueEtapas(id, receitaDTO.getReceitaSegueEtapas());
+        try {
+            Receita existingReceita = receitaService.buscarReceitaPorId(id);
+            if (existingReceita == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
-        if (receitaEditada != null) {
-            receitaDTO.setReceita(receitaEditada);
-            receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterialsList);
-            receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoriaList);
-            receitaDTO.setReceitaSegueEtapas(receitaSegueEtapasList);
+            existingReceita.setNome(receitaDTO.getReceita().getNome());
+            existingReceita.setFoto(receitaDTO.getReceita().getFoto());
+            existingReceita.setNivelExperiencia(receitaDTO.getReceita().getNivelExperiencia());
+            existingReceita.setVisibilidade(receitaDTO.getReceita().getVisibilidade());
+            existingReceita.setCores(receitaDTO.getReceita().getCores());
+
+            Receita updatedReceita = receitaService.editarReceita(id, existingReceita);
+
+            List<ReceitaUtilizaMaterial> receitaUtilizaMaterialsList = receitaDTO.getReceitaUtilizaMaterial();
+            List<ReceitaSeparadaCategoria> receitaSeparadaCategoriaList = receitaDTO.getReceitaSeparadaCategoria();
+            List<ReceitaSegueEtapas> receitaSegueEtapasList = receitaDTO.getReceitaSegueEtapas();
+
+            for (ReceitaUtilizaMaterial utilizaMaterial : receitaUtilizaMaterialsList) {
+                utilizaMaterial.setReceita(updatedReceita);
+                receitaUtilizaMaterialService.criarReceitaUtilizaMaterial(utilizaMaterial);
+            }
+            for (ReceitaSeparadaCategoria separadaCategoria : receitaSeparadaCategoriaList) {
+                separadaCategoria.setReceita(updatedReceita);
+                receitaSeparadaCategoriaService.criarReceitaSeparadaCategoria(separadaCategoria);
+            }
+            for (ReceitaSegueEtapas segueEtapas : receitaSegueEtapasList) {
+                segueEtapas.setReceita(updatedReceita);
+                receitaSegueEtapasService.criarReceitaSegueEtapas(segueEtapas);
+            }
+
             return new ResponseEntity<>(receitaDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

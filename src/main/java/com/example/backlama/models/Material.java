@@ -41,7 +41,7 @@ public class Material {
         this.tipo = tipo;
     }
 
-    public Long getIdTipo(Tipo tipo){return tipo.getIdTipo();}
+    public Long getIdTipo(){return tipo.getIdTipo();}
 
     public void setIdTipo(Long id_tipo){this.tipo.setIdTipo(id_tipo);}
 
