@@ -9,6 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 @RestController
 @CrossOrigin
 @ComponentScan(basePackageClasses = UserService.class)
@@ -31,9 +35,9 @@ public class UserController {
 
     @PostMapping("/login")
     @PermitAll
-    public ResponseEntity<String> loginUser(@RequestBody User user) {
-        String token = userService.loginUser(user.getEmail(), user.getSenha());
-        return new ResponseEntity<>(token, HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody User user) {
+        Map<String, Object> response = userService.loginUser(user.getEmail(), user.getSenha());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/confirm")

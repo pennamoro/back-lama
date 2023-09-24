@@ -4,8 +4,13 @@ import com.example.backlama.security.SecurityConfig;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import com.example.backlama.models.User;
 import com.example.backlama.repositories.UserRepository ;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
@@ -43,7 +48,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public String loginUser(String email, String senha) {
+    public Map<String, Object> loginUser(String email, String senha) {
         User user = userRepository.findByEmail(email);
         if (user == null || !passwordEncoder.matches(senha, user.getSenha())) {
             throw new RuntimeException("Credenciais inválidas");
@@ -51,13 +56,17 @@ public class UserService {
         if (!user.isConfirmed()){
             throw new RuntimeException("Conta ainda não verificada");
         }
-
-        return Jwts.builder()
+        String token  = Jwts.builder()
                 .setSubject(user.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("isAdmin", user.isAdmin());
+        System.out.println(user.isAdmin());
+        return response;
     }
     public boolean confirmRegistration(String email) {
         User user = userRepository.findByEmail(email);

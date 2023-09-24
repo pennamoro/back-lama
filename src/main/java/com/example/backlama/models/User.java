@@ -32,8 +32,12 @@ public class User {
     @Column(name="nivel_experiencia")
     @JsonProperty("nivel_experiencia")
     private String nivel_experiencia;
-
+    @Column(name = "confirmed")
+    @JsonProperty("confirmed")
     private boolean confirmed;
+    @Column(name = "is_admin")
+    @JsonProperty("is_admin")
+    private boolean isAdmin;
 
     public User() {}
 
@@ -87,5 +91,13 @@ public class User {
 
     public void setConfirmed(boolean confirmed) {
         this.confirmed = confirmed;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }
