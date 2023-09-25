@@ -36,7 +36,7 @@ public class User {
     @JsonProperty("confirmed")
     private boolean confirmed;
     @Column(name = "is_admin")
-    @JsonProperty("is_admin")
+    @JsonProperty("admin")
     private boolean isAdmin;
 
     public User() {}

@@ -77,5 +77,9 @@ public class UserService {
         }
         return false;
     }
+
+    public User buscarUserById(Long id){
+        return userRepository.findById(id).orElse(null);
+    }
 }
 

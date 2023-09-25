@@ -16,6 +16,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin
 @ComponentScan(basePackageClasses = UserService.class)
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
     private final EmailService emailService;
@@ -48,6 +49,18 @@ public class UserController {
             return new ResponseEntity<>("Registro confirmado com sucesso!", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Falha ao confirmar o registro. Token inválido ou expirado.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> visualizarPessoa (@PathVariable Long id){
+        User user = userService.buscarUserById(id);
+        user.setSenha(null);
+        user.setAdmin(false);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
