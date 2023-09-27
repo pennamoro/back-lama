@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -77,6 +78,33 @@ public class ReceitaController {
             receitaDTO.setReceitaSegueEtapas(receitaSegueEtapas);
 
             return new ResponseEntity<>(receitaDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ReceitaDTO>> listarTodasReceitas() {
+        List<Receita> receitas = receitaService.listarTodasReceitas();
+
+        if (!receitas.isEmpty()) {
+            List<ReceitaDTO> receitaDTOs = new ArrayList<>();
+
+            for (Receita receita : receitas) {
+                List<ReceitaUtilizaMaterial> receitaUtilizaMaterial = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita());
+                List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita());
+                List<ReceitaSegueEtapas> receitaSegueEtapas = receitaSegueEtapasService.buscarReceitaSegueEtapasPorIdReceita(receita.getIdReceita());
+
+                ReceitaDTO receitaDTO = new ReceitaDTO();
+                receitaDTO.setReceita(receita);
+                receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
+                receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
+                receitaDTO.setReceitaSegueEtapas(receitaSegueEtapas);
+
+                receitaDTOs.add(receitaDTO);
+            }
+
+            return new ResponseEntity<>(receitaDTOs, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

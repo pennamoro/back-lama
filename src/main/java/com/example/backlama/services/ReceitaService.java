@@ -4,11 +4,15 @@ import com.example.backlama.models.Receita;
 import com.example.backlama.repositories.ReceitaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReceitaService {
 
     private final ReceitaRepository receitaRepository;
-
+    public List<Receita> listarTodasReceitas() {
+        return receitaRepository.findAll();
+    }
     public ReceitaService(ReceitaRepository receitaRepository) {
         this.receitaRepository = receitaRepository;
     }
