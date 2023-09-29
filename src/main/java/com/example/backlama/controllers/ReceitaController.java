@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/receitas")
@@ -147,5 +148,48 @@ public class ReceitaController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("/filter")
+    public ResponseEntity<List<ReceitaDTO>> filterReceitasByMaterialAndCategoria(
+            @RequestParam(name = "materialId", required = false) Long materialId,
+            @RequestParam(name = "categoriaId", required = false) Long categoriaId
+    ) {
+        List<Receita> receitas = receitaService.listarTodasReceitas();
+
+        if (receitas.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<ReceitaDTO> filteredReceitas = new ArrayList<>();
+
+        for (Receita receita : receitas) {
+            List<ReceitaUtilizaMaterial> receitaUtilizaMaterial = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita());
+            if (materialId != null) {
+                receitaUtilizaMaterial = receitaUtilizaMaterial.stream()
+                        .filter(rum -> rum.getMaterial().getId_material().equals(materialId))
+                        .collect(Collectors.toList());
+            }
+
+            List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita());
+            if (categoriaId != null) {
+                receitaSeparadaCategoria = receitaSeparadaCategoria.stream()
+                        .filter(rsc -> rsc.getCategoria().getIdCategoria().equals(categoriaId))
+                        .collect(Collectors.toList());
+            }
+
+            if ((materialId == null || !receitaUtilizaMaterial.isEmpty()) &&
+                    (categoriaId == null || !receitaSeparadaCategoria.isEmpty())) {
+                ReceitaDTO receitaDTO = new ReceitaDTO();
+                receitaDTO.setReceita(receita);
+                receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
+                receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
+                filteredReceitas.add(receitaDTO);
+            }
+        }
+
+        if (filteredReceitas.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(filteredReceitas, HttpStatus.OK);
     }
 }
