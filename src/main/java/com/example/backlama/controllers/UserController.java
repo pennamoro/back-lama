@@ -55,9 +55,9 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> visualizarPessoa (@PathVariable Long id){
         User user = userService.buscarUserById(id);
+        if (user != null) {
         user.setSenha(null);
         user.setAdmin(false);
-        if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
