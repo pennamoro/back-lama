@@ -63,9 +63,22 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User existingUser = userService.buscarUserById(id);
+        if (existingUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        existingUser.setNome(updatedUser.getNome());
+        existingUser.setApelido(updatedUser.getApelido());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setSenha(updatedUser.getSenha());
+        existingUser.setNivelExperiencia(updatedUser.getNivelExperiencia());
+
+        User updated = userService.updateUser(existingUser);
+
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+
 }
-
-
-
-
-

@@ -81,5 +81,16 @@ public class UserService {
     public User buscarUserById(Long id){
         return userRepository.findById(id).orElse(null);
     }
-}
+    public User updateUser(User updatedUser) {
+        User existingUser = userRepository.findById(updatedUser.getId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
+        existingUser.setNome(updatedUser.getNome());
+        existingUser.setApelido(updatedUser.getApelido());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setSenha(updatedUser.getSenha());
+        existingUser.setNivelExperiencia(updatedUser.getNivelExperiencia());
+
+        return userRepository.save(existingUser);
+    }
+}
