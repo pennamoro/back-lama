@@ -56,8 +56,8 @@ public class UserController {
     public ResponseEntity<User> visualizarPessoa (@PathVariable Long id){
         User user = userService.buscarUserById(id);
         if (user != null) {
-        user.setSenha(null);
-        user.setAdmin(false);
+            user.setSenha(null);
+            user.setAdmin(false);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -20,7 +20,7 @@ public class EmailService {
         message.setSubject("Confirmação de Registro");
         message.setText("Olá " + user.getNome() + ",\n\n" +
                 "Por favor, clique no link abaixo para confirmar seu registro:\n" +
-                "http://localhost:8080/confirm?email=" + user.getEmail());
+                "http://localhost:8080/user/confirm?email=" + user.getEmail());
 
         mailSender.send(message);
     }
