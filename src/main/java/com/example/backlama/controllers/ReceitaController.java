@@ -24,8 +24,10 @@ public class ReceitaController {
     private final MaterialService materialService;
     private final CategoriaService categoriaService;
     private final EtapasService etapasService;
+    private final PassosService passosService;
 
-    public ReceitaController(ReceitaService receitaService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService, ReceitaSegueEtapasService receitaSegueEtapasService, MaterialService materialService, CategoriaService categoriaService, EtapasService etapasService) {
+    public ReceitaController(ReceitaService receitaService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService,
+                             ReceitaSegueEtapasService receitaSegueEtapasService, MaterialService materialService, CategoriaService categoriaService, EtapasService etapasService, PassosService passosService) {
         this.receitaService = receitaService;
         this.receitaUtilizaMaterialService = receitaUtilizaMaterialService;
         this.receitaSeparadaCategoriaService = receitaSeparadaCategoriaService;
@@ -33,6 +35,7 @@ public class ReceitaController {
         this.materialService = materialService;
         this.categoriaService = categoriaService;
         this.etapasService = etapasService;
+        this.passosService = passosService;
     }
 
     @PostMapping("/criar")
@@ -61,9 +64,13 @@ public class ReceitaController {
             }
 
             for (EtapasDTO etapasDTO : receitaSegueEtapas) {
+                Passos passos = new Passos();
                 Etapas etapas = new Etapas();
-                etapas.setIdPassos(etapasDTO.getIdPassos());
-                etapas.setDescricao(etapasDTO.getDescricao());
+                passos.setDescricao(etapasDTO.getDescricao_passos());
+                passosService.criarPassos(passos);
+
+                etapas.setIdPassos(passos.getIdPassos());
+                etapas.setDescricao(etapasDTO.getDescricao_etapas());
                 etapasService.criarEtapas(etapas);
 
                 ReceitaSegueEtapas segueEtapas = new ReceitaSegueEtapas();
