@@ -1,22 +1,22 @@
 package com.example.backlama.dto;
 
 public class EtapasDTO {
-    private String descricao_etapas;
-    private String descricao_passos;
+    private Long idPassos;
+    private String descricao;
 
-    public String getDescricao_etapas() {
-        return descricao_etapas;
+    public Long getIdPassos() {
+        return idPassos;
     }
 
-    public void setDescricao_etapas(String descricao_etapas) {
-        this.descricao_etapas = descricao_etapas;
+    public void setIdPassos(Long idPassos) {
+        this.idPassos = idPassos;
     }
 
-    public String getDescricao_passos() {
-        return descricao_passos;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescricao_passos(String descricao_passos) {
-        this.descricao_passos = descricao_passos;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }
