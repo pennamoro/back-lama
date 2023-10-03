@@ -23,6 +23,14 @@ public class ReceitaSeparadaCategoria {
 
     public ReceitaSeparadaCategoria() {}
 
+    public Long getId_receita_separada_categoria() {
+        return id_receita_separada_categoria;
+    }
+
+    public void setId_receita_separada_categoria(Long id_receita_separada_categoria) {
+        this.id_receita_separada_categoria = id_receita_separada_categoria;
+    }
+
     public Receita getReceita() {
         return receita;
     }
@@ -31,10 +39,6 @@ public class ReceitaSeparadaCategoria {
         this.receita = receita;
     }
 
-    public Long getIdReceita(Receita receita){return receita.getIdReceita();}
-
-    public void setIdReceita(Long id_receita){this.receita.setIdReceita(id_receita);}
-
     public Categoria getCategoria() {
         return categoria;
     }
@@ -42,17 +46,4 @@ public class ReceitaSeparadaCategoria {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-
-    public Long getIdCategoria(Categoria categoria){return categoria.getIdCategoria();}
-
-    public void setIdCategoria(Long id_categoria){this.categoria.setIdCategoria(id_categoria);}
-
-    public Long getId_receita_separada_categoria() {
-        return id_receita_separada_categoria;
-    }
-
-    public void setId_receita_separada_categoria(Long id_receita_separada_categoria) {
-        this.id_receita_separada_categoria = id_receita_separada_categoria;
-    }
 }
-

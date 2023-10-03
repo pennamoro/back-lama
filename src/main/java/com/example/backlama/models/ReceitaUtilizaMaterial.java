@@ -17,20 +17,21 @@ public class ReceitaUtilizaMaterial {
     @JoinColumn(name = "id_receita", referencedColumnName = "id_receita")
     private Receita receita;
 
-    @Column(name = "id_material")
-    private Long id_material;
-
-    @Column(name = "id_tipo")
-    private Long id_tipo;
-
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "id_material", referencedColumnName = "id_material", insertable = false, updatable = false),
-            @JoinColumn(name = "id_tipo", referencedColumnName = "id_tipo", insertable = false, updatable = false)
+            @JoinColumn(name = "id_material", referencedColumnName = "id_material"),
+            @JoinColumn(name = "id_tipo", referencedColumnName = "id_tipo")
     })
     private Material material;
-
     public ReceitaUtilizaMaterial() {}
+
+    public Long getId_receita_utiliza_material() {
+        return id_receita_utiliza_material;
+    }
+
+    public void setId_receita_utiliza_material(Long id_receita_utiliza_material) {
+        this.id_receita_utiliza_material = id_receita_utiliza_material;
+    }
 
     public Receita getReceita() {
         return receita;
@@ -40,39 +41,11 @@ public class ReceitaUtilizaMaterial {
         this.receita = receita;
     }
 
-    public Long getIdReceita(){return receita.getIdReceita();}
-
-    public void setIdReceita(Long id_receita){this.receita.setIdReceita(id_receita);}
-
-    public Long getIdMaterial() {
-        return id_material;
-    }
-
-    public void setIdMaterial(Long idMaterial) {
-        this.id_material = idMaterial;
-    }
-
-    public Long getIdTipo() {
-        return id_tipo;
-    }
-
-    public void setIdTipo(Long id_tipo) {
-        this.id_tipo = id_tipo;
-    }
-
     public Material getMaterial() {
         return material;
     }
 
     public void setMaterial(Material material) {
         this.material = material;
-    }
-
-    public Long getId_receita_utiliza_material() {
-        return id_receita_utiliza_material;
-    }
-
-    public void setId_receita_utiliza_material(Long id_receita_utiliza_material) {
-        this.id_receita_utiliza_material = id_receita_utiliza_material;
     }
 }

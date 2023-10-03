@@ -1,14 +1,10 @@
 package com.example.backlama.controllers;
 
+import com.example.backlama.dto.EtapasDTO;
+import com.example.backlama.dto.ReceitaCriarDTO;
 import com.example.backlama.dto.ReceitaDTO;
-import com.example.backlama.models.Receita;
-import com.example.backlama.models.ReceitaSegueEtapas;
-import com.example.backlama.models.ReceitaSeparadaCategoria;
-import com.example.backlama.models.ReceitaUtilizaMaterial;
-import com.example.backlama.services.ReceitaSegueEtapasService;
-import com.example.backlama.services.ReceitaSeparadaCategoriaService;
-import com.example.backlama.services.ReceitaService;
-import com.example.backlama.services.ReceitaUtilizaMaterialService;
+import com.example.backlama.models.*;
+import com.example.backlama.services.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,39 +21,60 @@ public class ReceitaController {
     private final ReceitaUtilizaMaterialService receitaUtilizaMaterialService;
     private final ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService;
     private final ReceitaSegueEtapasService receitaSegueEtapasService;
+    private final MaterialService materialService;
+    private final CategoriaService categoriaService;
+    private final EtapasService etapasService;
 
-
-    public ReceitaController(ReceitaService receitaService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService, ReceitaSegueEtapasService receitaSegueEtapasService) {
+    public ReceitaController(ReceitaService receitaService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService, ReceitaSegueEtapasService receitaSegueEtapasService, MaterialService materialService, CategoriaService categoriaService, EtapasService etapasService) {
         this.receitaService = receitaService;
         this.receitaUtilizaMaterialService = receitaUtilizaMaterialService;
         this.receitaSeparadaCategoriaService = receitaSeparadaCategoriaService;
         this.receitaSegueEtapasService = receitaSegueEtapasService;
+        this.materialService = materialService;
+        this.categoriaService = categoriaService;
+        this.etapasService = etapasService;
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<ReceitaDTO> criarReceita(@RequestBody ReceitaDTO receitaDTO) {
+    public ResponseEntity<ReceitaCriarDTO> criarReceita(@RequestBody ReceitaCriarDTO receitaCriarDTO) {
         try {
-            Receita receitaCriada = receitaService.criarReceita(receitaDTO.getReceita());
+            Receita receitaCriada = receitaService.criarReceita(receitaCriarDTO.getReceita());
 
-            List<ReceitaUtilizaMaterial> receitaUtilizaMaterialsList = receitaDTO.getReceitaUtilizaMaterial();
-            List<ReceitaSeparadaCategoria> receitaSeparadaCategoriaList = receitaDTO.getReceitaSeparadaCategoria();
-            List<ReceitaSegueEtapas> receitaSegueEtapasList = receitaDTO.getReceitaSegueEtapas();
+            List<Long> receitaUtilizaMaterialIds = receitaCriarDTO.getReceitaUtilizaMaterialIds();
+            List<Long> receitaSeparadaCategoriaIds = receitaCriarDTO.getReceitaSeparadaCategoriaIds();
+            List<EtapasDTO> receitaSegueEtapas = receitaCriarDTO.getReceitaSegueEtapas();
 
-            for (ReceitaUtilizaMaterial utilizaMaterial : receitaUtilizaMaterialsList) {
+            for (Long materialId : receitaUtilizaMaterialIds) {
+                ReceitaUtilizaMaterial utilizaMaterial = new ReceitaUtilizaMaterial();
                 utilizaMaterial.setReceita(receitaCriada);
+                Material material = materialService.buscarMaterialPorId(materialId);
+                utilizaMaterial.setMaterial(material);
                 receitaUtilizaMaterialService.criarReceitaUtilizaMaterial(utilizaMaterial);
             }
-            for (ReceitaSeparadaCategoria separadaCategoria : receitaSeparadaCategoriaList){
+
+            for (Long categoriaId : receitaSeparadaCategoriaIds) {
+                ReceitaSeparadaCategoria separadaCategoria = new ReceitaSeparadaCategoria();
                 separadaCategoria.setReceita(receitaCriada);
+                Categoria categoria = categoriaService.buscarCategoriaPorId(categoriaId);
+                separadaCategoria.setCategoria(categoria);
                 receitaSeparadaCategoriaService.criarReceitaSeparadaCategoria(separadaCategoria);
             }
-            for (ReceitaSegueEtapas segueEtapas : receitaSegueEtapasList){
+
+            for (EtapasDTO etapasDTO : receitaSegueEtapas) {
+                Etapas etapas = new Etapas();
+                etapas.setIdPassos(etapasDTO.getIdPassos());
+                etapas.setDescricao(etapasDTO.getDescricao());
+                etapasService.criarEtapas(etapas);
+
+                ReceitaSegueEtapas segueEtapas = new ReceitaSegueEtapas();
                 segueEtapas.setReceita(receitaCriada);
+                segueEtapas.setEtapas(etapas);
                 receitaSegueEtapasService.criarReceitaSegueEtapas(segueEtapas);
             }
 
-            return new ResponseEntity<>(receitaDTO, HttpStatus.CREATED);
+            return new ResponseEntity<>(receitaCriarDTO, HttpStatus.CREATED);
         } catch (Exception e) {
+            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -72,7 +89,6 @@ public class ReceitaController {
 
         if (receita != null) {
             ReceitaDTO receitaDTO = new ReceitaDTO();
-
             receitaDTO.setReceita(receita);
             receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
             receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
