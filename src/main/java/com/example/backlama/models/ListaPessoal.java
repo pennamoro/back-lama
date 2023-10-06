@@ -3,28 +3,34 @@ package com.example.backlama.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "lista_pessoal", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"id_receita", "id_usuario"})
-})
+@Table(name = "lista_pessoal")
 public class ListaPessoal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_lista_pessoal")
-    private Integer id_lista_pessoal;
+    private Long idListaPessoal;
 
     @ManyToOne
-    @JoinColumn(name = "id_receita", referencedColumnName = "id_receita")
+    @JoinColumn(name = "id_receita", referencedColumnName = "id_receita", nullable = false)
     private Receita receita;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
-    private User usuario;
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false)
+    private User user;
 
     @Column(name = "progresso", length = 255, nullable = false)
     private String progresso;
 
     public ListaPessoal() {}
+
+    public Long getIdListaPessoal() {
+        return idListaPessoal;
+    }
+
+    public void setIdListaPessoal(Long idListaPessoal) {
+        this.idListaPessoal = idListaPessoal;
+    }
 
     public Receita getReceita() {
         return receita;
@@ -34,20 +40,12 @@ public class ListaPessoal {
         this.receita = receita;
     }
 
-    public Long getIdReceita(Receita receita){return receita.getIdReceita();}
-
-    public void setIdReceita(Long id_receita){this.receita.setIdReceita(id_receita);}
-
-    public Long getIdUser(User usuario){return usuario.getId();}
-
-    public void serIdUser(Long id_usuario){this.usuario.setId(id_usuario);}
-
-    public User getUsuario() {
-        return usuario;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuario(User usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getProgresso() {
@@ -56,9 +54,5 @@ public class ListaPessoal {
 
     public void setProgresso(String progresso) {
         this.progresso = progresso;
-    }
-
-    public Integer getId_lista_pessoal() {
-        return id_lista_pessoal;
     }
 }

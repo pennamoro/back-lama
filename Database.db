@@ -16,7 +16,8 @@ CREATE TABLE receita (
     foto VARCHAR(255) NOT NULL,
     nivel_experiencia VARCHAR(255) NOT NULL,
     visibilidade VARCHAR(255) NOT NULL,
-    cores BOOLEAN NOT NULL
+    cores BOOLEAN NOT NULL,
+    id_usuario INTEGER REFERENCES usuario(id_usuario) NOT NULL
 );
 
 CREATE TABLE avaliacao (
@@ -25,23 +26,14 @@ CREATE TABLE avaliacao (
     id_usuario INTEGER REFERENCES usuario(id_usuario),
     estrelas INTEGER NOT NULL,
     comentario TEXT NOT NULL,
-    titulo VARCHAR(255) NOT NULL,
-    UNIQUE (id_receita, id_usuario)
+    titulo VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE lista_pessoal (
     id_lista_pessoal SERIAL PRIMARY KEY,
     id_receita INTEGER REFERENCES receita(id_receita),
     id_usuario INTEGER REFERENCES usuario(id_usuario),
-    progresso VARCHAR(255) NOT NULL,
-    UNIQUE (id_receita, id_usuario)
-);
-
-CREATE TABLE usuario_cria_receita (
-    id_usuario_cria_receita SERIAL PRIMARY KEY,
-    id_receita INTEGER REFERENCES receita(id_receita),
-    id_usuario INTEGER REFERENCES usuario(id_usuario),
-    UNIQUE (id_receita, id_usuario)
+    progresso VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE tipo (
@@ -65,24 +57,16 @@ CREATE TABLE receita_utiliza_material (
     UNIQUE (id_receita, id_material, id_tipo)
 );
 
-CREATE TABLE passos (
-    id_passos SERIAL PRIMARY KEY,
+CREATE TABLE etapas (
+    id_etapas SERIAL PRIMARY KEY,
+    id_receita INTEGER REFERENCES receita(id_receita),
     descricao TEXT NOT NULL
 );
 
-CREATE TABLE etapas (
-    id_etapas SERIAL NOT NULL PRIMARY KEY,
-    id_passos INTEGER REFERENCES passos(id_passos),
-    descricao TEXT NOT NULL,
-	UNIQUE (id_passos)
-);
-
-CREATE TABLE receita_segue_etapas (
-    id_receita_segue_etapas SERIAL PRIMARY KEY,
-    id_receita INTEGER REFERENCES receita(id_receita),
+CREATE TABLE passos (
+    id_passos SERIAL PRIMARY KEY,
     id_etapas INTEGER REFERENCES etapas(id_etapas),
-    id_passos INTEGER REFERENCES etapas(id_passos),
-    UNIQUE (id_receita, id_etapas, id_passos)
+    descricao TEXT NOT NULL
 );
 
 CREATE TABLE categoria (
@@ -93,6 +77,5 @@ CREATE TABLE categoria (
 CREATE TABLE receita_separada_categoria (
     id_receita_separada_categoria SERIAL PRIMARY KEY,
     id_receita INTEGER REFERENCES receita(id_receita),
-    id_categoria INTEGER REFERENCES categoria(id_categoria),
-    UNIQUE (id_receita, id_categoria)
+    id_categoria INTEGER REFERENCES categoria(id_categoria)
 );

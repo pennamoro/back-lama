@@ -8,29 +8,33 @@ import jakarta.persistence.*;
 public class Receita {
 
     @Id
-    @Column(name = "id_receita")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_receita")
     private Long idReceita;
 
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false)
     @JsonProperty("nome")
     private String nome;
 
-    @Column(name = "foto")
+    @Column(name = "foto", nullable = false)
     @JsonProperty("foto")
     private String foto;
 
-    @Column(name = "nivel_experiencia")
+    @Column(name = "nivel_experiencia", nullable = false)
     @JsonProperty("nivel_experiencia")
     private String nivelExperiencia;
 
-    @Column(name = "visibilidade")
+    @Column(name = "visibilidade", nullable = false)
     @JsonProperty("visibilidade")
     private String visibilidade;
 
-    @Column(name = "cores")
+    @Column(name = "cores", nullable = false)
     @JsonProperty("cores")
     private Boolean cores;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false)
+    private User user;
 
     public Receita() {}
 
@@ -80,5 +84,13 @@ public class Receita {
 
     public void setCores(Boolean cores) {
         this.cores = cores;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

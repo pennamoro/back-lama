@@ -3,34 +3,40 @@ package com.example.backlama.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "avaliacao", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"id_receita", "id_usuario"})
-})
+@Table(name = "avaliacao")
 public class Avaliacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_avaliacao")
-    private Long id_avaliacao;
+    private Long idAvaliacao;
 
     @ManyToOne
-    @JoinColumn(name = "id_receita", referencedColumnName = "id_receita")
+    @JoinColumn(name = "id_receita", referencedColumnName = "id_receita", nullable = false)
     private Receita receita;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
-    private User usuario;
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false)
+    private User user;
 
-    @Column(name = "estrelas")
+    @Column(name = "estrelas", nullable = false)
     private Integer estrelas;
 
-    @Column(name = "comentario", columnDefinition = "TEXT")
+    @Column(name = "comentario", columnDefinition = "TEXT", nullable = false)
     private String comentario;
 
-    @Column(name = "titulo", length = 255)
+    @Column(name = "titulo", length = 255, nullable = false)
     private String titulo;
 
     public Avaliacao() {}
+
+    public Long getIdAvaliacao() {
+        return idAvaliacao;
+    }
+
+    public void setIdAvaliacao(Long idAvaliacao) {
+        this.idAvaliacao = idAvaliacao;
+    }
 
     public Receita getReceita() {
         return receita;
@@ -40,21 +46,13 @@ public class Avaliacao {
         this.receita = receita;
     }
 
-    public User getUsuario() {
-        return usuario;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuario(User usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
-
-    public Long getIdReceita(Receita receita){return receita.getIdReceita();}
-
-    public void setIdReceita(Long id_receita){this.receita.setIdReceita(id_receita);}
-
-    public Long getIdUser(User usuario){return usuario.getId();}
-
-    public void serIdUser(Long id_usuario){this.usuario.setId(id_usuario);}
 
     public Integer getEstrelas() {
         return estrelas;
@@ -78,9 +76,5 @@ public class Avaliacao {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-    }
-
-    public Long getId_avaliacao() {
-        return id_avaliacao;
     }
 }

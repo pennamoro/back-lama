@@ -20,19 +20,19 @@ public class ReceitaController {
     private final ReceitaService receitaService;
     private final ReceitaUtilizaMaterialService receitaUtilizaMaterialService;
     private final ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService;
-    private final ReceitaSegueEtapasService receitaSegueEtapasService;
     private final MaterialService materialService;
     private final CategoriaService categoriaService;
     private final EtapasService etapasService;
+    private final PassosService passosService;
 
-    public ReceitaController(ReceitaService receitaService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService, ReceitaSegueEtapasService receitaSegueEtapasService, MaterialService materialService, CategoriaService categoriaService, EtapasService etapasService) {
+    public ReceitaController(ReceitaService receitaService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService, MaterialService materialService, CategoriaService categoriaService, EtapasService etapasService, PassosService passosService) {
         this.receitaService = receitaService;
         this.receitaUtilizaMaterialService = receitaUtilizaMaterialService;
         this.receitaSeparadaCategoriaService = receitaSeparadaCategoriaService;
-        this.receitaSegueEtapasService = receitaSegueEtapasService;
         this.materialService = materialService;
         this.categoriaService = categoriaService;
         this.etapasService = etapasService;
+        this.passosService = passosService;
     }
 
     @PostMapping("/criar")
@@ -62,14 +62,15 @@ public class ReceitaController {
 
             for (EtapasDTO etapasDTO : receitaSegueEtapas) {
                 Etapas etapas = new Etapas();
-                etapas.setIdPassos(etapasDTO.getIdPassos());
                 etapas.setDescricao(etapasDTO.getDescricao());
                 etapasService.criarEtapas(etapas);
 
-                ReceitaSegueEtapas segueEtapas = new ReceitaSegueEtapas();
-                segueEtapas.setReceita(receitaCriada);
-                segueEtapas.setEtapas(etapas);
-                receitaSegueEtapasService.criarReceitaSegueEtapas(segueEtapas);
+                for (Passos passos : etapasDTO.getPassosList()) {
+                    Passos passo = new Passos();
+                    passo.setDescricao(passos.getDescricao());
+                    passo.setEtapas(etapas);
+                    passosService.criarPassos(passo);
+                }
             }
 
             return new ResponseEntity<>(receitaCriarDTO, HttpStatus.CREATED);
@@ -85,14 +86,14 @@ public class ReceitaController {
 
         List<ReceitaUtilizaMaterial> receitaUtilizaMaterial = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(id);
         List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(id);
-        List<ReceitaSegueEtapas> receitaSegueEtapas = receitaSegueEtapasService.buscarReceitaSegueEtapasPorIdReceita(id);
+        List<Etapas> etapas = etapasService.buscarEtaparPorIdReceita(id);
 
         if (receita != null) {
             ReceitaDTO receitaDTO = new ReceitaDTO();
             receitaDTO.setReceita(receita);
             receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
             receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
-            receitaDTO.setReceitaSegueEtapas(receitaSegueEtapas);
+            receitaDTO.setEtapas(etapas);
 
             return new ResponseEntity<>(receitaDTO, HttpStatus.OK);
         } else {
@@ -110,13 +111,13 @@ public class ReceitaController {
             for (Receita receita : receitas) {
                 List<ReceitaUtilizaMaterial> receitaUtilizaMaterial = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita());
                 List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita());
-                List<ReceitaSegueEtapas> receitaSegueEtapas = receitaSegueEtapasService.buscarReceitaSegueEtapasPorIdReceita(receita.getIdReceita());
+                List<Etapas> etapas = etapasService.buscarEtaparPorIdReceita(receita.getIdReceita());
 
                 ReceitaDTO receitaDTO = new ReceitaDTO();
                 receitaDTO.setReceita(receita);
                 receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
                 receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
-                receitaDTO.setReceitaSegueEtapas(receitaSegueEtapas);
+                receitaDTO.setEtapas(etapas);
 
                 receitaDTOs.add(receitaDTO);
             }
@@ -145,7 +146,7 @@ public class ReceitaController {
 
             List<ReceitaUtilizaMaterial> receitaUtilizaMaterialsList = receitaDTO.getReceitaUtilizaMaterial();
             List<ReceitaSeparadaCategoria> receitaSeparadaCategoriaList = receitaDTO.getReceitaSeparadaCategoria();
-            List<ReceitaSegueEtapas> receitaSegueEtapasList = receitaDTO.getReceitaSegueEtapas();
+            List<Etapas> etapasList = receitaDTO.getEtapas();
 
             for (ReceitaUtilizaMaterial utilizaMaterial : receitaUtilizaMaterialsList) {
                 utilizaMaterial.setReceita(updatedReceita);
@@ -155,9 +156,9 @@ public class ReceitaController {
                 separadaCategoria.setReceita(updatedReceita);
                 receitaSeparadaCategoriaService.criarReceitaSeparadaCategoria(separadaCategoria);
             }
-            for (ReceitaSegueEtapas segueEtapas : receitaSegueEtapasList) {
-                segueEtapas.setReceita(updatedReceita);
-                receitaSegueEtapasService.criarReceitaSegueEtapas(segueEtapas);
+            for (Etapas etapas : etapasList) {
+                etapas.setReceita(updatedReceita);
+                etapasService.criarEtapas(etapas);
             }
 
             return new ResponseEntity<>(receitaDTO, HttpStatus.OK);

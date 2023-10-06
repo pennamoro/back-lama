@@ -8,7 +8,7 @@ public class ReceitaDTO {
         private Receita receita;
         private List<ReceitaUtilizaMaterial> receitaUtilizaMaterial;
         private List<ReceitaSeparadaCategoria> receitaSeparadaCategoria;
-        private List<ReceitaSegueEtapas> receitaSegueEtapas;
+        private List<Etapas> Etapas;
 
     public Receita getReceita() {
         return receita;
@@ -34,11 +34,11 @@ public class ReceitaDTO {
         this.receitaSeparadaCategoria = receitaSeparadaCategoria;
     }
 
-    public List<ReceitaSegueEtapas> getReceitaSegueEtapas() {
-        return receitaSegueEtapas;
+    public List<com.example.backlama.models.Etapas> getEtapas() {
+        return Etapas;
     }
 
-    public void setReceitaSegueEtapas(List<ReceitaSegueEtapas> receitaSegueEtapas) {
-        this.receitaSegueEtapas = receitaSegueEtapas;
+    public void setEtapas(List<com.example.backlama.models.Etapas> etapas) {
+        Etapas = etapas;
     }
 }

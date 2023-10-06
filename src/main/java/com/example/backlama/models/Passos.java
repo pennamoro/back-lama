@@ -11,6 +11,10 @@ public class Passos {
     @Column(name = "id_passos")
     private Long idPassos;
 
+    @ManyToOne
+    @JoinColumn(name = "id_etapas", referencedColumnName = "id_etapas", nullable = false)
+    private Etapas etapas;
+
     @Column(name = "descricao", columnDefinition = "TEXT", nullable = false)
     private String descricao;
 
@@ -22,6 +26,14 @@ public class Passos {
 
     public void setIdPassos(Long idPassos) {
         this.idPassos = idPassos;
+    }
+
+    public Etapas getEtapas() {
+        return etapas;
+    }
+
+    public void setEtapas(Etapas etapas) {
+        this.etapas = etapas;
     }
 
     public String getDescricao() {
