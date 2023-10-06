@@ -5,6 +5,8 @@ import com.example.backlama.models.Passos;
 import java.util.List;
 
 public class EtapasDTO {
+
+    public EtapasDTO(){}
     private List<Passos> passos;
     private String descricao_etapas;
 
@@ -12,8 +14,8 @@ public class EtapasDTO {
         return passos;
     }
 
-    public void setPassosList(List<Passos> passosList) {
-        this.passos = passosList;
+    public void setPassosList(List<Passos> passos) {
+        this.passos = passos;
     }
 
     public String getDescricao_etapas() {
@@ -24,11 +26,4 @@ public class EtapasDTO {
         this.descricao_etapas = descricao_etapas;
     }
 
-    public String getDescricao() {
-        return descricao_etapas;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao_etapas = descricao;
-    }
 }

@@ -2,6 +2,7 @@ package com.example.backlama.services;
 
 import com.example.backlama.models.ReceitaSeparadaCategoria;
 import com.example.backlama.repositories.ReceitaSeparadaCategoriaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,5 +30,9 @@ public class ReceitaSeparadaCategoriaService {
             return receitaSeparadaCategoriaRepository.save(novaRSC);
         }
         return null;
+    }
+    @Transactional
+    public void deleteByReceitaId(Long id) {
+        receitaSeparadaCategoriaRepository.deleteByReceita_IdReceita(id);
     }
 }

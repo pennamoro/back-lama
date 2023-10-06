@@ -2,7 +2,10 @@ package com.example.backlama.services;
 
 import com.example.backlama.models.Passos;
 import com.example.backlama.repositories.PassosRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PassosService {
@@ -23,5 +26,10 @@ public class PassosService {
             return passosRepository.save(passos);
         }
         return null;
+    }
+    public List<Passos> buscarPassosPorIdEtapas(Long id){return passosRepository.findByEtapas_IdEtapas(id);};
+    @Transactional
+    public void deleteByEtapasId(Long etapasId) {
+        passosRepository.deleteByEtapas_IdEtapas(etapasId);
     }
 }

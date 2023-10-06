@@ -32,5 +32,12 @@ public class ReceitaService {
         }
         return null;
     }
+    public Receita atualizarReceita(Receita receita) {
+        Long receitaId = receita.getIdReceita();
+        if (!receitaRepository.existsById(receitaId)) {
+            return null;
+        }
+        return receitaRepository.save(receita);
+    }
 }
 

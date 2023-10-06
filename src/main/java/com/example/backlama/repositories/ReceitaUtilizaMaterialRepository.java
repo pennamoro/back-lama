@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ReceitaUtilizaMaterialRepository extends JpaRepository<ReceitaUtilizaMaterial, Long> {
     List<ReceitaUtilizaMaterial> findByReceita_IdReceita(Long idReceita);
+    void deleteByReceita_IdReceita(Long receitaId);
 }

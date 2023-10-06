@@ -2,6 +2,7 @@ package com.example.backlama.services;
 
 import com.example.backlama.models.ReceitaUtilizaMaterial;
 import com.example.backlama.repositories.ReceitaUtilizaMaterialRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +30,10 @@ public class ReceitaUtilizaMaterialService {
             return receitaUtilizaMaterialRepository.save(novaRUM);
         }
         return null;
+    }
+    @Transactional
+    public void deleteByReceitaId(Long id) {
+        receitaUtilizaMaterialRepository.deleteByReceita_IdReceita(id);
     }
 }
 

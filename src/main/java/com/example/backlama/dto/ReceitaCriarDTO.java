@@ -6,9 +6,10 @@ import java.util.List;
 
 public class ReceitaCriarDTO{
         private Receita receita;
+        private Long userId;
         private List<Long> receitaUtilizaMaterialIds;
         private List<Long> receitaSeparadaCategoriaIds;
-        private List<EtapasDTO> receitaSegueEtapas;
+        private List<EtapasDTO> etapas;
 
     public Receita getReceita() {
         return receita;
@@ -26,6 +27,14 @@ public class ReceitaCriarDTO{
         this.receitaUtilizaMaterialIds = receitaUtilizaMaterialIds;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public List<Long> getReceitaSeparadaCategoriaIds() {
         return receitaSeparadaCategoriaIds;
     }
@@ -34,11 +43,11 @@ public class ReceitaCriarDTO{
         this.receitaSeparadaCategoriaIds = receitaSeparadaCategoriaIds;
     }
 
-    public List<EtapasDTO> getReceitaSegueEtapas() {
-        return receitaSegueEtapas;
+    public List<EtapasDTO> getEtapas() {
+        return etapas;
     }
 
-    public void setReceitaSegueEtapas(List<EtapasDTO> receitaSegueEtapas) {
-        this.receitaSegueEtapas = receitaSegueEtapas;
+    public void setReceitaSegueEtapas(List<EtapasDTO> etapas) {
+        this.etapas = etapas;
     }
 }

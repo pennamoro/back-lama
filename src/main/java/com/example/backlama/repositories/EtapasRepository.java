@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface EtapasRepository extends JpaRepository<Etapas, Long> {
     List<Etapas> findByReceita_IdReceita(Long idReceita);
+    void deleteByReceita_IdReceita(Long receitaId);
 }
