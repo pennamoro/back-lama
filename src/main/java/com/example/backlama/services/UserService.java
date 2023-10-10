@@ -65,6 +65,7 @@ public class UserService {
         Map<String, Object> response = new HashMap<>();
         response.put("token", token);
         response.put("isAdmin", user.isAdmin());
+        response.put("userId", user.getId());
         System.out.println(user.isAdmin());
         return response;
     }
