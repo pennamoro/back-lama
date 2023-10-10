@@ -4,6 +4,8 @@ import com.example.backlama.models.Categoria;
 import com.example.backlama.repositories.CategoriaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoriaService {
     public final CategoriaRepository categoriaRepository;
@@ -20,5 +22,8 @@ public class CategoriaService {
             return categoriaRepository.save(categoria);
         }
         return null;
+    }
+    public List<Categoria> mostrarCategoria(){
+        return categoriaRepository.findAll();
     }
 }
