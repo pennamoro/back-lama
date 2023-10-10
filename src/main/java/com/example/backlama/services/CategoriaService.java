@@ -26,4 +26,7 @@ public class CategoriaService {
     public List<Categoria> mostrarCategoria(){
         return categoriaRepository.findAll();
     }
+    public List<Categoria> filtrarCategoria(String descricao){
+        return categoriaRepository.findCategoriaByDescricao(descricao);
+    }
 }

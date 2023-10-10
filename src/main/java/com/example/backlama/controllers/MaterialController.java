@@ -4,10 +4,7 @@ import com.example.backlama.models.Material;
 import com.example.backlama.services.MaterialService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
@@ -29,6 +26,15 @@ public class MaterialController {
     @GetMapping("/all")
     public ResponseEntity<List<Material>> visualizarMaterial(){
         List<Material> material = materialService.mostratMaterial();
+        if(material != null){
+            return new ResponseEntity<>(material, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/filter")
+    public ResponseEntity<List<Material>> filtrarMaterial(@RequestParam(name = "nome", required = false) String nome){
+        List<Material> material = materialService.filtrarMaterial(nome);
         if(material != null){
             return new ResponseEntity<>(material, HttpStatus.OK);
         } else {
