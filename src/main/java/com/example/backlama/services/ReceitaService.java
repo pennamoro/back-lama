@@ -2,6 +2,7 @@ package com.example.backlama.services;
 
 import com.example.backlama.models.Receita;
 import com.example.backlama.repositories.ReceitaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,5 +40,7 @@ public class ReceitaService {
         }
         return receitaRepository.save(receita);
     }
+    public void deleteReceitaById(Long id){
+        receitaRepository.deleteById(id);
+    }
 }
-

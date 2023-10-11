@@ -31,6 +31,10 @@ public class ReceitaUtilizaMaterialService {
         }
         return null;
     }
+
+    public List<ReceitaUtilizaMaterial> buscarReceitaUtilizaMaterialPorIdMaterial(Long idMaterial){
+        return receitaUtilizaMaterialRepository.findReceitaUtilizaMaterialsByMaterialIdMaterial(idMaterial);
+    }
     @Transactional
     public void deleteByReceitaId(Long id) {
         receitaUtilizaMaterialRepository.deleteByReceita_IdReceita(id);

@@ -11,7 +11,7 @@ public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_material")
-    private Long id_material;
+    private Long idMaterial;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo", referencedColumnName = "id_tipo")
@@ -26,11 +26,11 @@ public class Material {
     public Material() {}
 
     public Long getId_material() {
-        return id_material;
+        return idMaterial;
     }
 
     public void setId_material(Long id_material) {
-        this.id_material = id_material;
+        this.idMaterial = id_material;
     }
 
     public Tipo getTipo() {

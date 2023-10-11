@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -77,7 +78,7 @@ public class ReceitaController {
                     passosService.criarPassos(passo);
                 }
             }
-
+            receitaCriarDTO.getReceita().getUser().setSenha(null);
             return new ResponseEntity<>(receitaCriarDTO, HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(e);
@@ -111,7 +112,6 @@ public class ReceitaController {
             }
 
             receitaDTO.setEtapas(etapasDTOList);
-
             return new ResponseEntity<>(receitaDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -236,46 +236,77 @@ public class ReceitaController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<ReceitaDTO>> filterReceitasByMaterialAndCategoria(
-            @RequestParam(name = "materialId", required = false) Long materialId,
-            @RequestParam(name = "categoriaId", required = false) Long categoriaId
+    public ResponseEntity<List<Receita>> filterRecipes(
+            @RequestParam(name = "idMaterial", required = false) Long idMaterial,
+            @RequestParam(name = "idCategoria", required = false) Long idCategoria
     ) {
-        List<Receita> receitas = receitaService.listarTodasReceitas();
+        try {
+            List<Receita> receitaList = new ArrayList<>();
+            List<Receita> todasReceitas = receitaService.listarTodasReceitas();
 
-        if (receitas.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        List<ReceitaDTO> filteredReceitas = new ArrayList<>();
-
-        for (Receita receita : receitas) {
-            List<ReceitaUtilizaMaterial> receitaUtilizaMaterial = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita());
-            if (materialId != null) {
-                receitaUtilizaMaterial = receitaUtilizaMaterial.stream()
-                        .filter(rum -> rum.getMaterial().getId_material().equals(materialId))
-                        .collect(Collectors.toList());
+            if (idMaterial == null && idCategoria == null) {
+                return new ResponseEntity<>(todasReceitas, HttpStatus.OK);
             }
 
-            List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita());
-            if (categoriaId != null) {
-                receitaSeparadaCategoria = receitaSeparadaCategoria.stream()
-                        .filter(rsc -> rsc.getCategoria().getIdCategoria().equals(categoriaId))
-                        .collect(Collectors.toList());
+            List<Receita> combinedRecipes = new ArrayList<>();
+
+            if (idCategoria != null) {
+                List<ReceitaSeparadaCategoria> categorias = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdCategoria(idCategoria);
+                for (ReceitaSeparadaCategoria categoria : categorias) {
+                    if (!combinedRecipes.contains(categoria.getReceita())) {
+                        combinedRecipes.add(categoria.getReceita());
+                    }
+                }
             }
 
-            if ((materialId == null || !receitaUtilizaMaterial.isEmpty()) &&
-                    (categoriaId == null || !receitaSeparadaCategoria.isEmpty())) {
-                ReceitaDTO receitaDTO = new ReceitaDTO();
-                receitaDTO.setReceita(receita);
-                receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
-                receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
-                filteredReceitas.add(receitaDTO);
+            if (idMaterial != null) {
+                List<ReceitaUtilizaMaterial> materiais = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdMaterial(idMaterial);
+                for (ReceitaUtilizaMaterial material : materiais) {
+                    if (!combinedRecipes.contains(material.getReceita())) {
+                        combinedRecipes.add(material.getReceita());
+                    }
+                }
             }
-        }
+            for (Receita receita : todasReceitas) {
+                if (combinedRecipes.contains(receita)) {
+                    receitaList.add(receita);
+                }
+            }
 
-        if (filteredReceitas.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if (!receitaList.isEmpty()) {
+                return new ResponseEntity<>(receitaList, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(filteredReceitas, HttpStatus.OK);
+    }
+
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<String> deleteReceita(@PathVariable Long id){
+        try {
+            Receita existingReceita = receitaService.buscarReceitaPorId(id);
+            if (existingReceita == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            receitaUtilizaMaterialService.deleteByReceitaId(id);
+
+            receitaSeparadaCategoriaService.deleteByReceitaId(id);
+
+            List<Etapas> etapasList1 = etapasService.buscarEtapasPorIdReceita(existingReceita.getIdReceita());
+
+            for (Etapas etapas : etapasList1) {
+                Long etapasId = etapas.getIdEtapas();
+                passosService.deleteByEtapasId(etapasId);
+            }
+            etapasService.deleteByReceitaId(id);
+            receitaService.deleteReceitaById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

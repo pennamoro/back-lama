@@ -9,4 +9,5 @@ import java.util.List;
 public interface ReceitaSeparadaCategoriaRepository extends JpaRepository<ReceitaSeparadaCategoria, Long> {
     List<ReceitaSeparadaCategoria> findByReceita_IdReceita(Long idReceita);
     void deleteByReceita_IdReceita(Long receitaId);
+    List<ReceitaSeparadaCategoria> findReceitaSeparadaCategoriasByCategoriaIdCategoria(Long idCategoria);
 }

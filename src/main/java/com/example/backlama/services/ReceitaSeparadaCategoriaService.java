@@ -24,6 +24,9 @@ public class ReceitaSeparadaCategoriaService {
     public List<ReceitaSeparadaCategoria> buscarReceitaSeparadaCategoriaPorIdReceita(Long idReceita) {
         return receitaSeparadaCategoriaRepository.findByReceita_IdReceita(idReceita);
     }
+    public List<ReceitaSeparadaCategoria> buscarReceitaSeparadaCategoriaPorIdCategoria(Long idCategoria){
+        return receitaSeparadaCategoriaRepository.findReceitaSeparadaCategoriasByCategoriaIdCategoria(idCategoria);
+    }
     public ReceitaSeparadaCategoria editarReceitaSeparadaCategoria(Long id, ReceitaSeparadaCategoria novaRSC) {
         if (receitaSeparadaCategoriaRepository.existsById(id)) {
             novaRSC.setId_receita_separada_categoria(id);
