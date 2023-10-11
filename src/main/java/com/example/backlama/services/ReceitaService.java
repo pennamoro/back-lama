@@ -40,6 +40,7 @@ public class ReceitaService {
         }
         return receitaRepository.save(receita);
     }
+    public List<Receita> buscarReceitaPorNome(String nome){return receitaRepository.filterRecipesByName(nome);}
     public void deleteReceitaById(Long id){
         receitaRepository.deleteById(id);
     }

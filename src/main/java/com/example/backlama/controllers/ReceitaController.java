@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -81,7 +80,6 @@ public class ReceitaController {
             receitaCriarDTO.getReceita().getUser().setSenha(null);
             return new ResponseEntity<>(receitaCriarDTO, HttpStatus.CREATED);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -230,13 +228,12 @@ public class ReceitaController {
 
             return new ResponseEntity<>(updatedReceitaDTO, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<List<Receita>> filterRecipes(
+    @GetMapping("/filter/attributes")
+    public ResponseEntity<List<Receita>> filterRecipesByAttributes(
             @RequestParam(name = "idMaterial", required = false) Long idMaterial,
             @RequestParam(name = "idCategoria", required = false) Long idCategoria
     ) {
@@ -272,18 +269,30 @@ public class ReceitaController {
                     receitaList.add(receita);
                 }
             }
-
+            for(Receita receita : receitaList){
+                receita.getUser().setSenha(null);
+            }
             if (!receitaList.isEmpty()) {
                 return new ResponseEntity<>(receitaList, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @GetMapping("/filter/")
+    public ResponseEntity<List<Receita>> filterRecipesByName(@RequestParam(name = "name", required = false) String nome){
+        List<Receita> receitaList = receitaService.buscarReceitaPorNome(nome);
+        for(Receita receita : receitaList){
+            receita.getUser().setSenha(null);
+        }
+        if(!receitaList.isEmpty()){
+            return new ResponseEntity<>(receitaList, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     @PostMapping("/delete/{id}")
     public ResponseEntity<String> deleteReceita(@PathVariable Long id){
         try {
@@ -305,7 +314,6 @@ public class ReceitaController {
             receitaService.deleteReceitaById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
