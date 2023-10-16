@@ -12,4 +12,5 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long> {
     @Query("SELECT r FROM Receita r WHERE (r.nome) LIKE %:nome%")
     List<Receita> filterRecipesByName (String nome);
     List<Receita> findByUsuario_IdUsuario(Long idUsuario);
+    List<Receita> findAllByVisibilidadeContainingIgnoreCase(String visibilidade);
 }

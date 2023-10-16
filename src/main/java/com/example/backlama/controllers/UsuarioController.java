@@ -1,5 +1,6 @@
 package com.example.backlama.controllers;
 
+import com.example.backlama.dto.UsuarioPublicoDTO;
 import com.example.backlama.models.*;
 import com.example.backlama.services.*;
 import com.example.backlama.dto.UsuarioDTO;
@@ -72,8 +73,8 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> visualizarPessoa(@PathVariable Long id){
+    @GetMapping("/pessoal/{id}")
+    public ResponseEntity<UsuarioDTO> visualizarPerfilPessoal(@PathVariable Long id){
         //Set Usuario
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         Usuario usuario = usuarioService.buscarUsuarioById(id);
@@ -105,20 +106,40 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioPublicoDTO> visualizarPessoa(@PathVariable Long id){
+        try{
+            Usuario usuario = usuarioService.buscarUsuarioById(id);
+            if (usuario == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            List<Receita> receitasPublicas = receitaService.buscarReceitasPublicas();
+            UsuarioPublicoDTO usuarioPublicoDTO = new UsuarioPublicoDTO();
+            usuario.setSenha(null);
+            usuarioPublicoDTO.setUsuario(usuario);
+            for (Receita receita : receitasPublicas){
+                receita.getUser().setSenha(null);
+            }
+            usuarioPublicoDTO.setReceitasPublicas(receitasPublicas);
+            return new ResponseEntity<>(usuarioPublicoDTO, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @PutMapping("/editar/{id}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario updatedUsuario) {
-        Usuario existingUsuario = usuarioService.buscarUsuarioById(id);
-        if (existingUsuario == null) {
+        Usuario usuario = usuarioService.buscarUsuarioById(id);
+        if (usuario == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         try {
-            existingUsuario.setNome(updatedUsuario.getNome());
-            existingUsuario.setApelido(updatedUsuario.getApelido());
-            existingUsuario.setEmail(updatedUsuario.getEmail());
-            existingUsuario.setSenha(updatedUsuario.getSenha());
-            existingUsuario.setNivelExperiencia(updatedUsuario.getNivelExperiencia());
+            usuario.setNome(updatedUsuario.getNome());
+            usuario.setApelido(updatedUsuario.getApelido());
+            usuario.setEmail(updatedUsuario.getEmail());
+            usuario.setSenha(updatedUsuario.getSenha());
+            usuario.setNivelExperiencia(updatedUsuario.getNivelExperiencia());
 
-            Usuario updated = usuarioService.updateUsuario(existingUsuario);
+            Usuario updated = usuarioService.updateUsuario(usuario);
             updated.setSenha(null);
             return new ResponseEntity<>(updated, HttpStatus.OK);
         }catch (Exception e){
@@ -151,11 +172,12 @@ public class UsuarioController {
 
     @PostMapping("/listapessoal/{id}")
     public ResponseEntity<String> addReceita(@PathVariable Long id, @RequestBody List<Long> receitaIdList){
-        Usuario usuario = usuarioService.buscarUsuarioById(id);
-        if(usuario == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         try {
+            Usuario usuario = usuarioService.buscarUsuarioById(id);
+            if(usuario == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
             List<Receita> addReceitas = new ArrayList<>();
             for (Long idReceita : receitaIdList) {
                 Receita receita = receitaService.buscarReceitaPorId(idReceita);
@@ -168,6 +190,19 @@ public class UsuarioController {
                 listaPessoalService.criarListaPessoal(listaPessoal);
             }
             return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/minhasreceitas/{id}")
+    public ResponseEntity<List<Receita>> visualizarReceitas(@PathVariable Long id){
+        try {
+            Usuario usuario = usuarioService.buscarUsuarioById(id);
+            if(usuario == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            List<Receita> minhasReceitas = receitaService.buscarPorIdUsuario(usuario.getIdUsuario());
+            return new ResponseEntity<>(minhasReceitas, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

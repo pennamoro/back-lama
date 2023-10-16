@@ -47,4 +47,7 @@ public class ReceitaService {
     public List<Receita> buscarPorIdUsuario(Long idUsuario){
         return  receitaRepository.findByUsuario_IdUsuario(idUsuario);
     }
+    public List<Receita> buscarReceitasPublicas(){
+        return receitaRepository.findAllByVisibilidadeContainingIgnoreCase("PUBLICA");
+    }
 }
