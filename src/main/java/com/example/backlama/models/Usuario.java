@@ -6,12 +6,12 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuario")
-public class User {
+public class Usuario {
 
     @Id
     @Column(name="id_usuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_pessoa;
+    private Long idUsuario;
 
     @Column(name="nome")
     @JsonProperty("nome")
@@ -31,7 +31,7 @@ public class User {
 
     @Column(name="nivel_experiencia")
     @JsonProperty("nivel_experiencia")
-    private String nivel_experiencia;
+    private String nivelExperiencia;
     @Column(name = "confirmed")
     @JsonProperty("confirmed")
     private boolean confirmed;
@@ -39,11 +39,15 @@ public class User {
     @JsonProperty("admin")
     private boolean isAdmin;
 
-    public User() {}
+    public Usuario() {}
 
-    public Long getId() { return id_pessoa; }
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
 
-    public void setId(Long id_pessoa) { this.id_pessoa = id_pessoa; }
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public String getNome() {
         return nome;
@@ -78,11 +82,11 @@ public class User {
     }
 
     public String getNivelExperiencia() {
-        return nivel_experiencia;
+        return nivelExperiencia;
     }
 
-    public void setNivelExperiencia(String nivel_experiencia) {
-        this.nivel_experiencia = nivel_experiencia;
+    public void setNivelExperiencia(String nivelExperiencia) {
+        this.nivelExperiencia = nivelExperiencia;
     }
 
     public boolean isConfirmed() {

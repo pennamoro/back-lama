@@ -1,6 +1,6 @@
 package com.example.backlama.services;
 
-import com.example.backlama.models.User;
+import com.example.backlama.models.Usuario;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -13,14 +13,14 @@ public class EmailService {
         this.mailSender = mailSender;
     }
 
-    public void sendConfirmationEmail(User user) {
+    public void sendConfirmationEmail(Usuario usuario) {
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(user.getEmail());
+        message.setTo(usuario.getEmail());
         message.setSubject("Confirmação de Registro");
-        message.setText("Olá " + user.getNome() + ",\n\n" +
+        message.setText("Olá " + usuario.getNome() + ",\n\n" +
                 "Por favor, clique no link abaixo para confirmar seu registro:\n" +
-                "http://localhost:8080/user/confirm?email=" + user.getEmail());
+                "http://localhost:8080/user/confirm?email=" + usuario.getEmail());
 
         mailSender.send(message);
     }

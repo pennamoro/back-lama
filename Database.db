@@ -79,3 +79,10 @@ CREATE TABLE receita_separada_categoria (
     id_receita INTEGER REFERENCES receita(id_receita),
     id_categoria INTEGER REFERENCES categoria(id_categoria)
 );
+
+CREATE TABLE usuario_possui_material (
+    id_usuario_possui_material SERIAL PRIMARY KEY,
+    id_usuario INTEGER REFERENCES usuario(id_usuario) NOT NULL,
+    id_material INTEGER REFERENCES material(id_material) NOT NULL,
+	UNIQUE (id_usuario, id_material)
+);

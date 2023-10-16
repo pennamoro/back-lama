@@ -11,7 +11,7 @@ public class ReceitaUtilizaMaterial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_receita_utiliza_material")
-    private Long id_receita_utiliza_material;
+    private Long idReceitaUtilizaMaterial;
 
     @ManyToOne
     @JoinColumn(name = "id_receita", referencedColumnName = "id_receita")
@@ -25,12 +25,12 @@ public class ReceitaUtilizaMaterial {
     private Material material;
     public ReceitaUtilizaMaterial() {}
 
-    public Long getId_receita_utiliza_material() {
-        return id_receita_utiliza_material;
+    public Long getIdReceitaUtilizaMaterial() {
+        return idReceitaUtilizaMaterial;
     }
 
-    public void setId_receita_utiliza_material(Long id_receita_utiliza_material) {
-        this.id_receita_utiliza_material = id_receita_utiliza_material;
+    public void setIdReceitaUtilizaMaterial(Long idReceitaUtilizaMaterial) {
+        this.idReceitaUtilizaMaterial = idReceitaUtilizaMaterial;
     }
 
     public Receita getReceita() {

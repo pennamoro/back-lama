@@ -29,7 +29,7 @@ public class ReceitaSeparadaCategoriaService {
     }
     public ReceitaSeparadaCategoria editarReceitaSeparadaCategoria(Long id, ReceitaSeparadaCategoria novaRSC) {
         if (receitaSeparadaCategoriaRepository.existsById(id)) {
-            novaRSC.setId_receita_separada_categoria(id);
+            novaRSC.setIdReceitaSeparadaCategoria(id);
             return receitaSeparadaCategoriaRepository.save(novaRSC);
         }
         return null;

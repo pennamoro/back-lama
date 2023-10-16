@@ -17,7 +17,7 @@ public class Avaliacao {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false)
-    private User user;
+    private Usuario usuario;
 
     @Column(name = "estrelas", nullable = false)
     private Integer estrelas;
@@ -46,12 +46,12 @@ public class Avaliacao {
         this.receita = receita;
     }
 
-    public User getUser() {
-        return user;
+    public Usuario getUser() {
+        return usuario;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Integer getEstrelas() {

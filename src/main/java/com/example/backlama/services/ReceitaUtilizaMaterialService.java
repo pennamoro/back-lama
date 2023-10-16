@@ -26,7 +26,7 @@ public class ReceitaUtilizaMaterialService {
     }
     public ReceitaUtilizaMaterial editarReceitaUtilizaMaterial(Long id, ReceitaUtilizaMaterial novaRUM) {
         if (receitaUtilizaMaterialRepository.existsById(id)) {
-            novaRUM.setId_receita_utiliza_material(id);
+            novaRUM.setIdReceitaUtilizaMaterial(id);
             return receitaUtilizaMaterialRepository.save(novaRUM);
         }
         return null;

@@ -34,7 +34,7 @@ public class Receita {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false)
-    private User user;
+    private Usuario usuario;
 
     public Receita() {}
 
@@ -86,11 +86,11 @@ public class Receita {
         this.cores = cores;
     }
 
-    public User getUser() {
-        return user;
+    public Usuario getUser() {
+        return usuario;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

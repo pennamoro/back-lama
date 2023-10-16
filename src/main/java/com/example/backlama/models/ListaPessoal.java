@@ -17,7 +17,7 @@ public class ListaPessoal {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false)
-    private User user;
+    private Usuario usuario;
 
     @Column(name = "progresso", length = 255, nullable = false)
     private String progresso;
@@ -40,12 +40,12 @@ public class ListaPessoal {
         this.receita = receita;
     }
 
-    public User getUser() {
-        return user;
+    public Usuario getUser() {
+        return usuario;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getProgresso() {

@@ -24,9 +24,9 @@ public class ReceitaController {
     private final CategoriaService categoriaService;
     private final EtapasService etapasService;
     private final PassosService passosService;
-    private final UserService userService;
+    private final UsuarioService usuarioService;
 
-    public ReceitaController(ReceitaService receitaService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService, MaterialService materialService, CategoriaService categoriaService, EtapasService etapasService, PassosService passosService, UserService userService) {
+    public ReceitaController(ReceitaService receitaService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService, MaterialService materialService, CategoriaService categoriaService, EtapasService etapasService, PassosService passosService, UsuarioService usuarioService) {
         this.receitaService = receitaService;
         this.receitaUtilizaMaterialService = receitaUtilizaMaterialService;
         this.receitaSeparadaCategoriaService = receitaSeparadaCategoriaService;
@@ -34,15 +34,42 @@ public class ReceitaController {
         this.categoriaService = categoriaService;
         this.etapasService = etapasService;
         this.passosService = passosService;
-        this.userService = userService;
+        this.usuarioService = usuarioService;
+    }
+    private void createEtapas(Receita receita, List<EtapasDTO> receitaSegueEtapas) {
+        for (EtapasDTO etapasDTO : receitaSegueEtapas) {
+            Etapas etapas = new Etapas();
+            etapas.setDescricao(etapasDTO.getDescricao_etapas());
+            etapas.setReceita(receita);
+            etapasService.criarEtapas(etapas);
+            for (Passos passos : etapasDTO.getPassosList()) {
+                Passos passo = new Passos();
+                passo.setDescricao(passos.getDescricao());
+                passo.setEtapas(etapas);
+                passosService.criarPassos(passo);
+            }
+        }
+    }
+
+    private List<EtapasDTO> listEtapas(List<Etapas> etapas) {
+        List<EtapasDTO> etapasDTOList = new ArrayList<>();
+
+        for (Etapas etapa : etapas) {
+            List<Passos> passos = passosService.buscarPassosPorIdEtapas(etapa.getIdEtapas());
+            EtapasDTO etapasDTO = new EtapasDTO();
+            etapasDTO.setPassosList(passos);
+            etapasDTO.setDescricao_etapas(etapa.getDescricao());
+            etapasDTOList.add(etapasDTO);
+        }
+        return etapasDTOList;
     }
 
     @PostMapping("/criar")
     public ResponseEntity<ReceitaCriarDTO> criarReceita(@RequestBody ReceitaCriarDTO receitaCriarDTO) {
         try {
-            User user = userService.buscarUserById(receitaCriarDTO.getUserId());
+            Usuario usuario = usuarioService.buscarUsuarioById(receitaCriarDTO.getUserId());
             Receita receita = receitaCriarDTO.getReceita();
-            receita.setUser(user);
+            receita.setUser(usuario);
             Receita receitaCriada = receitaService.criarReceita(receita);
 
             List<Long> receitaUtilizaMaterialIds = receitaCriarDTO.getReceitaUtilizaMaterialIds();
@@ -65,18 +92,7 @@ public class ReceitaController {
                 receitaSeparadaCategoriaService.criarReceitaSeparadaCategoria(separadaCategoria);
             }
 
-            for (EtapasDTO etapasDTO : receitaSegueEtapas) {
-                Etapas etapas = new Etapas();
-                etapas.setDescricao(etapasDTO.getDescricao_etapas());
-                etapas.setReceita(receita);
-                etapasService.criarEtapas(etapas);
-                for (Passos passos : etapasDTO.getPassosList()) {
-                    Passos passo = new Passos();
-                    passo.setDescricao(passos.getDescricao());
-                    passo.setEtapas(etapas);
-                    passosService.criarPassos(passo);
-                }
-            }
+            createEtapas(receita, receitaSegueEtapas);
             receitaCriarDTO.getReceita().getUser().setSenha(null);
             return new ResponseEntity<>(receitaCriarDTO, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -99,15 +115,7 @@ public class ReceitaController {
             receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
             receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
 
-            List<EtapasDTO> etapasDTOList = new ArrayList<>();
-
-            for (Etapas etapa : etapas) {
-                List<Passos> passos = passosService.buscarPassosPorIdEtapas(etapa.getIdEtapas());
-                EtapasDTO etapasDTO = new EtapasDTO();
-                etapasDTO.setPassosList(passos);
-                etapasDTO.setDescricao_etapas(etapa.getDescricao());
-                etapasDTOList.add(etapasDTO);
-            }
+            List<EtapasDTO> etapasDTOList = listEtapas(etapas);
 
             receitaDTO.setEtapas(etapasDTOList);
             return new ResponseEntity<>(receitaDTO, HttpStatus.OK);
@@ -128,15 +136,7 @@ public class ReceitaController {
                 List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita());
                 List<Etapas> etapas = etapasService.buscarEtapasPorIdReceita(receita.getIdReceita());
 
-                List<EtapasDTO> etapasDTOList = new ArrayList<>();
-
-                for (Etapas etapa : etapas) {
-                    List<Passos> passos = passosService.buscarPassosPorIdEtapas(etapa.getIdEtapas());
-                    EtapasDTO etapasDTO = new EtapasDTO();
-                    etapasDTO.setPassosList(passos);
-                    etapasDTO.setDescricao_etapas(etapa.getDescricao());
-                    etapasDTOList.add(etapasDTO);
-                }
+                List<EtapasDTO> etapasDTOList = listEtapas(etapas);
 
                 ReceitaDTO receitaDTO = new ReceitaDTO();
                 receita.getUser().setSenha(null);
@@ -153,6 +153,7 @@ public class ReceitaController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @PutMapping("/editar/{id}")
     public ResponseEntity<ReceitaDTO> editarReceita(@PathVariable Long id, @RequestBody ReceitaCriarDTO receitaCriarDTO) {
         try {
@@ -161,9 +162,9 @@ public class ReceitaController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            User user = userService.buscarUserById(receitaCriarDTO.getUserId());
+            Usuario usuario = usuarioService.buscarUsuarioById(receitaCriarDTO.getUserId());
             existingReceita.setNome(receitaCriarDTO.getReceita().getNome());
-            existingReceita.setUser(user);
+            existingReceita.setUser(usuario);
 
             List<Long> receitaUtilizaMaterialIds = receitaCriarDTO.getReceitaUtilizaMaterialIds();
             receitaUtilizaMaterialService.deleteByReceitaId(id);
@@ -194,18 +195,7 @@ public class ReceitaController {
                 passosService.deleteByEtapasId(etapasId);
             }
             etapasService.deleteByReceitaId(id);
-            for (EtapasDTO etapasDTO : receitaSegueEtapas) {
-                Etapas etapas = new Etapas();
-                etapas.setDescricao(etapasDTO.getDescricao_etapas());
-                etapas.setReceita(existingReceita);
-                etapasService.criarEtapas(etapas);
-                for (Passos passos : etapasDTO.getPassosList()) {
-                    Passos passo = new Passos();
-                    passo.setDescricao(passos.getDescricao());
-                    passo.setEtapas(etapas);
-                    passosService.criarPassos(passo);
-                }
-            }
+            createEtapas(existingReceita, receitaSegueEtapas);
 
             Receita updatedReceita = receitaService.atualizarReceita(existingReceita);
 

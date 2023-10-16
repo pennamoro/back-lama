@@ -11,7 +11,7 @@ public class ReceitaSeparadaCategoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_receita_separada_categoria")
-    private Long id_receita_separada_categoria;
+    private Long idReceitaSeparadaCategoria;
 
     @ManyToOne
     @JoinColumn(name = "id_receita", referencedColumnName = "id_receita")
@@ -23,12 +23,12 @@ public class ReceitaSeparadaCategoria {
 
     public ReceitaSeparadaCategoria() {}
 
-    public Long getId_receita_separada_categoria() {
-        return id_receita_separada_categoria;
+    public Long getIdReceitaSeparadaCategoria() {
+        return idReceitaSeparadaCategoria;
     }
 
-    public void setId_receita_separada_categoria(Long id_receita_separada_categoria) {
-        this.id_receita_separada_categoria = id_receita_separada_categoria;
+    public void setIdReceitaSeparadaCategoria(Long idReceitaSeparadaCategoria) {
+        this.idReceitaSeparadaCategoria = idReceitaSeparadaCategoria;
     }
 
     public Receita getReceita() {
