@@ -47,4 +47,3 @@ public class UsuarioPossuiMaterial {
         this.material = material;
     }
 }
-

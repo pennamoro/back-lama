@@ -3,9 +3,7 @@ package com.example.backlama.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "material", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"id_tipo"})
-})
+@Table(name = "material")
 public class Material {
 
     @Id
@@ -20,17 +18,14 @@ public class Material {
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 
-    @Column(name = "icone", length = 255, nullable = false)
-    private String icone;
-
     public Material() {}
 
-    public Long getId_material() {
+    public Long getIdMaterial() {
         return idMaterial;
     }
 
-    public void setId_material(Long id_material) {
-        this.idMaterial = id_material;
+    public void setIdMaterial(Long idMaterial) {
+        this.idMaterial = idMaterial;
     }
 
     public Tipo getTipo() {
@@ -41,23 +36,11 @@ public class Material {
         this.tipo = tipo;
     }
 
-    public Long getIdTipo(){return tipo.getIdTipo();}
-
-    public void setIdTipo(Long id_tipo){this.tipo.setIdTipo(id_tipo);}
-
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getIcone() {
-        return icone;
-    }
-
-    public void setIcone(String icone) {
-        this.icone = icone;
     }
 }

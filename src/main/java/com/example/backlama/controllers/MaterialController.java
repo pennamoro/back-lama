@@ -15,30 +15,42 @@ public class MaterialController {
         this.materialService = materialService;
     }
     @GetMapping("/tipo/{id}")
-    public ResponseEntity<List<Material>> visualizarMaterialLa(@PathVariable Long id){
-        List<Material> materialPorTipo = materialService.bucarMaterialPorIdTipo(id);
-        if(materialPorTipo != null){
-        return new ResponseEntity<>(materialPorTipo, HttpStatus.OK);
-    } else {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+    public ResponseEntity<List<Material>> visualizarMaterialPorTipo(@PathVariable Long id){
+        try{
+            List<Material> materialPorTipo = materialService.bucarMaterialPorIdTipo(id);
+            if(materialPorTipo != null){
+                return new ResponseEntity<>(materialPorTipo, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @GetMapping("/all")
     public ResponseEntity<List<Material>> visualizarMaterial(){
-        List<Material> material = materialService.mostratMaterial();
-        if(material != null){
-            return new ResponseEntity<>(material, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            List<Material> material = materialService.mostratMaterial();
+            if (material != null) {
+                return new ResponseEntity<>(material, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @GetMapping("/filter")
     public ResponseEntity<List<Material>> filtrarMaterial(@RequestParam(name = "nome", required = false) String nome){
-        List<Material> material = materialService.filtrarMaterial(nome);
-        if(material != null){
-            return new ResponseEntity<>(material, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            List<Material> material = materialService.filtrarMaterial(nome);
+            if (material != null) {
+                return new ResponseEntity<>(material, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

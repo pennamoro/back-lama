@@ -44,9 +44,7 @@ CREATE TABLE tipo (
 CREATE TABLE material (
     id_material SERIAL PRIMARY KEY,
     id_tipo INTEGER REFERENCES tipo(id_tipo),
-    nome VARCHAR(255) NOT NULL,
-    icone VARCHAR(255) NOT NULL,
-	UNIQUE (id_tipo)
+    nome VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE receita_utiliza_material (
@@ -54,7 +52,6 @@ CREATE TABLE receita_utiliza_material (
     id_receita INTEGER REFERENCES receita(id_receita),
     id_material INTEGER REFERENCES material(id_material),
     id_tipo INTEGER REFERENCES material(id_tipo),
-    UNIQUE (id_receita, id_material, id_tipo)
 );
 
 CREATE TABLE etapas (
