@@ -16,27 +16,38 @@ public class EtapasController {
     }
     @PostMapping("/criar")
     public ResponseEntity<Etapas> criarEtapas(@RequestBody Etapas etapas) {
-        Etapas novaEtapas = etapasService.criarEtapas(etapas);
-        return new ResponseEntity<>(novaEtapas, HttpStatus.CREATED);
+        try {
+            Etapas novaEtapas = etapasService.criarEtapas(etapas);
+            return new ResponseEntity<>(novaEtapas, HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @GetMapping("/{id}")
     public ResponseEntity<Etapas> visualizarEtapas(@PathVariable Long id) {
-        Etapas etapas = etapasService.buscarEtapasPorId(id);
-        if (etapas != null) {
-            return new ResponseEntity<>(etapas, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            Etapas etapas = etapasService.buscarEtapasPorId(id);
+            if (etapas != null) {
+                return new ResponseEntity<>(etapas, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/editar/{id}")
     public ResponseEntity<Etapas> editarEtapas(@PathVariable Long id, @RequestBody Etapas etapas) {
-        Etapas etapasEditada = etapasService.editarEtapas(id, etapas);
-        if (etapasEditada != null) {
-            return new ResponseEntity<>(etapasEditada, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            Etapas etapasEditada = etapasService.editarEtapas(id, etapas);
+            if (etapasEditada != null) {
+                return new ResponseEntity<>(etapasEditada, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

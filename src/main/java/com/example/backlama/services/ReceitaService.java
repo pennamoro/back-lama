@@ -44,4 +44,7 @@ public class ReceitaService {
     public void deleteReceitaById(Long id){
         receitaRepository.deleteById(id);
     }
+    public List<Receita> buscarPorIdUsuario(Long idUsuario){
+        return  receitaRepository.findByUsuario_IdUsuario(idUsuario);
+    }
 }

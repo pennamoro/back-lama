@@ -40,4 +40,3 @@ public class ReceitaUtilizaMaterialService {
         receitaUtilizaMaterialRepository.deleteByReceita_IdReceita(id);
     }
 }
-

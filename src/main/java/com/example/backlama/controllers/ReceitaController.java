@@ -102,55 +102,63 @@ public class ReceitaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ReceitaDTO> visualizarReceita(@PathVariable Long id) {
-        Receita receita = receitaService.buscarReceitaPorId(id);
+        try {
+            Receita receita = receitaService.buscarReceitaPorId(id);
 
-        if (receita != null) {
-            List<ReceitaUtilizaMaterial> receitaUtilizaMaterial = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(id);
-            List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(id);
-            List<Etapas> etapas = etapasService.buscarEtapasPorIdReceita(id);
-
-            ReceitaDTO receitaDTO = new ReceitaDTO();
-            receita.getUser().setSenha(null);
-            receitaDTO.setReceita(receita);
-            receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
-            receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
-
-            List<EtapasDTO> etapasDTOList = listEtapas(etapas);
-
-            receitaDTO.setEtapas(etapasDTOList);
-            return new ResponseEntity<>(receitaDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<ReceitaDTO>> listarTodasReceitas() {
-        List<Receita> receitas = receitaService.listarTodasReceitas();
-
-        if (!receitas.isEmpty()) {
-            List<ReceitaDTO> receitaDTOs = new ArrayList<>();
-
-            for (Receita receita : receitas) {
-                List<ReceitaUtilizaMaterial> receitaUtilizaMaterial = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita());
-                List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita());
-                List<Etapas> etapas = etapasService.buscarEtapasPorIdReceita(receita.getIdReceita());
-
-                List<EtapasDTO> etapasDTOList = listEtapas(etapas);
+            if (receita != null) {
+                List<ReceitaUtilizaMaterial> receitaUtilizaMaterial = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(id);
+                List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(id);
+                List<Etapas> etapas = etapasService.buscarEtapasPorIdReceita(id);
 
                 ReceitaDTO receitaDTO = new ReceitaDTO();
                 receita.getUser().setSenha(null);
                 receitaDTO.setReceita(receita);
                 receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
                 receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
+
+                List<EtapasDTO> etapasDTOList = listEtapas(etapas);
+
                 receitaDTO.setEtapas(etapasDTOList);
-
-                receitaDTOs.add(receitaDTO);
+                return new ResponseEntity<>(receitaDTO, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-            return new ResponseEntity<>(receitaDTOs, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping("/all")
+    public ResponseEntity<List<ReceitaDTO>> listarTodasReceitas() {
+        try {
+            List<Receita> receitas = receitaService.listarTodasReceitas();
+
+            if (!receitas.isEmpty()) {
+                List<ReceitaDTO> receitaDTOs = new ArrayList<>();
+
+                for (Receita receita : receitas) {
+                    List<ReceitaUtilizaMaterial> receitaUtilizaMaterial = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita());
+                    List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita());
+                    List<Etapas> etapas = etapasService.buscarEtapasPorIdReceita(receita.getIdReceita());
+
+                    List<EtapasDTO> etapasDTOList = listEtapas(etapas);
+
+                    ReceitaDTO receitaDTO = new ReceitaDTO();
+                    receita.getUser().setSenha(null);
+                    receitaDTO.setReceita(receita);
+                    receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
+                    receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
+                    receitaDTO.setEtapas(etapasDTOList);
+
+                    receitaDTOs.add(receitaDTO);
+                }
+
+                return new ResponseEntity<>(receitaDTOs, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -273,14 +281,18 @@ public class ReceitaController {
     }
     @GetMapping("/filter/")
     public ResponseEntity<List<Receita>> filterRecipesByName(@RequestParam(name = "name", required = false) String nome){
-        List<Receita> receitaList = receitaService.buscarReceitaPorNome(nome);
-        for(Receita receita : receitaList){
-            receita.getUser().setSenha(null);
-        }
-        if(!receitaList.isEmpty()){
-            return new ResponseEntity<>(receitaList, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            List<Receita> receitaList = receitaService.buscarReceitaPorNome(nome);
+            for (Receita receita : receitaList) {
+                receita.getUser().setSenha(null);
+            }
+            if (!receitaList.isEmpty()) {
+                return new ResponseEntity<>(receitaList, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @PostMapping("/delete/{id}")
