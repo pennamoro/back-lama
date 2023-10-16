@@ -16,7 +16,7 @@ public class UsuarioPossuiMaterialService {
     public List<UsuarioPossuiMaterial> buscarPorIdUsuario(Long idUsuario){
         return usuarioPossuiMaterialRepository.findByUsuario_IdUsuario(idUsuario);
     }
-    public UsuarioPossuiMaterial criarUsuarioPossuiMaterial(UsuarioPossuiMaterial usuarioPossuiMaterial){
-        return  usuarioPossuiMaterialRepository.save(usuarioPossuiMaterial);
+    public void criarUsuarioPossuiMaterial(UsuarioPossuiMaterial usuarioPossuiMaterial){
+        usuarioPossuiMaterialRepository.save(usuarioPossuiMaterial);
     }
 }

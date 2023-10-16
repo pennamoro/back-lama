@@ -27,7 +27,8 @@ public class PassosService {
         }
         return null;
     }
-    public List<Passos> buscarPassosPorIdEtapas(Long id){return passosRepository.findByEtapas_IdEtapas(id);};
+    public List<Passos> buscarPassosPorIdEtapas(Long id){return passosRepository.findByEtapas_IdEtapas(id);}
+
     @Transactional
     public void deleteByEtapasId(Long etapasId) {
         passosRepository.deleteByEtapas_IdEtapas(etapasId);

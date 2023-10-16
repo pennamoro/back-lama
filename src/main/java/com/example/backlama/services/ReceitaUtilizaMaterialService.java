@@ -17,21 +17,9 @@ public class ReceitaUtilizaMaterialService {
     public void criarReceitaUtilizaMaterial(ReceitaUtilizaMaterial receitaUtilizaMaterial) {
         receitaUtilizaMaterialRepository.save(receitaUtilizaMaterial);
     }
-
-    public ReceitaUtilizaMaterial buscarReceitaUtilizaMaterialPorId(Long id) {
-        return receitaUtilizaMaterialRepository.findById(id).orElse(null);
-    }
     public List<ReceitaUtilizaMaterial> buscarReceitaUtilizaMaterialPorIdReceita(Long idReceita) {
         return receitaUtilizaMaterialRepository.findByReceita_IdReceita(idReceita);
     }
-    public ReceitaUtilizaMaterial editarReceitaUtilizaMaterial(Long id, ReceitaUtilizaMaterial novaRUM) {
-        if (receitaUtilizaMaterialRepository.existsById(id)) {
-            novaRUM.setIdReceitaUtilizaMaterial(id);
-            return receitaUtilizaMaterialRepository.save(novaRUM);
-        }
-        return null;
-    }
-
     public List<ReceitaUtilizaMaterial> buscarReceitaUtilizaMaterialPorIdMaterial(Long idMaterial){
         return receitaUtilizaMaterialRepository.findReceitaUtilizaMaterialsByMaterialIdMaterial(idMaterial);
     }

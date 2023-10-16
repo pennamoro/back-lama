@@ -17,7 +17,7 @@ public class ListaPessoalService {
         return listaPessoalRepository.findByUsuario_IdUsuario(idUsuario);
     }
 
-    public ListaPessoal criarListaPessoal(ListaPessoal listaPessoal){
-        return  listaPessoalRepository.save(listaPessoal);
+    public void criarListaPessoal(ListaPessoal listaPessoal){
+        listaPessoalRepository.save(listaPessoal);
     }
 }

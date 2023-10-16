@@ -25,6 +25,6 @@ public class MaterialService {
         }
         return null;
     }
-    public List<Material> mostratMaterial(){return materialRepository.findAll();}
+    public List<Material> mostrarMaterial(){return materialRepository.findAll();}
     public List<Material> filtrarMaterial(String nome){return materialRepository.findMaterialByNome(nome);}
 }

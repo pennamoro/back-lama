@@ -30,7 +30,7 @@ public class MaterialController {
     @GetMapping("/all")
     public ResponseEntity<List<Material>> visualizarMaterial(){
         try {
-            List<Material> material = materialService.mostratMaterial();
+            List<Material> material = materialService.mostrarMaterial();
             if (material != null) {
                 return new ResponseEntity<>(material, HttpStatus.OK);
             } else {
