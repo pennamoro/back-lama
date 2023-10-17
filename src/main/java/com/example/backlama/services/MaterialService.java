@@ -27,4 +27,8 @@ public class MaterialService {
     }
     public List<Material> mostrarMaterial(){return materialRepository.findAll();}
     public List<Material> filtrarMaterial(String nome){return materialRepository.findMaterialByNome(nome);}
+
+    public void deleteMaterial(Long id){
+        materialRepository.deleteById(id);
+    }
 }

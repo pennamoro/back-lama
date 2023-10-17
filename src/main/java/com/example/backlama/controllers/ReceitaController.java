@@ -295,7 +295,7 @@ public class ReceitaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/delete/{id}")
+    @DeleteMapping ("/delete/{id}")
     public ResponseEntity<String> deleteReceita(@PathVariable Long id){
         try {
             Receita existingReceita = receitaService.buscarReceitaPorId(id);

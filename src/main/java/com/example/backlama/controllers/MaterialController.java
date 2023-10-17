@@ -14,15 +14,11 @@ public class MaterialController {
     public MaterialController(MaterialService materialService){
         this.materialService = materialService;
     }
-    @GetMapping("/tipo/{id}")
-    public ResponseEntity<List<Material>> visualizarMaterialPorTipo(@PathVariable Long id){
+    @PostMapping("/criar")
+    public ResponseEntity<Material> createMaterial(@RequestBody Material material){
         try{
-            List<Material> materialPorTipo = materialService.bucarMaterialPorIdTipo(id);
-            if(materialPorTipo != null){
-                return new ResponseEntity<>(materialPorTipo, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+            Material novoMaterial = materialService.criarMaterial(material);
+            return new ResponseEntity<>(novoMaterial, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -40,6 +36,19 @@ public class MaterialController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/tipo/{id}")
+    public ResponseEntity<List<Material>> visualizarMaterialPorTipo(@PathVariable Long id){
+        try{
+            List<Material> materialPorTipo = materialService.bucarMaterialPorIdTipo(id);
+            if(materialPorTipo != null){
+                return new ResponseEntity<>(materialPorTipo, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @GetMapping("/filter")
     public ResponseEntity<List<Material>> filtrarMaterial(@RequestParam(name = "nome", required = false) String nome){
         try {
@@ -49,6 +58,28 @@ public class MaterialController {
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<Material> editarMaterial(@PathVariable Long id){
+        try{
+            Material material = materialService.buscarMaterialPorId(id);
+            if(material == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            Material novoMaterial = materialService.editarMaterial(id, material);
+            return new ResponseEntity<>(novoMaterial, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteMaterial(@PathVariable Long id){
+        try{
+            materialService.deleteMaterial(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface UsuarioPossuiMaterialRepository extends JpaRepository<UsuarioPossuiMaterial, Long> {
     List<UsuarioPossuiMaterial> findByUsuario_IdUsuario(Long idUsuario);
+    void deleteByUsuario_IdUsuario(Long idUsuario);
 }

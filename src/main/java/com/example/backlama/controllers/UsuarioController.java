@@ -24,15 +24,17 @@ public class UsuarioController {
     private final UsuarioPossuiMaterialService usuarioPossuiMaterialService;
     private final ListaPessoalService listaPessoalService;
     private final ReceitaService receitaService;
+    private final ReceitaController receitaController;
     private final MaterialService materialService;
 
-    public UsuarioController(UsuarioService usuarioService, EmailService emailService, UsuarioPossuiMaterialService usuarioPossuiMaterialService, ListaPessoalService listaPessoalService, ReceitaService receitaService, MaterialService materialService) {
+    public UsuarioController(UsuarioService usuarioService, EmailService emailService, UsuarioPossuiMaterialService usuarioPossuiMaterialService, ListaPessoalService listaPessoalService, ReceitaService receitaService, ReceitaController receitaController, MaterialService materialService) {
         this.usuarioService = usuarioService;
         this.emailService = emailService;
         this.usuarioPossuiMaterialService = usuarioPossuiMaterialService;
         this.listaPessoalService = listaPessoalService;
         this.receitaService = receitaService;
         this.materialService = materialService;
+        this.receitaController = receitaController;
     }
 
     @PostMapping("/register")
@@ -203,6 +205,23 @@ public class UsuarioController {
             }
             List<Receita> minhasReceitas = receitaService.buscarPorIdUsuario(usuario.getIdUsuario());
             return new ResponseEntity<>(minhasReceitas, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUsuario(@PathVariable Long id){
+        try {
+            Usuario usuario = usuarioService.buscarUsuarioById(id);
+            if(usuario == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            usuarioPossuiMaterialService.deleteUsuarioPossuiMaterialByUsuarioId(usuario.getIdUsuario());
+            listaPessoalService.deleteListaPessoalByUsuarioId(usuario.getIdUsuario());
+            for (Receita receita : receitaService.buscarPorIdUsuario(usuario.getIdUsuario())){
+                receitaController.deleteReceita(receita.getIdReceita());
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

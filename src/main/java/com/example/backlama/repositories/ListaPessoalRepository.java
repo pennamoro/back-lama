@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ListaPessoalRepository extends JpaRepository<ListaPessoal, Long> {
     List<ListaPessoal> findByUsuario_IdUsuario(Long idUsuario);
+    void deleteByUsuario_IdUsuario(Long idUsuario);
 }

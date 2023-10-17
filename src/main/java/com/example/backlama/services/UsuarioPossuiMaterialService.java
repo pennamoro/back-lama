@@ -19,4 +19,8 @@ public class UsuarioPossuiMaterialService {
     public void criarUsuarioPossuiMaterial(UsuarioPossuiMaterial usuarioPossuiMaterial){
         usuarioPossuiMaterialRepository.save(usuarioPossuiMaterial);
     }
+
+    public void deleteUsuarioPossuiMaterialByUsuarioId(Long idUsuario){
+        usuarioPossuiMaterialRepository.deleteByUsuario_IdUsuario(idUsuario);
+    }
 }
