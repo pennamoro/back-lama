@@ -93,4 +93,7 @@ public class UsuarioService {
 
         return usuarioRepository.save(existingUsuario);
     }
+    public void deleteUsuario(Usuario usuario){
+        usuarioRepository.delete(usuario);
+    }
 }

@@ -221,6 +221,8 @@ public class UsuarioController {
             for (Receita receita : receitaService.buscarPorIdUsuario(usuario.getIdUsuario())){
                 receitaController.deleteReceita(receita.getIdReceita());
             }
+            emailService.sendDeleteEmail(usuario);
+            usuarioService.deleteUsuario(usuario);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
