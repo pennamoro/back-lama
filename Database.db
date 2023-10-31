@@ -50,8 +50,7 @@ CREATE TABLE material (
 CREATE TABLE receita_utiliza_material (
     id_receita_utiliza_material SERIAL PRIMARY KEY,
     id_receita INTEGER REFERENCES receita(id_receita),
-    id_material INTEGER REFERENCES material(id_material),
-    id_tipo INTEGER REFERENCES material(id_tipo),
+    id_material INTEGER REFERENCES material(id_material)
 );
 
 CREATE TABLE etapas (

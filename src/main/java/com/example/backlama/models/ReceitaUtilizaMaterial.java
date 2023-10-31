@@ -18,10 +18,7 @@ public class ReceitaUtilizaMaterial {
     private Receita receita;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "id_material", referencedColumnName = "id_material"),
-            @JoinColumn(name = "id_tipo", referencedColumnName = "id_tipo")
-    })
+    @JoinColumn(name = "id_material", referencedColumnName = "id_material")
     private Material material;
     public ReceitaUtilizaMaterial() {}
 
