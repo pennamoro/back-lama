@@ -38,7 +38,6 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // Permitir todos os métodos HTTP
                 .allowedHeaders("*"); // Permitir todos os cabeçalhos
     }
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers("/**");
