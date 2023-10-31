@@ -131,10 +131,8 @@ public class ReceitaController {
                 }
 
                 createEtapas(receita, receitaSegueEtapas);
-                receitaCriarDTO.getReceita().getUser().setSenha(null);
                 createdReceitas.add(receitaCriarDTO);
             }
-
             return new ResponseEntity<>(createdReceitas, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
