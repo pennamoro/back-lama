@@ -99,6 +99,47 @@ public class ReceitaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PostMapping("/criar/all")
+    public ResponseEntity<List<ReceitaCriarDTO>> criarReceitas(@RequestBody List<ReceitaCriarDTO> receitasCriarDTO) {
+        try {
+            List<ReceitaCriarDTO> createdReceitas = new ArrayList<>();
+
+            for (ReceitaCriarDTO receitaCriarDTO : receitasCriarDTO) {
+                Usuario usuario = usuarioService.buscarUsuarioById(receitaCriarDTO.getUserId());
+                Receita receita = receitaCriarDTO.getReceita();
+                receita.setUser(usuario);
+                Receita receitaCriada = receitaService.criarReceita(receita);
+
+                List<Long> receitaUtilizaMaterialIds = receitaCriarDTO.getReceitaUtilizaMaterialIds();
+                List<Long> receitaSeparadaCategoriaIds = receitaCriarDTO.getReceitaSeparadaCategoriaIds();
+                List<EtapasDTO> receitaSegueEtapas = receitaCriarDTO.getEtapas();
+
+                for (Long materialId : receitaUtilizaMaterialIds) {
+                    ReceitaUtilizaMaterial utilizaMaterial = new ReceitaUtilizaMaterial();
+                    utilizaMaterial.setReceita(receitaCriada);
+                    Material material = materialService.buscarMaterialPorId(materialId);
+                    utilizaMaterial.setMaterial(material);
+                    receitaUtilizaMaterialService.criarReceitaUtilizaMaterial(utilizaMaterial);
+                }
+
+                for (Long categoriaId : receitaSeparadaCategoriaIds) {
+                    ReceitaSeparadaCategoria separadaCategoria = new ReceitaSeparadaCategoria();
+                    separadaCategoria.setReceita(receitaCriada);
+                    Categoria categoria = categoriaService.buscarCategoriaPorId(categoriaId);
+                    separadaCategoria.setCategoria(categoria);
+                    receitaSeparadaCategoriaService.criarReceitaSeparadaCategoria(separadaCategoria);
+                }
+
+                createEtapas(receita, receitaSegueEtapas);
+                receitaCriarDTO.getReceita().getUser().setSenha(null);
+                createdReceitas.add(receitaCriarDTO);
+            }
+
+            return new ResponseEntity<>(createdReceitas, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ReceitaDTO> visualizarReceita(@PathVariable Long id) {

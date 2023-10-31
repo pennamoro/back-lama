@@ -48,6 +48,22 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PostMapping("/register/all")
+    @PermitAll
+    public ResponseEntity<List<Usuario>> registerUsers(@RequestBody List<Usuario> usuarios) {
+        try {
+            List<Usuario> registeredUsuarios = new ArrayList<>();
+
+            for (Usuario usuario : usuarios) {
+                Usuario registeredUsuario = usuarioService.registerUsuario(usuario);
+                registeredUsuarios.add(registeredUsuario);
+            }
+
+            return new ResponseEntity<>(registeredUsuarios, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PostMapping("/login")
     @PermitAll
