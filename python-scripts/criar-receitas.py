@@ -9,7 +9,7 @@ def generate_random_recipe(user_id, recipe_number):
     visibilidade = "PUBLICA"
     cores = random.choice([True, False])
 
-    receitaUtilizaMaterialIds = [random.randint(1, 1600) for _ in range(random.randint(3, 7))]
+    receitaUtilizaMaterialIds = [random.randint(1, 500) for _ in range(random.randint(3, 7))]
     receitaSeparadaCategoriaIds = [random.randint(1, 50) for _ in range(random.randint(1, 4))]
 
     etapas = []
