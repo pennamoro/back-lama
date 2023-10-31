@@ -6,7 +6,7 @@ def generate_users(user_id):
     nome = f"Usuario {user_id}"
     apelido =  f"usuario{user_id}"
     email = f"usuario{user_id}@teste.dev"
-    senha =  "123456"
+    senha =  "12345678"
     
     usuario = {
         "nome": nome,
