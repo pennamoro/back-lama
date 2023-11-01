@@ -13,7 +13,7 @@ CREATE TABLE usuario (
 CREATE TABLE receita (
     id_receita SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    foto VARCHAR(255) NOT NULL,
+    foto TEXT NOT NULL,
     nivel_experiencia VARCHAR(255) NOT NULL,
     visibilidade VARCHAR(255) NOT NULL,
     cores BOOLEAN NOT NULL,
