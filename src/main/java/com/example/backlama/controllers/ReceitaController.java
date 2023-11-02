@@ -210,7 +210,12 @@ public class ReceitaController {
             }
 
             Usuario usuario = usuarioService.buscarUsuarioById(receitaCriarDTO.getUserId());
+
             existingReceita.setNome(receitaCriarDTO.getReceita().getNome());
+            existingReceita.setFoto(receitaCriarDTO.getReceita().getFoto());
+            existingReceita.setNivelExperiencia(receitaCriarDTO.getReceita().getNivelExperiencia());
+            existingReceita.setVisibilidade(receitaCriarDTO.getReceita().getVisibilidade());
+            existingReceita.setCores(receitaCriarDTO.getReceita().getCores());
             existingReceita.setUser(usuario);
 
             List<Long> receitaUtilizaMaterialIds = receitaCriarDTO.getReceitaUtilizaMaterialIds();
@@ -244,7 +249,7 @@ public class ReceitaController {
             etapasService.deleteByReceitaId(id);
             createEtapas(existingReceita, receitaSegueEtapas);
 
-            Receita updatedReceita = receitaService.atualizarReceita(existingReceita);
+            Receita updatedReceita = receitaService.atualizarReceita(id, existingReceita);
 
             ReceitaDTO updatedReceitaDTO = new ReceitaDTO();
             updatedReceita.getUser().setSenha(null);

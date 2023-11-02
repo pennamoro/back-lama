@@ -25,20 +25,14 @@ public class ReceitaService {
         return receitaRepository.findById(id).orElse(null);
     }
 
-    public Receita editarReceita(Long id, Receita receita) {
+    public Receita atualizarReceita(Long id, Receita receita) {
         if (receitaRepository.existsById(id)) {
             receita.setIdReceita(id);
             return receitaRepository.save(receita);
         }
         return null;
     }
-    public Receita atualizarReceita(Receita receita) {
-        Long receitaId = receita.getIdReceita();
-        if (!receitaRepository.existsById(receitaId)) {
-            return null;
-        }
-        return receitaRepository.save(receita);
-    }
+
     public List<Receita> buscarReceitaPorNome(String nome){return receitaRepository.filterRecipesByName(nome);}
     public void deleteReceitaById(Long id){
         receitaRepository.deleteById(id);
