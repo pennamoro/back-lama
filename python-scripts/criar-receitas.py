@@ -39,6 +39,8 @@ def generate_random_recipe(user_id, recipe_number):
         category = random.choice(list(material_categories.keys()))
         selected_materials.extend(random.sample(material_categories[category], random.randint(1, 2)))
 
+    receitaSeparadaCategoriaIds = [random.randint(1, 50) for _ in range(random.randint(1, 2))]
+    
     etapas = []
     num_etapas = random.randint(1, 5)
     for i in range(num_etapas):
@@ -57,6 +59,7 @@ def generate_random_recipe(user_id, recipe_number):
         },
         "userId": user_id,
         "receitaUtilizaMaterialIds": selected_materials,
+        "receitaSeparadaCategoriaIds": receitaSeparadaCategoriaIds,
         "etapas": etapas
     }
     
