@@ -12,8 +12,10 @@ public class AvaliacaoService {
     public AvaliacaoService(AvaliacaoRepository avaliacaoRepository){
         this.avaliacaoRepository = avaliacaoRepository;
     }
-
     public List<Avaliacao> listarPorIdReceita(Long id){
         return avaliacaoRepository.findByReceita_IdReceita(id);
+    }
+    public Avaliacao criarAvaliacao(Avaliacao avaliacao){
+        return avaliacaoRepository.save(avaliacao);
     }
 }
