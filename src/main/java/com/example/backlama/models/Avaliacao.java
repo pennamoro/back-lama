@@ -12,20 +12,20 @@ public class Avaliacao {
     private Long idAvaliacao;
 
     @ManyToOne
-    @JoinColumn(name = "id_receita", referencedColumnName = "id_receita", nullable = false)
+    @JoinColumn(name = "id_receita", referencedColumnName = "id_receita")
     private Receita receita;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     private Usuario usuario;
 
-    @Column(name = "estrelas", nullable = false)
+    @Column(name = "estrelas")
     private Integer estrelas;
 
-    @Column(name = "comentario", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "comentario", columnDefinition = "TEXT")
     private String comentario;
 
-    @Column(name = "titulo", length = 255, nullable = false)
+    @Column(name = "titulo")
     private String titulo;
 
     public Avaliacao() {}

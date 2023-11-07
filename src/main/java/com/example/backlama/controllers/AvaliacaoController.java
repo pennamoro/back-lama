@@ -26,8 +26,8 @@ public class AvaliacaoController {
         this.receitaService = receitaService;
     }
     @PostMapping("/create")
-    public ResponseEntity<Avaliacao> criarAvaliacao(AvaliacaoDTO avaliacaoDTO){
-        try{
+    public ResponseEntity<Avaliacao> criarAvaliacao(@RequestBody AvaliacaoDTO avaliacaoDTO) {
+        try {
             Avaliacao avaliacao = new Avaliacao();
             Usuario usuario = usuarioService.buscarUsuarioById(avaliacaoDTO.getIdUsuario());
             Receita receita = receitaService.buscarReceitaPorId(avaliacaoDTO.getIdReceita());
@@ -38,13 +38,15 @@ public class AvaliacaoController {
             avaliacao.setComentario(avaliacaoDTO.getComentario());
             avaliacao.setTitulo(avaliacaoDTO.getTitulo());
 
-            avaliacaoService.criarAvaliacao(avaliacao);
-            return new ResponseEntity<>(avaliacao, HttpStatus.CREATED);
-        }catch (Exception e){
-            System.out.println(e);
+            Avaliacao avaliacaoSalva = avaliacaoService.criarAvaliacao(avaliacao);
+            avaliacaoSalva.getReceita().getUser().setSenha(null);
+            avaliacaoSalva.getUser().setSenha(null);
+            return new ResponseEntity<>(avaliacaoSalva, HttpStatus.CREATED);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<List<Avaliacao>> listarAvaliacoes(@PathVariable Long id){
         try{
