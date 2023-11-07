@@ -15,6 +15,9 @@ public class ListaPessoalService {
     public List<ListaPessoal> buscarPorIdUsuario(Long idUsuario){
         return listaPessoalRepository.findByUsuario_IdUsuario(idUsuario);
     }
+    public ListaPessoal buscarPorIdReceita(Long idReceita){
+        return  listaPessoalRepository.findByReceita_IdReceita(idReceita);
+    }
     public void criarListaPessoal(ListaPessoal listaPessoal){
         listaPessoalRepository.save(listaPessoal);
     }

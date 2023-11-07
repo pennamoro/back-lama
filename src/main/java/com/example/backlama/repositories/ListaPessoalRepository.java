@@ -10,4 +10,5 @@ import java.util.List;
 public interface ListaPessoalRepository extends JpaRepository<ListaPessoal, Long> {
     List<ListaPessoal> findByUsuario_IdUsuario(Long idUsuario);
     void deleteByUsuario_IdUsuario(Long idUsuario);
+    ListaPessoal findByReceita_IdReceita(Long idReceita);
 }
