@@ -27,4 +27,8 @@ public class ReceitaSeparadaCategoriaService {
     public void deleteByReceitaId(Long id) {
         receitaSeparadaCategoriaRepository.deleteByReceita_IdReceita(id);
     }
+
+    public void deleteAll(){
+        receitaSeparadaCategoriaRepository.deleteAll();
+    }
 }

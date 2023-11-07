@@ -43,4 +43,7 @@ public class ReceitaService {
     public List<Receita> buscarReceitasPublicas(){
         return receitaRepository.findAllByVisibilidadeContainingIgnoreCase("PUBLICA");
     }
+    public void deleteAll(){
+        receitaRepository.deleteAll();
+    }
 }

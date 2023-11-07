@@ -363,4 +363,17 @@ public class ReceitaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping("/delete/all")
+    public ResponseEntity<String> deleteAll() {
+        try{
+            receitaUtilizaMaterialService.deleteAll();
+            receitaSeparadaCategoriaService.deleteAll();
+            passosService.deleteAll();
+            etapasService.deleteAll();
+            receitaService.deleteAll();
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

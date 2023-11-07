@@ -31,4 +31,8 @@ public class EtapasService {
     public void deleteByReceitaId(Long id) {
         etapasRepository.deleteByReceita_IdReceita(id);
     }
+
+    public void deleteAll(){
+        etapasRepository.deleteAll();
+    }
 }

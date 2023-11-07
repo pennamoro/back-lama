@@ -27,4 +27,7 @@ public class ReceitaUtilizaMaterialService {
     public void deleteByReceitaId(Long id) {
         receitaUtilizaMaterialRepository.deleteByReceita_IdReceita(id);
     }
+    public void deleteAll(){
+        receitaUtilizaMaterialRepository.deleteAll();
+    }
 }

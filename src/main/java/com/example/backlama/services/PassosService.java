@@ -33,4 +33,8 @@ public class PassosService {
     public void deleteByEtapasId(Long etapasId) {
         passosRepository.deleteByEtapas_IdEtapas(etapasId);
     }
+
+    public void deleteAll(){
+        passosRepository.deleteAll();
+    }
 }
