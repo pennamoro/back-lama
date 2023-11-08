@@ -13,4 +13,5 @@ public interface ListaPessoalRepository extends JpaRepository<ListaPessoal, Long
     ListaPessoal findByReceita_IdReceita(Long idReceita);
 
     void deleteByReceita_IdReceita(Long idReceita);
+    ListaPessoal findByIdListaPessoal(Long id);
 }

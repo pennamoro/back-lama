@@ -27,4 +27,13 @@ public class ListaPessoalService {
     public void deleteListaPessoalByReceitaId(Long idReceita){
         listaPessoalRepository.deleteByReceita_IdReceita(idReceita);
     }
+    public ListaPessoal editarListaPessoal(ListaPessoal novaListaPessoal){
+        ListaPessoal listaPessoal = listaPessoalRepository.findByIdListaPessoal(novaListaPessoal.getIdListaPessoal());
+        if(listaPessoal != null){
+            novaListaPessoal.setIdListaPessoal(listaPessoal.getIdListaPessoal());
+            return listaPessoalRepository.save(novaListaPessoal);
+        }else{
+            return null;
+        }
+    }
 }

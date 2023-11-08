@@ -269,7 +269,7 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/{id_user}/listapessoal/{id_receita}/{progresso}")
+    @PutMapping("/{id_user}/listapessoal/{id_receita}/{progresso}")
     public ResponseEntity<ListaPessoal> receitaEmAndamento(@PathVariable Long id_user, @PathVariable Long id_receita, @PathVariable String progresso){
         try {
             Usuario usuario = usuarioService.buscarUsuarioById(id_user);
@@ -278,7 +278,8 @@ public class UsuarioController {
             }
             ListaPessoal listaPessoal = listaPessoalService.buscarPorIdReceita(id_receita);
             listaPessoal.setProgresso(progresso);
-            return new ResponseEntity<>(listaPessoal, HttpStatus.OK);
+            ListaPessoal novaListaPessoal = listaPessoalService.editarListaPessoal(listaPessoal);
+            return new ResponseEntity<>(novaListaPessoal, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
