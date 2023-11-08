@@ -195,7 +195,10 @@ public class UsuarioController {
             if(usuario == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            ListaPessoal listaPessoal = listaPessoalService.buscarPorIdReceita(id_receita);
+            Receita receita = receitaService.buscarReceitaPorId(id_receita);
+            ListaPessoal listaPessoal = new ListaPessoal();
+            listaPessoal.setUsuario(usuario);
+            listaPessoal.setReceita(receita);
             listaPessoal.setProgresso(progresso);
             ListaPessoal novaListaPessoal = listaPessoalService.criarListaPessoal(listaPessoal);
             return new ResponseEntity<>(novaListaPessoal, HttpStatus.OK);
