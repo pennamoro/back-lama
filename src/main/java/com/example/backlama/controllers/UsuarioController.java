@@ -188,7 +188,7 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping("/{id_user}/listapessoal/{id_receita}/{progresso}")
+    @PostMapping("/{id_user}/listapessoal/{id_receita}/{progresso}")
     public ResponseEntity<ListaPessoal> adicionarReceita(@PathVariable Long id_user, @PathVariable Long id_receita, @PathVariable String progresso){
         try {
             Usuario usuario = usuarioService.buscarUsuarioById(id_user);
