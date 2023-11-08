@@ -24,4 +24,7 @@ public class ListaPessoalService {
     public void deleteListaPessoalByUsuarioId(Long idUsuario){
         listaPessoalRepository.deleteByUsuario_IdUsuario(idUsuario);
     }
+    public void deleteListaPessoalByReceitaId(Long idReceita){
+        listaPessoalRepository.deleteByReceita_IdReceita(idReceita);
+    }
 }
