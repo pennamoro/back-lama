@@ -188,26 +188,17 @@ public class UsuarioController {
         }
     }
 
-    @PostMapping("/listapessoal/{id}")
-    public ResponseEntity<String> addReceita(@PathVariable Long id, @RequestBody List<Long> receitaIdList){
+    @PutMapping("/{id_user}/listapessoal/{id_receita}/{progresso}")
+    public ResponseEntity<ListaPessoal> adicionarReceita(@PathVariable Long id_user, @PathVariable Long id_receita, @PathVariable String progresso){
         try {
-            Usuario usuario = usuarioService.buscarUsuarioById(id);
+            Usuario usuario = usuarioService.buscarUsuarioById(id_user);
             if(usuario == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-
-            List<Receita> addReceitas = new ArrayList<>();
-            for (Long idReceita : receitaIdList) {
-                Receita receita = receitaService.buscarReceitaPorId(idReceita);
-                addReceitas.add(receita);
-            }
-            for (Receita receita : addReceitas) {
-                ListaPessoal listaPessoal = new ListaPessoal();
-                listaPessoal.setReceita(receita);
-                listaPessoal.setUsuario(usuario);
-                listaPessoalService.criarListaPessoal(listaPessoal);
-            }
-            return new ResponseEntity<>(HttpStatus.OK);
+            ListaPessoal listaPessoal = listaPessoalService.buscarPorIdReceita(id_receita);
+            listaPessoal.setProgresso(progresso);
+            ListaPessoal novaListaPessoal = listaPessoalService.criarListaPessoal(listaPessoal);
+            return new ResponseEntity<>(novaListaPessoal, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -270,7 +261,7 @@ public class UsuarioController {
         }
     }
     @PutMapping("/{id_user}/listapessoal/{id_receita}/{progresso}")
-    public ResponseEntity<ListaPessoal> receitaEmAndamento(@PathVariable Long id_user, @PathVariable Long id_receita, @PathVariable String progresso){
+    public ResponseEntity<ListaPessoal> editarProgresso(@PathVariable Long id_user, @PathVariable Long id_receita, @PathVariable String progresso){
         try {
             Usuario usuario = usuarioService.buscarUsuarioById(id_user);
             if(usuario == null){

@@ -18,8 +18,8 @@ public class ListaPessoalService {
     public ListaPessoal buscarPorIdReceita(Long idReceita){
         return  listaPessoalRepository.findByReceita_IdReceita(idReceita);
     }
-    public void criarListaPessoal(ListaPessoal listaPessoal){
-        listaPessoalRepository.save(listaPessoal);
+    public ListaPessoal criarListaPessoal(ListaPessoal listaPessoal){
+        return listaPessoalRepository.save(listaPessoal);
     }
     public void deleteListaPessoalByUsuarioId(Long idUsuario){
         listaPessoalRepository.deleteByUsuario_IdUsuario(idUsuario);
