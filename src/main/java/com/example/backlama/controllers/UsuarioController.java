@@ -26,8 +26,11 @@ public class UsuarioController {
     private final ReceitaService receitaService;
     private final ReceitaController receitaController;
     private final MaterialService materialService;
+    private final ReceitaUtilizaMaterialService receitaUtilizaMaterialService;
+    private final RegraAssociacaoService regraAssociacaoService;
 
-    public UsuarioController(UsuarioService usuarioService, EmailService emailService, UsuarioPossuiMaterialService usuarioPossuiMaterialService, ListaPessoalService listaPessoalService, ReceitaService receitaService, ReceitaController receitaController, MaterialService materialService) {
+    public UsuarioController(UsuarioService usuarioService, EmailService emailService, UsuarioPossuiMaterialService usuarioPossuiMaterialService, ListaPessoalService listaPessoalService,
+                             ReceitaService receitaService, ReceitaController receitaController, MaterialService materialService, RegraAssociacaoService regraAssociacaoService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService) {
         this.usuarioService = usuarioService;
         this.emailService = emailService;
         this.usuarioPossuiMaterialService = usuarioPossuiMaterialService;
@@ -35,6 +38,8 @@ public class UsuarioController {
         this.receitaService = receitaService;
         this.materialService = materialService;
         this.receitaController = receitaController;
+        this.regraAssociacaoService = regraAssociacaoService;
+        this.receitaUtilizaMaterialService = receitaUtilizaMaterialService;
     }
 
     @PostMapping("/register")
@@ -288,6 +293,47 @@ public class UsuarioController {
             List<Receita> minhasReceitas = receitaService.buscarPorIdUsuario(usuario.getIdUsuario());
             return new ResponseEntity<>(minhasReceitas, HttpStatus.OK);
         }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/{id}/apriori")
+    public ResponseEntity<List<Material>> recomendacoes(@PathVariable Long id){
+        try{
+            Usuario usuario = usuarioService.buscarUsuarioById(id);
+            if(usuario == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            List<Receita> receitasRecomendadas = new ArrayList<>();
+
+            //Pegar todas as receitas do usuário
+            List<Receita> receitasUsuario = receitaService.buscarPorIdUsuario(id);
+
+            //Pegar receitas da lista pessoal
+            List<Receita> receitasNaLista = new ArrayList<>();
+            List<ListaPessoal> listaPessoal = listaPessoalService.buscarPorIdUsuario(id);
+            for(ListaPessoal lista : listaPessoal){
+                receitasNaLista.add(lista.getReceita());
+            }
+            receitasUsuario.addAll(receitasNaLista);
+
+            //Pegar todos os materiais do usuário
+            List<UsuarioPossuiMaterial> meusMateriais = usuarioPossuiMaterialService.buscarPorIdUsuario(id);
+            List<Material> materiaisUsuario = new ArrayList<>();
+            for(UsuarioPossuiMaterial usuarioPossuiMaterial : meusMateriais){
+                materiaisUsuario.add(usuarioPossuiMaterial.getMaterial());
+            }
+
+            //Pegar os materiais das receitas do usuario
+            List<ReceitaUtilizaMaterial> receitaUtilizaMaterialList = new ArrayList<>();
+            for(Receita receita : receitasUsuario){
+                receitaUtilizaMaterialList.addAll(receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita()));
+            }
+            for(ReceitaUtilizaMaterial receitaUtilizaMaterial : receitaUtilizaMaterialList){
+                materiaisUsuario.add(receitaUtilizaMaterial.getMaterial());
+            }
+
+            return new ResponseEntity<>(materiaisUsuario, HttpStatus.OK);
+        }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
