@@ -359,14 +359,22 @@ public class UsuarioController {
                         }
                     }
                 }
+            }
+            if (!receitasRecomendadas.isEmpty()){
                 for(Receita receita : receitasRecomendadas){
                     receita.setUser(null);
                     receita.setFoto(null);
                 }
+                return new ResponseEntity<>(receitasRecomendadas, HttpStatus.OK);
+            }
+            receitasRecomendadas.addAll(receitaService.listarTodasReceitas());
+            for(Receita receita : receitasRecomendadas){
+                receita.setUser(null);
+                receita.setFoto(null);
             }
             return new ResponseEntity<>(receitasRecomendadas, HttpStatus.OK);
+
         }catch(Exception e){
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
