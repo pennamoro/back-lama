@@ -11,6 +11,9 @@ import java.util.List;
 public class ReceitaUtilizaMaterialService {
     public final ReceitaUtilizaMaterialRepository receitaUtilizaMaterialRepository;
 
+    public List<ReceitaUtilizaMaterial> listarTodos(){
+        return receitaUtilizaMaterialRepository.findAll();
+    }
     public ReceitaUtilizaMaterialService(ReceitaUtilizaMaterialRepository receitaUtilizaMaterialRepository) {
         this.receitaUtilizaMaterialRepository = receitaUtilizaMaterialRepository;
     }

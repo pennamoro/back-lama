@@ -7,6 +7,7 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -15,7 +16,7 @@ public class RegraAssociacaoService {
     public List<RegrasAssociacaoDTO> lerRegrasDeAssociacao() {
         List<RegrasAssociacaoDTO> regras = new ArrayList<>();
         try {
-            FileReader fileReader = new FileReader(ResourceUtils.getFile("../../../python-scripts/regras.csv"));
+            FileReader fileReader = new FileReader(ResourceUtils.getFile("python-scripts/regras.csv"));
             CSVReader csvReader = new CSVReader(fileReader);
             String[] line;
             while ((line = csvReader.readNext()) != null) {
@@ -39,6 +40,8 @@ public class RegraAssociacaoService {
     }
 
     private List<String> parseList(String input) {
-        return null;
+        input = input.replaceAll("[\\[\\]']", "").trim();
+        String[] elements = input.split(", ");
+        return Arrays.asList(elements);
     }
 }

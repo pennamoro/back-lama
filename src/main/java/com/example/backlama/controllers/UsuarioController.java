@@ -1,5 +1,6 @@
 package com.example.backlama.controllers;
 
+import com.example.backlama.dto.RegrasAssociacaoDTO;
 import com.example.backlama.dto.UsuarioPublicoDTO;
 import com.example.backlama.models.*;
 import com.example.backlama.services.*;
@@ -297,13 +298,14 @@ public class UsuarioController {
         }
     }
     @GetMapping("/{id}/apriori")
-    public ResponseEntity<List<Material>> recomendacoes(@PathVariable Long id){
+    public ResponseEntity<List<Receita>> recomendacoes(@PathVariable Long id){
         try{
             Usuario usuario = usuarioService.buscarUsuarioById(id);
             if(usuario == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             List<Receita> receitasRecomendadas = new ArrayList<>();
+            List<ReceitaUtilizaMaterial> todasReceitasUtilizaMaterial = receitaUtilizaMaterialService.listarTodos();
 
             //Pegar todas as receitas do usuário
             List<Receita> receitasUsuario = receitaService.buscarPorIdUsuario(id);
@@ -332,8 +334,39 @@ public class UsuarioController {
                 materiaisUsuario.add(receitaUtilizaMaterial.getMaterial());
             }
 
-            return new ResponseEntity<>(materiaisUsuario, HttpStatus.OK);
+            //Verificar as regras de associação
+            List<RegrasAssociacaoDTO> regrasAssociacao = regraAssociacaoService.lerRegrasDeAssociacao();
+
+            for (RegrasAssociacaoDTO regra : regrasAssociacao) {
+                List<String> antecedents = regra.getAntecedents();
+                List<String> consequents = regra.getConsequents();
+
+                // Verificar se os materiais do usuário estão no antecedents da regra
+                boolean usuarioTemMateriais = materiaisUsuario.stream().anyMatch(materialUsuario -> antecedents.stream().anyMatch(antecedent -> materialUsuario.getNome().contains(antecedent)));
+
+                // Se os materiais do usuário estiverem na regra, adicionar as receitas aos recomendados
+                if (usuarioTemMateriais) {
+                    for (String consequent : consequents) {
+                        for (ReceitaUtilizaMaterial utilizaMaterial : todasReceitasUtilizaMaterial) {
+                            Material materialReceita = utilizaMaterial.getMaterial();
+                            Receita receita = utilizaMaterial.getReceita();
+                            // Se o material da receita corresponde a um consequent, adicione a receita à lista
+                            if (materialReceita.getNome().contains(consequent)) {
+                                if (!receitasRecomendadas.contains(receita)) {
+                                    receitasRecomendadas.add(receita);
+                                }
+                            }
+                        }
+                    }
+                }
+                for(Receita receita : receitasRecomendadas){
+                    receita.setUser(null);
+                    receita.setFoto(null);
+                }
+            }
+            return new ResponseEntity<>(receitasRecomendadas, HttpStatus.OK);
         }catch(Exception e){
+            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
