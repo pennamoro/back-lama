@@ -48,6 +48,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> registerUser(@RequestBody Usuario usuario) {
         try {
             Usuario registeredUsuario = usuarioService.registerUsuario(usuario);
+            //registeredUsuario.setFoto("foto_base");
             emailService.sendConfirmationEmail(registeredUsuario);
             return new ResponseEntity<>(registeredUsuario, HttpStatus.CREATED);
         }catch (Exception e){
@@ -62,6 +63,7 @@ public class UsuarioController {
 
             for (Usuario usuario : usuarios) {
                 Usuario registeredUsuario = usuarioService.registerUsuario(usuario);
+                //registeredUsuario.setFoto("foto_base");
                 registeredUsuarios.add(registeredUsuario);
             }
 
@@ -157,12 +159,18 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         try {
-            if(updatedUsuario.getNome() != null) {usuario.setNome(updatedUsuario.getNome());}
-            if(updatedUsuario.getApelido() != null){usuario.setApelido(updatedUsuario.getApelido());}
-            if(updatedUsuario.getEmail() != null){usuario.setEmail(updatedUsuario.getEmail());}
-            if(updatedUsuario.getSenha() != null) {usuario.setSenha(updatedUsuario.getSenha());}
-            if(updatedUsuario.getNivelExperiencia() != null) {usuario.setNivelExperiencia(updatedUsuario.getNivelExperiencia());}
-            if(updatedUsuario.getFoto() != null) {usuario.setFoto(updatedUsuario.getFoto());}
+            if((updatedUsuario.getNome() != null) && !(updatedUsuario.getNome().isEmpty())) {
+                usuario.setNome(updatedUsuario.getNome());}
+            if(updatedUsuario.getApelido() != null && !(updatedUsuario.getApelido().isEmpty())){
+                usuario.setApelido(updatedUsuario.getApelido());}
+            if(updatedUsuario.getEmail() != null && !(updatedUsuario.getEmail().isEmpty())){
+                usuario.setEmail(updatedUsuario.getEmail());}
+            if(updatedUsuario.getSenha() != null && !(updatedUsuario.getSenha().isEmpty())) {
+                usuario.setSenha(updatedUsuario.getSenha());}
+            if(updatedUsuario.getNivelExperiencia() != null && !(updatedUsuario.getNivelExperiencia().isEmpty())) {
+                usuario.setNivelExperiencia(updatedUsuario.getNivelExperiencia());}
+            if(updatedUsuario.getFoto() != null && !(updatedUsuario.getFoto().isEmpty())) {
+                usuario.setFoto(updatedUsuario.getFoto());}
 
             Usuario updated = usuarioService.updateUsuario(usuario);
             updated.setSenha(null);
