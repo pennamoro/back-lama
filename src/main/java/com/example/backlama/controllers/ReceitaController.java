@@ -9,8 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,8 +24,10 @@ public class ReceitaController {
     private final EtapasService etapasService;
     private final PassosService passosService;
     private final UsuarioService usuarioService;
+    private  final AvaliacaoService avaliacaoService;
 
-    public ReceitaController(ReceitaService receitaService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService, MaterialService materialService, CategoriaService categoriaService, EtapasService etapasService, PassosService passosService, UsuarioService usuarioService) {
+    public ReceitaController(ReceitaService receitaService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService, MaterialService materialService,
+                             CategoriaService categoriaService, EtapasService etapasService, PassosService passosService, UsuarioService usuarioService, AvaliacaoService avaliacaoService) {
         this.receitaService = receitaService;
         this.receitaUtilizaMaterialService = receitaUtilizaMaterialService;
         this.receitaSeparadaCategoriaService = receitaSeparadaCategoriaService;
@@ -35,6 +36,7 @@ public class ReceitaController {
         this.etapasService = etapasService;
         this.passosService = passosService;
         this.usuarioService = usuarioService;
+        this.avaliacaoService = avaliacaoService;
     }
     private void createEtapas(Receita receita, List<EtapasDTO> receitaSegueEtapas) {
         for (EtapasDTO etapasDTO : receitaSegueEtapas) {
@@ -336,6 +338,36 @@ public class ReceitaController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/melhores")
+    public ResponseEntity<List<Receita>> mostrarMelhoresAvaliadas() {
+        try {
+            List<Avaliacao> avaliacoes = avaliacaoService.listarTodas();
+
+            Map<Receita, Integer> totalStarsMap = new HashMap<>();
+            Map<Receita, Integer> reviewCountMap = new HashMap<>();
+
+            for (Avaliacao avaliacao : avaliacoes) {
+                Receita receita = avaliacao.getReceita();
+                int totalStars = totalStarsMap.getOrDefault(receita, 0) + avaliacao.getEstrelas();
+                int reviewCount = reviewCountMap.getOrDefault(receita, 0) + 1;
+
+                totalStarsMap.put(receita, totalStars);
+                reviewCountMap.put(receita, reviewCount);
+            }
+
+            List<Receita> melhores = new ArrayList<>(totalStarsMap.keySet());
+            melhores.sort(Comparator.comparing((Receita r) ->
+                    (double) totalStarsMap.get(r) / reviewCountMap.get(r)).reversed());
+            for(Receita receita : melhores){
+                receita.setUser(null);
+                receita.setFoto(null);
+            }
+
+            return new ResponseEntity<>(melhores, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

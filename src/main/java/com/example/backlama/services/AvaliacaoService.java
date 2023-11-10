@@ -18,4 +18,6 @@ public class AvaliacaoService {
     public Avaliacao criarAvaliacao(Avaliacao avaliacao){
         return avaliacaoRepository.save(avaliacao);
     }
+
+    public List<Avaliacao> listarTodas(){return avaliacaoRepository.findAll();}
 }
