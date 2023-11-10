@@ -5,7 +5,7 @@ CREATE TABLE usuario (
     apelido VARCHAR(255) NOT NULL,
     senha VARCHAR(255) NOT NULL,
     nivel_experiencia VARCHAR(255) NOT NULL,
-    foto VARCHAR(255),
+    foto text,
     is_admin BOOLEAN,
 	confirmed BOOLEAN NOT NULL
 );

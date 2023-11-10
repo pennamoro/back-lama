@@ -39,6 +39,10 @@ public class Usuario {
     @JsonProperty("admin")
     private boolean isAdmin;
 
+    @Column(name ="foto")
+    @JsonProperty("foto")
+    private String foto;
+
     public Usuario() {}
 
     public Long getIdUsuario() {
@@ -103,5 +107,12 @@ public class Usuario {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }
