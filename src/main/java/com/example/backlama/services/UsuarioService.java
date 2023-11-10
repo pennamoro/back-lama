@@ -91,6 +91,7 @@ public class UsuarioService {
         existingUsuario.setEmail(updatedUsuario.getEmail());
         existingUsuario.setSenha(passwordEncoder.encode(updatedUsuario.getSenha()));
         existingUsuario.setNivelExperiencia(updatedUsuario.getNivelExperiencia());
+        existingUsuario.setFoto(updatedUsuario.getFoto());
 
         return usuarioRepository.save(existingUsuario);
     }

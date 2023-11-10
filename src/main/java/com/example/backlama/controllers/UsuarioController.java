@@ -157,11 +157,12 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         try {
-            usuario.setNome(updatedUsuario.getNome());
-            usuario.setApelido(updatedUsuario.getApelido());
-            usuario.setEmail(updatedUsuario.getEmail());
-            usuario.setSenha(updatedUsuario.getSenha());
-            usuario.setNivelExperiencia(updatedUsuario.getNivelExperiencia());
+            if(updatedUsuario.getNome() != null) {usuario.setNome(updatedUsuario.getNome());}
+            if(updatedUsuario.getApelido() != null){usuario.setApelido(updatedUsuario.getApelido());}
+            if(updatedUsuario.getEmail() != null){usuario.setEmail(updatedUsuario.getEmail());}
+            if(updatedUsuario.getSenha() != null) {usuario.setSenha(updatedUsuario.getSenha());}
+            if(updatedUsuario.getNivelExperiencia() != null) {usuario.setNivelExperiencia(updatedUsuario.getNivelExperiencia());}
+            if(updatedUsuario.getFoto() != null) {usuario.setFoto(updatedUsuario.getFoto());}
 
             Usuario updated = usuarioService.updateUsuario(usuario);
             updated.setSenha(null);
