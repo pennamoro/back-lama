@@ -35,7 +35,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*") // Permitir todas as origens
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // Permitir todos os métodos HTTP
+                .allowedMethods("*") // Permitir todos os métodos HTTP
                 .allowedHeaders("*"); // Permitir todos os cabeçalhos
     }
     @Bean

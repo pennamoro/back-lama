@@ -289,7 +289,7 @@ public class UsuarioController {
             if(usuario == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            ListaPessoal listaPessoal = listaPessoalService.buscarPorIdReceita(id_receita);
+            ListaPessoal listaPessoal = listaPessoalService.buscarlistaPessoal(id_receita, id_user);
             listaPessoal.setProgresso(progresso);
             ListaPessoal novaListaPessoal = listaPessoalService.editarListaPessoal(listaPessoal);
             return new ResponseEntity<>(novaListaPessoal, HttpStatus.OK);
