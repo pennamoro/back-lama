@@ -380,6 +380,15 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/listall")
+    public ResponseEntity<List<Usuario>> listarTodos(){
+        try{
+            List<Usuario> todosUsuarios = usuarioService.listarTodos();
+            return new ResponseEntity<>(todosUsuarios, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUsuario(@PathVariable Long id){
         try {

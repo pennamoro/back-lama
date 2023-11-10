@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.backlama.repositories.UsuarioRepository;
@@ -96,4 +97,5 @@ public class UsuarioService {
     public void deleteUsuario(Usuario usuario){
         usuarioRepository.delete(usuario);
     }
+    public List<Usuario> listarTodos(){return usuarioRepository.findAll();}
 }
