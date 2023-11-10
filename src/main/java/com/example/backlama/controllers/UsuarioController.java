@@ -380,7 +380,7 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/listall")
+    @GetMapping("/listartodos")
     public ResponseEntity<List<Usuario>> listarTodos(){
         try{
             List<Usuario> todosUsuarios = usuarioService.listarTodos();
