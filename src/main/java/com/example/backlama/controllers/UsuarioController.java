@@ -6,6 +6,7 @@ import com.example.backlama.models.*;
 import com.example.backlama.services.*;
 import com.example.backlama.dto.UsuarioDTO;
 import jakarta.annotation.security.PermitAll;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,9 @@ public class UsuarioController {
     private final ReceitaUtilizaMaterialService receitaUtilizaMaterialService;
     private final RegraAssociacaoService regraAssociacaoService;
 
+    @Value("${aplication.foto}")
+    private String fotoBase;
+
     public UsuarioController(UsuarioService usuarioService, EmailService emailService, UsuarioPossuiMaterialService usuarioPossuiMaterialService, ListaPessoalService listaPessoalService,
                              ReceitaService receitaService, ReceitaController receitaController, MaterialService materialService, RegraAssociacaoService regraAssociacaoService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService) {
         this.usuarioService = usuarioService;
@@ -48,7 +52,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> registerUser(@RequestBody Usuario usuario) {
         try {
             Usuario registeredUsuario = usuarioService.registerUsuario(usuario);
-            //registeredUsuario.setFoto("foto_base");
+            registeredUsuario.setFoto(fotoBase);
             emailService.sendConfirmationEmail(registeredUsuario);
             return new ResponseEntity<>(registeredUsuario, HttpStatus.CREATED);
         }catch (Exception e){
@@ -63,7 +67,7 @@ public class UsuarioController {
 
             for (Usuario usuario : usuarios) {
                 Usuario registeredUsuario = usuarioService.registerUsuario(usuario);
-                //registeredUsuario.setFoto("foto_base");
+                registeredUsuario.setFoto(fotoBase);
                 registeredUsuarios.add(registeredUsuario);
             }
 
