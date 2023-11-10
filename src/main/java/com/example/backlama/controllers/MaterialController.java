@@ -1,7 +1,10 @@
 package com.example.backlama.controllers;
 
+import com.example.backlama.dto.MaterialDTO;
 import com.example.backlama.models.Material;
+import com.example.backlama.repositories.TipoRepository;
 import com.example.backlama.services.MaterialService;
+import com.example.backlama.services.TipoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,13 +14,18 @@ import java.util.List;
 @RequestMapping("/material")
 public class MaterialController {
     private final MaterialService materialService;
-    public MaterialController(MaterialService materialService){
+    private final TipoService tipoService;
+    public MaterialController(MaterialService materialService, TipoService tipoService){
         this.materialService = materialService;
+        this.tipoService = tipoService;
     }
     @PostMapping("/criar")
-    public ResponseEntity<Material> createMaterial(@RequestBody Material material){
+    public ResponseEntity<Material> createMaterial(@RequestBody MaterialDTO material){
         try{
-            Material novoMaterial = materialService.criarMaterial(material);
+            Material novoMaterial = new Material();
+            novoMaterial.setNome(material.getNome());
+            novoMaterial.setTipo(tipoService.buscarPorId(material.getIdTipo()));
+            materialService.criarMaterial(novoMaterial);
             return new ResponseEntity<>(novoMaterial, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
