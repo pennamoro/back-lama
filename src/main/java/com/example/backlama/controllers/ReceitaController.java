@@ -168,41 +168,6 @@ public class ReceitaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<ReceitaDTO>> listarTodasReceitas() {
-        try {
-            List<Receita> receitas = receitaService.listarTodasReceitas();
-
-            if (!receitas.isEmpty()) {
-                List<ReceitaDTO> receitaDTOs = new ArrayList<>();
-
-                for (Receita receita : receitas) {
-                    List<ReceitaUtilizaMaterial> receitaUtilizaMaterial = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita());
-                    List<ReceitaSeparadaCategoria> receitaSeparadaCategoria = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita());
-                    List<Etapas> etapas = etapasService.buscarEtapasPorIdReceita(receita.getIdReceita());
-
-                    List<EtapasDTO> etapasDTOList = listEtapas(etapas);
-
-                    ReceitaDTO receitaDTO = new ReceitaDTO();
-                    receita.getUser().setSenha(null);
-                    receitaDTO.setReceita(receita);
-                    receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterial);
-                    receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoria);
-                    receitaDTO.setEtapas(etapasDTOList);
-
-                    receitaDTOs.add(receitaDTO);
-                }
-
-                return new ResponseEntity<>(receitaDTOs, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @PutMapping("/editar/{id}")
     public ResponseEntity<ReceitaDTO> editarReceita(@PathVariable Long id, @RequestBody ReceitaCriarDTO receitaCriarDTO) {
         try {
@@ -325,22 +290,59 @@ public class ReceitaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    private ResponseEntity<List<ReceitaDTO>> getListResponseEntity(List<Receita> receitaList) {
+        if (!receitaList.isEmpty()) {
+            List<ReceitaDTO> receitaDTOs = new ArrayList<>();
+
+            for (Receita receita : receitaList) {
+                List<ReceitaUtilizaMaterial> receitaUtilizaMaterialList = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita());
+                List<ReceitaSeparadaCategoria> receitaSeparadaCategoriaList = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita());
+                List<Etapas> etapasList = etapasService.buscarEtapasPorIdReceita(receita.getIdReceita());
+
+                ReceitaDTO receitaDTO = new ReceitaDTO();
+                receita.getUser().setSenha(null);
+                receitaDTO.setReceita(receita);
+                for(ReceitaUtilizaMaterial receitaUtilizaMaterial : receitaUtilizaMaterialList){
+                    receitaUtilizaMaterial.setReceita(null);
+                }
+                receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterialList);
+                for(ReceitaSeparadaCategoria receitaSeparadaCategoria : receitaSeparadaCategoriaList){
+                    receitaSeparadaCategoria.setReceita(null);
+                }
+                receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoriaList);
+                for(Etapas etapas : etapasList){
+                    etapas.setReceita(null);
+                }
+                receitaDTO.setEtapas(listEtapas(etapasList));
+                receitaDTOs.add(receitaDTO);
+            }
+            return new ResponseEntity<>(receitaDTOs, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/filter/")
-    public ResponseEntity<List<Receita>> filterRecipesByName(@RequestParam(name = "name", required = false) String nome){
+    public ResponseEntity<List<ReceitaDTO>> filterRecipesByName(@RequestParam(name = "name", required = false) String nome){
         try {
             List<Receita> receitaList = receitaService.buscarReceitaPorNome(nome);
-            for (Receita receita : receitaList) {
-                receita.getUser().setSenha(null);
-            }
-            if (!receitaList.isEmpty()) {
-                return new ResponseEntity<>(receitaList, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+            return getListResponseEntity(receitaList);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ReceitaDTO>> listarTodasReceitas() {
+        try {
+            List<Receita> receitas = receitaService.listarTodasReceitas();
+
+            return getListResponseEntity(receitas);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/melhores")
     public ResponseEntity<List<Receita>> mostrarMelhoresAvaliadas() {
         try {
