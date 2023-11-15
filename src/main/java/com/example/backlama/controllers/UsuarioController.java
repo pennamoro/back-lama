@@ -276,15 +276,15 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("{id}/listapessoal/lista")
-    public ResponseEntity<List<ListaPessoal>> listarListaPessoal(@PathVariable Long id){
+    @GetMapping("{idUsuario}/listapessoal/{idReceita}")
+    public ResponseEntity<ListaPessoal> listarListaPessoal(@PathVariable Long idUsuario, Long idReceita){
         try {
-            Usuario usuario = usuarioService.buscarUsuarioById(id);
+            Usuario usuario = usuarioService.buscarUsuarioById(idUsuario);
             if(usuario == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            List<ListaPessoal> listaPessoalList = listaPessoalService.buscarPorIdUsuario(id);
-            return new ResponseEntity<>(listaPessoalList, HttpStatus.OK);
+            ListaPessoal listaPessoal= listaPessoalService.buscarPorUsuarioEReceita(idReceita, idUsuario);
+            return new ResponseEntity<>(listaPessoal, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
