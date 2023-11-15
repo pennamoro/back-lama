@@ -207,6 +207,19 @@ public class UsuarioController {
         }
     }
 
+    @GetMapping("/{id}/material")
+    public ResponseEntity<List<Material>> listarMateriaisPessoa(@PathVariable Long id){
+        List<Material> materiaisUsuario = new ArrayList<>();
+        for (UsuarioPossuiMaterial usuarioPossuiMaterial : usuarioPossuiMaterialService.buscarPorIdUsuario(id)){
+            materiaisUsuario.add(usuarioPossuiMaterial.getMaterial());
+        }
+        try{
+            return new ResponseEntity<>(materiaisUsuario, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/{id_user}/listapessoal/{id_receita}/{progresso}")
     public ResponseEntity<ListaPessoal> adicionarReceita(@PathVariable Long id_user, @PathVariable Long id_receita, @PathVariable String progresso){
         try {
@@ -225,7 +238,7 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/listapessoal/remove/{id}")
+    @DeleteMapping("/listapessoal/remove/{id}")
     public ResponseEntity<String> removeReceita(@PathVariable Long id, @RequestBody List<Long> receitaIdList){
         try {
             Usuario usuario = usuarioService.buscarUsuarioById(id);
