@@ -260,6 +260,23 @@ public class UsuarioController {
         }
     }
     @GetMapping("{id}/listapessoal")
+    public ResponseEntity<List<Receita>> listarReceitasListaPessoal(@PathVariable Long id){
+        try {
+            Usuario usuario = usuarioService.buscarUsuarioById(id);
+            if(usuario == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            List<Receita> receitaList = new ArrayList<>();
+            List<ListaPessoal> listaPessoalList = listaPessoalService.buscarPorIdUsuario(id);
+            for (ListaPessoal listaPessoal: listaPessoalList) {
+                    receitaList.add(listaPessoal.getReceita());
+            }
+            return new ResponseEntity<>(receitaList, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("{id}/listapessoal/lista")
     public ResponseEntity<List<ListaPessoal>> listarListaPessoal(@PathVariable Long id){
         try {
             Usuario usuario = usuarioService.buscarUsuarioById(id);
