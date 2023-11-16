@@ -284,6 +284,8 @@ public class UsuarioController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             ListaPessoal listaPessoal = listaPessoalService.buscarlistaPessoal(idReceita, idUsuario);
+            listaPessoal.getUsuario().setSenha(null);
+            listaPessoal.getReceita().getUser().setSenha(null);
             return new ResponseEntity<>(listaPessoal, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
