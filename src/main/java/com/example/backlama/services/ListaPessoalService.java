@@ -2,6 +2,7 @@ package com.example.backlama.services;
 
 import com.example.backlama.models.ListaPessoal;
 import com.example.backlama.repositories.ListaPessoalRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +22,11 @@ public class ListaPessoalService {
     public ListaPessoal criarListaPessoal(ListaPessoal listaPessoal){
         return listaPessoalRepository.save(listaPessoal);
     }
+    @Transactional
     public void deleteListaPessoalByUsuarioId(Long idUsuario){
         listaPessoalRepository.deleteByUsuario_IdUsuario(idUsuario);
     }
+    @Transactional
     public void deleteListaPessoalByReceitaId(Long idReceita){
         listaPessoalRepository.deleteByReceita_IdReceita(idReceita);
     }
