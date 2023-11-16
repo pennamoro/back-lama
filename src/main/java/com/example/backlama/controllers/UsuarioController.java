@@ -238,22 +238,10 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping("/listapessoal/remove/{id}")
-    public ResponseEntity<String> removeReceita(@PathVariable Long id, @RequestBody List<Long> receitaIdList){
+    @DeleteMapping("/listapessoal/remove/{idReceita}")
+    public ResponseEntity<String> removeReceita(@PathVariable Long idReceita ){
         try {
-            Usuario usuario = usuarioService.buscarUsuarioById(id);
-            if(usuario == null){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
-            List<Receita> removeReceitas = new ArrayList<>();
-            for (Long idReceita : receitaIdList) {
-                Receita receita = receitaService.buscarReceitaPorId(idReceita);
-                removeReceitas.add(receita);
-            }
-            for (Receita receita : removeReceitas) {
-                listaPessoalService.deleteListaPessoalByReceitaId(receita.getIdReceita());
-            }
+            listaPessoalService.deleteListaPessoalByReceitaId(idReceita);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
