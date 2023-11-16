@@ -36,7 +36,4 @@ public class ListaPessoalService {
             return null;
         }
     }
-    public ListaPessoal buscarPorUsuarioEReceita(Long idUsuario, Long idReceita){
-        return listaPessoalRepository.findByReceita_IdReceitaAndUsuario_IdUsuario(idReceita, idUsuario);
-    }
 }
