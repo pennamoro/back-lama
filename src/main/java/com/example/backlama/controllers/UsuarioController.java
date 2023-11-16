@@ -313,7 +313,7 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/minhasreceitas/{id}")
+    @GetMapping("/minhasreceitas/{id}")
     public ResponseEntity<List<Receita>> visualizarReceitas(@PathVariable Long id){
         try {
             Usuario usuario = usuarioService.buscarUsuarioById(id);
