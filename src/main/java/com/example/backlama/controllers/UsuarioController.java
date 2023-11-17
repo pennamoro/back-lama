@@ -183,19 +183,16 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/material/{id}")
-    public ResponseEntity<String> addMaterial(@PathVariable Long id, @RequestBody List<Long> materialIdList){
+    @PutMapping("/material/{id}")
+    public ResponseEntity<String> editMaterial(@PathVariable Long id, @RequestBody List<Long> materialListId){
         Usuario usuario = usuarioService.buscarUsuarioById(id);
         if(usuario == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         try {
-            List<Material> addMaterials = new ArrayList<>();
-            for (Long idMaterial : materialIdList) {
+            usuarioPossuiMaterialService.deleteUsuarioPossuiMaterialByUsuarioId(id);
+            for (Long idMaterial : materialListId){
                 Material material = materialService.buscarMaterialPorId(idMaterial);
-                addMaterials.add(material);
-            }
-            for (Material material : addMaterials) {
                 UsuarioPossuiMaterial usuarioPossuiMaterial = new UsuarioPossuiMaterial();
                 usuarioPossuiMaterial.setMaterial(material);
                 usuarioPossuiMaterial.setUsuario(usuario);

@@ -2,7 +2,6 @@ package com.example.backlama.controllers;
 
 import com.example.backlama.dto.MaterialDTO;
 import com.example.backlama.models.Material;
-import com.example.backlama.repositories.TipoRepository;
 import com.example.backlama.services.MaterialService;
 import com.example.backlama.services.TipoService;
 import org.springframework.http.HttpStatus;
@@ -71,12 +70,14 @@ public class MaterialController {
         }
     }
     @PutMapping("/editar/{id}")
-    public ResponseEntity<Material> editarMaterial(@PathVariable Long id){
+    public ResponseEntity<Material> editarMaterial(@PathVariable Long id, @RequestBody MaterialDTO materialDTO){
         try{
             Material material = materialService.buscarMaterialPorId(id);
             if(material == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+            material.setTipo(tipoService.buscarPorId(materialDTO.getIdTipo()));
+            material.setNome(materialDTO.getNome());
             Material novoMaterial = materialService.editarMaterial(id, material);
             return new ResponseEntity<>(novoMaterial, HttpStatus.OK);
         }catch (Exception e){
