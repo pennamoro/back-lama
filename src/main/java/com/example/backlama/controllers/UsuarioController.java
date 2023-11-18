@@ -335,6 +335,9 @@ public class UsuarioController {
 
             //Pegar todas as receitas do usuário
             List<Receita> receitasUsuario = receitaService.buscarPorIdUsuario(id);
+            for(Receita receita: receitasUsuario){
+                System.out.println("receitas do usuario: " + receita.getNome());
+            }
 
             //Pegar receitas da lista pessoal
             List<Receita> receitasNaLista = new ArrayList<>();
@@ -343,12 +346,18 @@ public class UsuarioController {
                 receitasNaLista.add(lista.getReceita());
             }
             receitasUsuario.addAll(receitasNaLista);
+            for(Receita receita: receitasUsuario){
+                System.out.println("receitas do usuario final: " + receita.getNome());
+            }
 
             //Pegar todos os materiais do usuário
             List<UsuarioPossuiMaterial> meusMateriais = usuarioPossuiMaterialService.buscarPorIdUsuario(id);
             List<Material> materiaisUsuario = new ArrayList<>();
             for(UsuarioPossuiMaterial usuarioPossuiMaterial : meusMateriais){
                 materiaisUsuario.add(usuarioPossuiMaterial.getMaterial());
+            }
+            for(Material material: materiaisUsuario){
+                System.out.println("materiais do usuario: " + material.getNome());
             }
 
             //Pegar os materiais das receitas do usuario
@@ -359,24 +368,41 @@ public class UsuarioController {
             for(ReceitaUtilizaMaterial receitaUtilizaMaterial : receitaUtilizaMaterialList){
                 materiaisUsuario.add(receitaUtilizaMaterial.getMaterial());
             }
-
+            for(Material material: materiaisUsuario){
+                System.out.println("materiais do usuario final: " + material.getNome());
+            }
             //Verificar as regras de associação
             List<RegrasAssociacaoDTO> regrasAssociacao = regraAssociacaoService.lerRegrasDeAssociacao();
+            for(RegrasAssociacaoDTO regrasAssociacaoDTO: regrasAssociacao){
+                System.out.print(regrasAssociacaoDTO.getAntecedents());
+                System.out.print(" ");
+                System.out.print(regrasAssociacaoDTO.getConsequents());
+                System.out.println();
+            }
 
             for (RegrasAssociacaoDTO regra : regrasAssociacao) {
                 List<String> antecedents = regra.getAntecedents();
                 List<String> consequents = regra.getConsequents();
 
                 // Verificar se os materiais do usuário estão no antecedents da regra
-                boolean usuarioTemMateriais = materiaisUsuario.stream().anyMatch(materialUsuario -> antecedents.stream().anyMatch(antecedent -> materialUsuario.getNome().contains(antecedent)));
-
-                // Se os materiais do usuário estiverem na regra, adicionar as receitas aos recomendados
-                if (usuarioTemMateriais) {
+                boolean usuarioTemMateriaisSuficientes = false;
+                for (String antecedent : antecedents) {
+                    for (Material material : materiaisUsuario) {
+                        if (material.getNome().contains(antecedent)) {
+                            usuarioTemMateriaisSuficientes = true;
+                            break;
+                        }
+                    }
+                    if (usuarioTemMateriaisSuficientes) {
+                        break;
+                    }
+                }
+                // Se o usuário tiver materiais suficientes, adicionar as receitas aos recomendados
+                if (usuarioTemMateriaisSuficientes) {
                     for (String consequent : consequents) {
                         for (ReceitaUtilizaMaterial utilizaMaterial : todasReceitasUtilizaMaterial) {
                             Material materialReceita = utilizaMaterial.getMaterial();
                             Receita receita = utilizaMaterial.getReceita();
-                            // Se o material da receita corresponde a um consequent, adicione a receita à lista
                             if (materialReceita.getNome().contains(consequent)) {
                                 if (!receitasRecomendadas.contains(receita)) {
                                     receitasRecomendadas.add(receita);
