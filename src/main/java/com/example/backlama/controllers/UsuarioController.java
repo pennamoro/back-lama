@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -369,45 +370,58 @@ public class UsuarioController {
                 List<String> antecedents = regra.getAntecedents();
                 List<String> consequents = regra.getConsequents();
 
-                // Verificar se os materiais do usuário estão no antecedents da regra
+                // Verificar se os materiais do usuário estão no consequente da regra
                 boolean usuarioTemMateriaisSuficientes = false;
-                for (String antecedent : antecedents) {
-                    String[] antecedentMaterials = antecedent.split("\\s*,\\s*");
-                    boolean allMaterialsFound = true;
+                List<Material> materiaisConsequente = new ArrayList<>();
 
-                    for (String antecedentMaterial : antecedentMaterials) {
-                        boolean found = false;
-                        for (Material material : materiaisUsuario) {
-                            if (material.getNome().contains(antecedentMaterial)) {
-                                System.out.println("Material achado: " + material.getNome());
-                                found = true;
-                                break;
-                            }
+                for (String consequent : consequents) {
+                    for (Material material : materiaisUsuario) {
+                        if (material.getNome().contains(consequent)) {
+                            System.out.println("Material achado: " + material.getNome());
+                            materiaisConsequente.add(material);
+                            usuarioTemMateriaisSuficientes = true;
                         }
-                        if (!found) {
-                            allMaterialsFound = false;
-                            break;
-                        }
-                    }
-                    if (allMaterialsFound) {
-                        usuarioTemMateriaisSuficientes = true;
-                        break;
                     }
                 }
 
-                // Se o usuário tiver materiais suficientes, adicionar as receitas aos recomendados
+                // Se o usuário tiver materiais suficientes, buscar receitas com antecedentes correspondentes
                 if (usuarioTemMateriaisSuficientes) {
-                    for (String consequent : consequents) {
-                        List<ReceitaUtilizaMaterial> matchingMaterials = todasReceitasUtilizaMaterial.stream()
-                                .filter(utilizaMaterial -> utilizaMaterial.getMaterial().getNome().contains(consequent))
-                                .toList();
-                        for (ReceitaUtilizaMaterial utilizaMaterial : matchingMaterials) {
-                            System.out.println("Id receita: " + utilizaMaterial.getReceita().getIdReceita());
-                            System.out.println("Material: " + utilizaMaterial.getMaterial().getNome());
-                            Receita receita = utilizaMaterial.getReceita();
-                            if (!receitasRecomendadas.contains(receita)) {
-                                receitasRecomendadas.add(receita);
+                    for (String antecedent : antecedents) {
+                        String[] antecedentMaterials = antecedent.split("\\s*,\\s*");
+                        boolean allMaterialsFound = true;
+
+                        for (String antecedentMaterial : antecedentMaterials) {
+                            boolean found = false;
+                            for (Material material : materiaisConsequente) {
+                                if (material.getNome().contains(antecedentMaterial)) {
+                                    System.out.println("Material do antecedente encontrado: " + material.getNome());
+                                    found = true;
+                                    break;
+                                }
                             }
+                            if (!found) {
+                                allMaterialsFound = false;
+                                break;
+                            }
+                        }
+                        if (allMaterialsFound) {
+                            for (ReceitaUtilizaMaterial utilizaMaterial : todasReceitasUtilizaMaterial) {
+                                // Verificar se a receita utiliza todos os materiais do antecedente
+                                boolean receitaContemAntecedente = Arrays.stream(antecedentMaterials)
+                                        .allMatch(antecedentMaterial ->
+                                                utilizaMaterial.getMaterial().getNome().contains(antecedentMaterial)
+                                        );
+
+                                if (receitaContemAntecedente && utilizaMaterial.getMaterial().getNome().contains(consequents.get(0))) {
+                                    System.out.println("Id receita: " + utilizaMaterial.getReceita().getIdReceita());
+                                    System.out.println("Material: " + utilizaMaterial.getMaterial().getNome());
+                                    Receita receita = utilizaMaterial.getReceita();
+                                    if (!receitasRecomendadas.contains(receita)) {
+                                        receitasRecomendadas.add(receita);
+                                    }
+                                }
+                            }
+                            break;
                         }
                     }
                 }
