@@ -15,11 +15,19 @@ public class RegraAssociacaoService {
 
     public List<RegrasAssociacaoDTO> lerRegrasDeAssociacao() {
         List<RegrasAssociacaoDTO> regras = new ArrayList<>();
+        boolean firstLineSkipped = false;
+
         try {
             FileReader fileReader = new FileReader(ResourceUtils.getFile("python-scripts/regras.csv"));
             CSVReader csvReader = new CSVReader(fileReader);
             String[] line;
+
             while ((line = csvReader.readNext()) != null) {
+                if (!firstLineSkipped) {
+                    firstLineSkipped = true;
+                    continue;
+                }
+
                 List<String> antecedents = parseList(line[0]);
                 List<String> consequents = parseList(line[1]);
                 double confidence = Double.parseDouble(line[2]);
@@ -33,8 +41,7 @@ public class RegraAssociacaoService {
 
                 regras.add(regra);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return regras;
     }

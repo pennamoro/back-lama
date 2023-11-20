@@ -335,9 +335,6 @@ public class UsuarioController {
 
             //Pegar todas as receitas do usuário
             List<Receita> receitasUsuario = receitaService.buscarPorIdUsuario(id);
-            for(Receita receita: receitasUsuario){
-                System.out.println("receitas do usuario: " + receita.getNome());
-            }
 
             //Pegar receitas da lista pessoal
             List<Receita> receitasNaLista = new ArrayList<>();
@@ -346,18 +343,12 @@ public class UsuarioController {
                 receitasNaLista.add(lista.getReceita());
             }
             receitasUsuario.addAll(receitasNaLista);
-            for(Receita receita: receitasUsuario){
-                System.out.println("receitas do usuario final: " + receita.getNome());
-            }
 
             //Pegar todos os materiais do usuário
             List<UsuarioPossuiMaterial> meusMateriais = usuarioPossuiMaterialService.buscarPorIdUsuario(id);
             List<Material> materiaisUsuario = new ArrayList<>();
             for(UsuarioPossuiMaterial usuarioPossuiMaterial : meusMateriais){
                 materiaisUsuario.add(usuarioPossuiMaterial.getMaterial());
-            }
-            for(Material material: materiaisUsuario){
-                System.out.println("materiais do usuario: " + material.getNome());
             }
 
             //Pegar os materiais das receitas do usuario
@@ -373,12 +364,6 @@ public class UsuarioController {
             }
             //Verificar as regras de associação
             List<RegrasAssociacaoDTO> regrasAssociacao = regraAssociacaoService.lerRegrasDeAssociacao();
-            for(RegrasAssociacaoDTO regrasAssociacaoDTO: regrasAssociacao){
-                System.out.print(regrasAssociacaoDTO.getAntecedents());
-                System.out.print(" ");
-                System.out.print(regrasAssociacaoDTO.getConsequents());
-                System.out.println();
-            }
 
             for (RegrasAssociacaoDTO regra : regrasAssociacao) {
                 List<String> antecedents = regra.getAntecedents();
@@ -387,26 +372,41 @@ public class UsuarioController {
                 // Verificar se os materiais do usuário estão no antecedents da regra
                 boolean usuarioTemMateriaisSuficientes = false;
                 for (String antecedent : antecedents) {
-                    for (Material material : materiaisUsuario) {
-                        if (material.getNome().contains(antecedent)) {
-                            usuarioTemMateriaisSuficientes = true;
+                    String[] antecedentMaterials = antecedent.split("\\s*,\\s*");
+                    boolean allMaterialsFound = true;
+
+                    for (String antecedentMaterial : antecedentMaterials) {
+                        boolean found = false;
+                        for (Material material : materiaisUsuario) {
+                            if (material.getNome().contains(antecedentMaterial)) {
+                                System.out.println("Material achado: " + material.getNome());
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            allMaterialsFound = false;
                             break;
                         }
                     }
-                    if (usuarioTemMateriaisSuficientes) {
+                    if (allMaterialsFound) {
+                        usuarioTemMateriaisSuficientes = true;
                         break;
                     }
                 }
+
                 // Se o usuário tiver materiais suficientes, adicionar as receitas aos recomendados
                 if (usuarioTemMateriaisSuficientes) {
                     for (String consequent : consequents) {
-                        for (ReceitaUtilizaMaterial utilizaMaterial : todasReceitasUtilizaMaterial) {
-                            Material materialReceita = utilizaMaterial.getMaterial();
+                        List<ReceitaUtilizaMaterial> matchingMaterials = todasReceitasUtilizaMaterial.stream()
+                                .filter(utilizaMaterial -> utilizaMaterial.getMaterial().getNome().contains(consequent))
+                                .toList();
+                        for (ReceitaUtilizaMaterial utilizaMaterial : matchingMaterials) {
+                            System.out.println("Id receita: " + utilizaMaterial.getReceita().getIdReceita());
+                            System.out.println("Material: " + utilizaMaterial.getMaterial().getNome());
                             Receita receita = utilizaMaterial.getReceita();
-                            if (materialReceita.getNome().contains(consequent)) {
-                                if (!receitasRecomendadas.contains(receita)) {
-                                    receitasRecomendadas.add(receita);
-                                }
+                            if (!receitasRecomendadas.contains(receita)) {
+                                receitasRecomendadas.add(receita);
                             }
                         }
                     }
@@ -427,7 +427,6 @@ public class UsuarioController {
                 receita.setFoto(null);
             }
             return new ResponseEntity<>(receitasRecomendadas, HttpStatus.OK);
-
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
