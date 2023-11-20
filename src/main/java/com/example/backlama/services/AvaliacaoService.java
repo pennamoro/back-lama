@@ -2,6 +2,7 @@ package com.example.backlama.services;
 
 import com.example.backlama.models.Avaliacao;
 import com.example.backlama.repositories.AvaliacaoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public class AvaliacaoService {
     }
 
     public List<Avaliacao> listarTodas(){return avaliacaoRepository.findAll();}
+    @Transactional
+    public void deleteByReceitaId(Long idReceita){avaliacaoRepository.deleteByReceita_IdReceita(idReceita);}
 }

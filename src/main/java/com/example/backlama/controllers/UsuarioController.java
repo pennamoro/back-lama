@@ -217,8 +217,8 @@ public class UsuarioController {
         }
     }
 
-    @PostMapping("/{id_user}/listapessoal/{id_receita}/{progresso}")
-    public ResponseEntity<ListaPessoal> adicionarReceita(@PathVariable Long id_user, @PathVariable Long id_receita, @PathVariable String progresso){
+    @PostMapping("/{id_user}/addListapessoal/{id_receita}")
+    public ResponseEntity<ListaPessoal> adicionarReceita(@PathVariable Long id_user, @PathVariable Long id_receita){
         try {
             Usuario usuario = usuarioService.buscarUsuarioById(id_user);
             if(usuario == null){
@@ -228,7 +228,7 @@ public class UsuarioController {
             ListaPessoal listaPessoal = new ListaPessoal();
             listaPessoal.setUsuario(usuario);
             listaPessoal.setReceita(receita);
-            listaPessoal.setProgresso(progresso);
+            listaPessoal.setProgresso("LISTA_PESSOAL");
             ListaPessoal novaListaPessoal = listaPessoalService.criarListaPessoal(listaPessoal);
             return new ResponseEntity<>(novaListaPessoal, HttpStatus.OK);
         }catch (Exception e){
@@ -295,7 +295,7 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping("/{id_user}/listapessoal/{id_receita}/{progresso}")
+    @PutMapping("/{id_user}/editListapessoal/{id_receita}/{progresso}")
     public ResponseEntity<ListaPessoal> editarProgresso(@PathVariable Long id_user, @PathVariable Long id_receita, @PathVariable String progresso){
         try {
             Usuario usuario = usuarioService.buscarUsuarioById(id_user);

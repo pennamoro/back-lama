@@ -391,6 +391,7 @@ public class ReceitaController {
                 passosService.deleteByEtapasId(etapasId);
             }
             etapasService.deleteByReceitaId(id);
+            avaliacaoService.deleteByReceitaId(id);
             receitaService.deleteReceitaById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
