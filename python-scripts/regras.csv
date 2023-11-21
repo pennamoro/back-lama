@@ -1,8 +1,8 @@
 antecedents,consequents,confidence,lift
-"['Barbante 8 ', 'Lã algodão 4 ']","['Agulha de Crochê 4,0 mm']",1.0,3.7781954887218046
-"['Barbante 4 ', 'Lã algodão 8 ']","['Agulha de Crochê 4,0 mm']",0.9230769230769231,3.487565066512435
-"['Barbante 8 ', 'Lã algodão 8 ']","['Agulha de Crochê 4,0 mm']",0.9130434782608696,3.4496567505720828
-"['Lã algodão 8 ', 'Lã algodão 4 ']","['Agulha de Crochê 4,0 mm']",0.8846153846153846,3.34224985540775
+"['Lã algodão 4 ', 'Barbante 8 ']","['Agulha de Crochê 4,0 mm']",1.0,3.7781954887218046
+"['Lã algodão 8 ', 'Barbante 4 ']","['Agulha de Crochê 4,0 mm']",0.9230769230769231,3.487565066512435
+"['Lã algodão 8 ', 'Barbante 8 ']","['Agulha de Crochê 4,0 mm']",0.9130434782608696,3.4496567505720828
+"['Lã algodão 4 ', 'Lã algodão 8 ']","['Agulha de Crochê 4,0 mm']",0.8846153846153846,3.34224985540775
 ['Lã algodão 8 '],"['Agulha de Crochê 4,0 mm']",0.7814569536423841,2.95249713688194
 ['Olhos de Cachorro de Pelúcia 12mm'],['Lã Amigurumi  Pelúcia '],0.7777777777777778,3.1266666666666665
 ['Barbante 8 '],"['Agulha de Crochê 4,0 mm']",0.7699999999999999,2.909210526315789

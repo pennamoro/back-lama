@@ -1,8 +1,6 @@
 package com.example.backlama.controllers;
 
-import com.example.backlama.dto.EtapasDTO;
-import com.example.backlama.dto.ReceitaCriarDTO;
-import com.example.backlama.dto.ReceitaDTO;
+import com.example.backlama.dto.*;
 import com.example.backlama.models.*;
 import com.example.backlama.services.*;
 import org.springframework.http.HttpStatus;
@@ -323,13 +321,58 @@ public class ReceitaController {
     }
 
     @GetMapping("/filter/")
-    public ResponseEntity<List<ReceitaDTO>> filterRecipesByName(@RequestParam(name = "name", required = false) String nome){
+    public ResponseEntity<List<ReceitaAvaliacaoDTO>> filterRecipesByName(@RequestParam(name = "name", required = false) String nome){
         try {
             List<Receita> receitaList = receitaService.buscarReceitaPorNome(nome);
-            return getListResponseEntity(receitaList);
+            if (!receitaList.isEmpty()) {
+                List<ReceitaAvaliacaoDTO> receitaAvaliacaoDTOList = new ArrayList<>();
+
+                for (Receita receita : receitaList) {
+                    List<ReceitaUtilizaMaterial> receitaUtilizaMaterialList = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita());
+                    List<ReceitaSeparadaCategoria> receitaSeparadaCategoriaList = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita());
+                    List<Etapas> etapasList = etapasService.buscarEtapasPorIdReceita(receita.getIdReceita());
+                    List<Avaliacao> avaliacaoList = avaliacaoService.listarPorIdReceita(receita.getIdReceita());
+
+                    ReceitaAvaliacaoDTO receitaDTO = new ReceitaAvaliacaoDTO();
+                    receita.getUser().setSenha(null);
+                    receitaDTO.setReceita(receita);
+                    for(ReceitaUtilizaMaterial receitaUtilizaMaterial : receitaUtilizaMaterialList){
+                        receitaUtilizaMaterial.setReceita(null);
+                    }
+                    receitaDTO.setReceitaUtilizaMaterial(receitaUtilizaMaterialList);
+                    for(ReceitaSeparadaCategoria receitaSeparadaCategoria : receitaSeparadaCategoriaList){
+                        receitaSeparadaCategoria.setReceita(null);
+                    }
+                    receitaDTO.setReceitaSeparadaCategoria(receitaSeparadaCategoriaList);
+                    for(Etapas etapas : etapasList){
+                        etapas.setReceita(null);
+                    }
+                    receitaDTO.setEtapas(listEtapas(etapasList));
+                    List<AvaliacaoDTO> avaliacaoDTOList = getAvaliacaoDTOS(avaliacaoList);
+                    receitaDTO.setAvaliacoes(avaliacaoDTOList);
+                    receitaAvaliacaoDTOList.add(receitaDTO);
+                }
+                return new ResponseEntity<>(receitaAvaliacaoDTOList, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private static List<AvaliacaoDTO> getAvaliacaoDTOS(List<Avaliacao> avaliacaoList) {
+        List<AvaliacaoDTO> avaliacaoDTOList = new ArrayList<>();
+        for(Avaliacao avaliacao: avaliacaoList){
+            AvaliacaoDTO avaliacaoDTO = new AvaliacaoDTO();
+            avaliacaoDTO.setIdReceita(avaliacao.getReceita().getIdReceita());
+            avaliacaoDTO.setIdUsuario(avaliacao.getUser().getIdUsuario());
+            avaliacaoDTO.setTitulo(avaliacao.getTitulo());
+            avaliacaoDTO.setComentario(avaliacao.getComentario());
+            avaliacaoDTO.setEstrelas(avaliacao.getEstrelas());
+            avaliacaoDTOList.add(avaliacaoDTO);
+        }
+        return avaliacaoDTOList;
     }
 
     @GetMapping("/all")
