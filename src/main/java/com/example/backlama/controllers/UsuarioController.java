@@ -435,7 +435,6 @@ public class UsuarioController {
                 return new ResponseEntity<>(receitasRecomendadas, HttpStatus.OK);
             }
             receitasRecomendadas.addAll(receitaService.listarTodasReceitas());
-            receitasRecomendadas.removeAll(receitasNaLista);
             for(Receita receita : receitasRecomendadas){
                 receita.setUser(null);
                 receita.setFoto(null);
