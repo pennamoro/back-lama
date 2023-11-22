@@ -374,7 +374,7 @@ public class UsuarioController {
             }
 
             // Verificar as regras de associação
-            List<RegrasAssociacaoDTO> regrasAssociacaoMateriaisECategorias = regraAssociacaoService.lerRegrasDeAssociacao("python-scripts/regras-materiail-categoria.csv");
+            List<RegrasAssociacaoDTO> regrasAssociacaoMateriaisECategorias = regraAssociacaoService.lerRegrasDeAssociacao("python-scripts/regras-material-categoria.csv");
 
             for (RegrasAssociacaoDTO regra : regrasAssociacaoMateriaisECategorias) {
                 List<String> antecedents = regra.getAntecedents();
