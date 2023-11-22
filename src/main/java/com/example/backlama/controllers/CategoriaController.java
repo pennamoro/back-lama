@@ -20,22 +20,9 @@ public class CategoriaController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Categoria>> visualizarCategoria(){
+    public ResponseEntity<List<Categoria>> listarCategorias(){
         try {
             List<Categoria> categorias = categoriaService.mostrarCategoria();
-            if (categorias != null) {
-                return new ResponseEntity<>(categorias, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @GetMapping("/filter")
-    public ResponseEntity<List<Categoria>> filtrarCategorias(@RequestParam(name = "descricao", required = false) String descricao){
-        try {
-            List<Categoria> categorias = categoriaService.filtrarCategoria(descricao);
             if (categorias != null) {
                 return new ResponseEntity<>(categorias, HttpStatus.OK);
             } else {

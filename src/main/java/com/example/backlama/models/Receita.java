@@ -28,10 +28,6 @@ public class Receita {
     @JsonProperty("visibilidade")
     private String visibilidade;
 
-    @Column(name = "cores", nullable = false)
-    @JsonProperty("cores")
-    private Boolean cores;
-
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false)
     private Usuario usuario;
@@ -76,14 +72,6 @@ public class Receita {
 
     public void setVisibilidade(String visibilidade) {
         this.visibilidade = visibilidade;
-    }
-
-    public Boolean getCores() {
-        return cores;
-    }
-
-    public void setCores(Boolean cores) {
-        this.cores = cores;
     }
 
     public Usuario getUser() {

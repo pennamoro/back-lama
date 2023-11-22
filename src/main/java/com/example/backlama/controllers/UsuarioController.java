@@ -51,7 +51,7 @@ public class UsuarioController {
 
     @PostMapping("/register")
     @PermitAll
-    public ResponseEntity<Usuario> registerUser(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> registrarUsuario(@RequestBody Usuario usuario) {
         try {
             Usuario registeredUsuario = usuarioService.registerUsuario(usuario);
             registeredUsuario.setFoto(fotoBase);
@@ -159,7 +159,7 @@ public class UsuarioController {
         }
     }
     @PutMapping("/editar/{id}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario updatedUsuario) {
+    public ResponseEntity<Usuario> editarUsuario(@PathVariable Long id, @RequestBody Usuario updatedUsuario) {
         Usuario usuario = usuarioService.buscarUsuarioById(id);
         if (usuario == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -186,7 +186,7 @@ public class UsuarioController {
         }
     }
     @PutMapping("/material/{id}")
-    public ResponseEntity<String> editMaterial(@PathVariable Long id, @RequestBody List<Long> materialListId){
+    public ResponseEntity<String> editarMateriais(@PathVariable Long id, @RequestBody List<Long> materialListId){
         Usuario usuario = usuarioService.buscarUsuarioById(id);
         if(usuario == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -264,7 +264,7 @@ public class UsuarioController {
         }
     }
     @GetMapping("{idUsuario}/listapessoal/{idReceita}")
-    public ResponseEntity<ListaPessoal> listarListaPessoal(@PathVariable Long idUsuario, @PathVariable Long idReceita){
+    public ResponseEntity<ListaPessoal> visualizarReceitaListaPessoal(@PathVariable Long idUsuario, @PathVariable Long idReceita){
         try {
             Usuario usuario = usuarioService.buscarUsuarioById(idUsuario);
             if(usuario == null){
@@ -313,7 +313,7 @@ public class UsuarioController {
         }
     }
     @GetMapping("/minhasreceitas/{id}")
-    public ResponseEntity<List<Receita>> visualizarReceitas(@PathVariable Long id){
+    public ResponseEntity<List<Receita>> visualizarReceitasUsuario(@PathVariable Long id){
         try {
             Usuario usuario = usuarioService.buscarUsuarioById(id);
             if(usuario == null){

@@ -180,7 +180,6 @@ public class ReceitaController {
             existingReceita.setFoto(receitaCriarDTO.getReceita().getFoto());
             existingReceita.setNivelExperiencia(receitaCriarDTO.getReceita().getNivelExperiencia());
             existingReceita.setVisibilidade(receitaCriarDTO.getReceita().getVisibilidade());
-            existingReceita.setCores(receitaCriarDTO.getReceita().getCores());
             existingReceita.setUser(usuario);
 
             List<Long> receitaUtilizaMaterialIds = receitaCriarDTO.getReceitaUtilizaMaterialIds();
@@ -238,56 +237,6 @@ public class ReceitaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping("/filter/attributes")
-    public ResponseEntity<List<Receita>> filterRecipesByAttributes(
-            @RequestParam(name = "idMaterial", required = false) Long idMaterial,
-            @RequestParam(name = "idCategoria", required = false) Long idCategoria
-    ) {
-        try {
-            List<Receita> receitaList = new ArrayList<>();
-            List<Receita> todasReceitas = receitaService.listarTodasReceitas();
-
-            if (idMaterial == null && idCategoria == null) {
-                return new ResponseEntity<>(todasReceitas, HttpStatus.OK);
-            }
-
-            List<Receita> combinedRecipes = new ArrayList<>();
-
-            if (idCategoria != null) {
-                List<ReceitaSeparadaCategoria> categorias = receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdCategoria(idCategoria);
-                for (ReceitaSeparadaCategoria categoria : categorias) {
-                    if (!combinedRecipes.contains(categoria.getReceita())) {
-                        combinedRecipes.add(categoria.getReceita());
-                    }
-                }
-            }
-
-            if (idMaterial != null) {
-                List<ReceitaUtilizaMaterial> materiais = receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdMaterial(idMaterial);
-                for (ReceitaUtilizaMaterial material : materiais) {
-                    if (!combinedRecipes.contains(material.getReceita())) {
-                        combinedRecipes.add(material.getReceita());
-                    }
-                }
-            }
-            for (Receita receita : todasReceitas) {
-                if (combinedRecipes.contains(receita)) {
-                    receitaList.add(receita);
-                }
-            }
-            for(Receita receita : receitaList){
-                receita.getUser().setSenha(null);
-            }
-            if (!receitaList.isEmpty()) {
-                return new ResponseEntity<>(receitaList, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
     private ResponseEntity<List<ReceitaDTO>> getListResponseEntity(List<Receita> receitaList) {
         if (!receitaList.isEmpty()) {
             List<ReceitaDTO> receitaDTOs = new ArrayList<>();
@@ -321,7 +270,7 @@ public class ReceitaController {
     }
 
     @GetMapping("/filter/")
-    public ResponseEntity<List<ReceitaAvaliacaoDTO>> filterRecipesByName(@RequestParam(name = "name", required = false) String nome){
+    public ResponseEntity<List<ReceitaAvaliacaoDTO>> filtrarReceitas(@RequestParam(name = "name", required = false) String nome){
         try {
             List<Receita> receitaList = receitaService.buscarReceitaPorNome(nome);
             if (!receitaList.isEmpty()) {
@@ -376,7 +325,7 @@ public class ReceitaController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ReceitaDTO>> listarTodasReceitas() {
+    public ResponseEntity<List<ReceitaDTO>> listarReceitas() {
         try {
             List<Receita> receitas = receitaService.listarTodasReceitas();
 

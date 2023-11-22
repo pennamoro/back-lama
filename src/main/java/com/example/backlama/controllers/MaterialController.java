@@ -19,7 +19,7 @@ public class MaterialController {
         this.tipoService = tipoService;
     }
     @PostMapping("/criar")
-    public ResponseEntity<Material> createMaterial(@RequestBody MaterialDTO material){
+    public ResponseEntity<Material> criarMaterial(@RequestBody MaterialDTO material){
         try{
             Material novoMaterial = new Material();
             novoMaterial.setNome(material.getNome());
@@ -31,7 +31,7 @@ public class MaterialController {
         }
     }
     @GetMapping("/all")
-    public ResponseEntity<List<Material>> visualizarMaterial(){
+    public ResponseEntity<List<Material>> listarMateriais(){
         try {
             List<Material> material = materialService.mostrarMaterial();
             if (material != null) {
@@ -49,19 +49,6 @@ public class MaterialController {
             List<Material> materialPorTipo = materialService.bucarMaterialPorIdTipo(id);
             if(materialPorTipo != null){
                 return new ResponseEntity<>(materialPorTipo, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @GetMapping("/filter")
-    public ResponseEntity<List<Material>> filtrarMaterial(@RequestParam(name = "nome", required = false) String nome){
-        try {
-            List<Material> material = materialService.filtrarMaterial(nome);
-            if (material != null) {
-                return new ResponseEntity<>(material, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
