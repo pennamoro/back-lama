@@ -51,7 +51,7 @@ public class ReceitaController {
         }
     }
 
-    private List<EtapasDTO> listEtapas(List<Etapas> etapas) {
+    public List<EtapasDTO> listEtapas(List<Etapas> etapas) {
         List<EtapasDTO> etapasDTOList = new ArrayList<>();
 
         for (Etapas etapa : etapas) {
@@ -361,7 +361,7 @@ public class ReceitaController {
         }
     }
 
-    private static List<AvaliacaoDTO> getAvaliacaoDTOS(List<Avaliacao> avaliacaoList) {
+    public List<AvaliacaoDTO> getAvaliacaoDTOS(List<Avaliacao> avaliacaoList) {
         List<AvaliacaoDTO> avaliacaoDTOList = new ArrayList<>();
         for(Avaliacao avaliacao: avaliacaoList){
             AvaliacaoDTO avaliacaoDTO = new AvaliacaoDTO();
@@ -391,8 +391,8 @@ public class ReceitaController {
         try {
             List<Avaliacao> avaliacoes = avaliacaoService.listarTodas();
 
-            Map<Receita, Integer> totalStarsMap = new HashMap<>();
-            Map<Receita, Integer> reviewCountMap = new HashMap<>();
+            Map<Receita, Integer> totalStarsMap = new LinkedHashMap<>();
+            Map<Receita, Integer> reviewCountMap = new LinkedHashMap<>();
 
             for (Avaliacao avaliacao : avaliacoes) {
                 Receita receita = avaliacao.getReceita();
@@ -404,9 +404,11 @@ public class ReceitaController {
             }
 
             List<Receita> melhores = new ArrayList<>(totalStarsMap.keySet());
-            melhores.sort(Comparator.comparing((Receita r) ->
+
+            melhores.sort(Comparator.comparingDouble(r ->
                     (double) totalStarsMap.get(r) / reviewCountMap.get(r)).reversed());
-            for(Receita receita : melhores){
+
+            for (Receita receita : melhores) {
                 receita.setUser(null);
                 receita.setFoto(null);
             }
