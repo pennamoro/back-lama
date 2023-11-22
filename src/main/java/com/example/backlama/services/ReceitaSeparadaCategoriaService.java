@@ -31,4 +31,6 @@ public class ReceitaSeparadaCategoriaService {
     public void deleteAll(){
         receitaSeparadaCategoriaRepository.deleteAll();
     }
+
+    public List<ReceitaSeparadaCategoria> listAll(){return receitaSeparadaCategoriaRepository.findAll();}
 }

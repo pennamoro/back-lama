@@ -2,9 +2,11 @@ package com.example.backlama.controllers;
 
 import com.example.backlama.dto.RegrasAssociacaoDTO;
 import com.example.backlama.services.RegraAssociacaoService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +22,8 @@ public class RegrasController {
     @GetMapping("/all")
     public ResponseEntity<List<RegrasAssociacaoDTO>> listarTodas(){
         try{
-            List<RegrasAssociacaoDTO> regrasAssociacaoDTOList =  regraAssociacaoService.lerRegrasDeAssociacao();
-            return new ResponseEntity<>(regrasAssociacaoDTOList, HttpStatus.OK);
+                List<RegrasAssociacaoDTO> regrasAssociacaoDTOList =  regraAssociacaoService.lerRegrasDeAssociacao("python-scripts/regras-ambos.csv");
+                return new ResponseEntity<>(regrasAssociacaoDTOList, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

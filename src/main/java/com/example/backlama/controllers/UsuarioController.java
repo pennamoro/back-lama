@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -30,13 +29,14 @@ public class UsuarioController {
     private final ReceitaController receitaController;
     private final MaterialService materialService;
     private final ReceitaUtilizaMaterialService receitaUtilizaMaterialService;
+    private final ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService;
     private final RegraAssociacaoService regraAssociacaoService;
 
     @Value("${aplication.foto}")
     private String fotoBase;
-
     public UsuarioController(UsuarioService usuarioService, EmailService emailService, UsuarioPossuiMaterialService usuarioPossuiMaterialService, ListaPessoalService listaPessoalService,
-                             ReceitaService receitaService, ReceitaController receitaController, MaterialService materialService, RegraAssociacaoService regraAssociacaoService, ReceitaUtilizaMaterialService receitaUtilizaMaterialService) {
+                             ReceitaService receitaService, ReceitaController receitaController, MaterialService materialService, RegraAssociacaoService regraAssociacaoService,
+                             ReceitaUtilizaMaterialService receitaUtilizaMaterialService, ReceitaSeparadaCategoriaService receitaSeparadaCategoriaService ) {
         this.usuarioService = usuarioService;
         this.emailService = emailService;
         this.usuarioPossuiMaterialService = usuarioPossuiMaterialService;
@@ -46,6 +46,7 @@ public class UsuarioController {
         this.receitaController = receitaController;
         this.regraAssociacaoService = regraAssociacaoService;
         this.receitaUtilizaMaterialService = receitaUtilizaMaterialService;
+        this.receitaSeparadaCategoriaService = receitaSeparadaCategoriaService;
     }
 
     @PostMapping("/register")
@@ -325,54 +326,70 @@ public class UsuarioController {
         }
     }
     @GetMapping("/{id}/apriori")
-    public ResponseEntity<List<Receita>> recomendacoes(@PathVariable Long id){
-        try{
+    public ResponseEntity<List<Receita>> recomendacoesMateriaisECategorias(@PathVariable Long id) {
+        try {
             Usuario usuario = usuarioService.buscarUsuarioById(id);
-            if(usuario == null){
+            if (usuario == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             List<Receita> receitasRecomendadas = new ArrayList<>();
             List<ReceitaUtilizaMaterial> todasReceitasUtilizaMaterial = receitaUtilizaMaterialService.listarTodos();
+            List<ReceitaSeparadaCategoria> todasReceitaSeparadaCategoria = receitaSeparadaCategoriaService.listAll();
 
-            //Pegar todas as receitas do usuário
+            // Pegar todas as receitas do usuário
             List<Receita> receitasUsuario = receitaService.buscarPorIdUsuario(id);
 
-            //Pegar receitas da lista pessoal
+            // Pegar receitas da lista pessoal
             List<Receita> receitasNaLista = new ArrayList<>();
             List<ListaPessoal> listaPessoal = listaPessoalService.buscarPorIdUsuario(id);
-            for(ListaPessoal lista : listaPessoal){
+            for (ListaPessoal lista : listaPessoal) {
                 receitasNaLista.add(lista.getReceita());
             }
             receitasUsuario.addAll(receitasNaLista);
 
-            //Pegar todos os materiais do usuário
+            // Pegar todos os materiais do usuário
             List<UsuarioPossuiMaterial> meusMateriais = usuarioPossuiMaterialService.buscarPorIdUsuario(id);
             List<Material> materiaisUsuario = new ArrayList<>();
-            for(UsuarioPossuiMaterial usuarioPossuiMaterial : meusMateriais){
+            for (UsuarioPossuiMaterial usuarioPossuiMaterial : meusMateriais) {
                 materiaisUsuario.add(usuarioPossuiMaterial.getMaterial());
             }
 
-            //Pegar os materiais das receitas do usuario
+            // Pegar os materiais das receitas do usuario
             List<ReceitaUtilizaMaterial> receitaUtilizaMaterialList = new ArrayList<>();
-            for(Receita receita : receitasUsuario){
+            for (Receita receita : receitasUsuario) {
                 receitaUtilizaMaterialList.addAll(receitaUtilizaMaterialService.buscarReceitaUtilizaMaterialPorIdReceita(receita.getIdReceita()));
             }
-            for(ReceitaUtilizaMaterial receitaUtilizaMaterial : receitaUtilizaMaterialList){
+            for (ReceitaUtilizaMaterial receitaUtilizaMaterial : receitaUtilizaMaterialList) {
                 materiaisUsuario.add(receitaUtilizaMaterial.getMaterial());
             }
 
-            //Verificar as regras de associação
-            List<RegrasAssociacaoDTO> regrasAssociacao = regraAssociacaoService.lerRegrasDeAssociacao();
+            // Pegar as categorias das receitas do usuario
+            List<Categoria> categoriasUsuario = new ArrayList<>();
+            List<ReceitaSeparadaCategoria> receitaSeparadaCategoriaList = new ArrayList<>();
+            for (Receita receita : receitasUsuario) {
+                receitaSeparadaCategoriaList.addAll(receitaSeparadaCategoriaService.buscarReceitaSeparadaCategoriaPorIdReceita(receita.getIdReceita()));
+            }
+            for (ReceitaSeparadaCategoria receitaSeparadaCategoria : receitaSeparadaCategoriaList) {
+                categoriasUsuario.add(receitaSeparadaCategoria.getCategoria());
+            }
 
-            for (RegrasAssociacaoDTO regra : regrasAssociacao) {
+            // Verificar as regras de associação
+            List<RegrasAssociacaoDTO> regrasAssociacaoMateriaisECategorias = regraAssociacaoService.lerRegrasDeAssociacao("python-scripts/regras-materiail-categoria.csv");
+
+            for (RegrasAssociacaoDTO regra : regrasAssociacaoMateriaisECategorias) {
                 List<String> antecedents = regra.getAntecedents();
                 List<String> consequents = regra.getConsequents();
 
-                // Verificar se os materiais do usuário estão no antecedents da regra
-                boolean usuarioTemMateriais = materiaisUsuario.stream().anyMatch(materialUsuario -> antecedents.stream().anyMatch(antecedent -> materialUsuario.getNome().contains(antecedent)));
+                // Checar o tipo dos antecedentes
+                boolean isMaterialAntecedent = materiaisUsuario.stream().anyMatch(materialUsuario -> antecedents.get(0).contains(materialUsuario.getNome()));
+                boolean isCategoriaAntecedent = categoriasUsuario.stream().anyMatch(categoriaUsuario -> antecedents.get(0).contains(categoriaUsuario.getDescricao()));
 
-                // Se os materiais do usuário estiverem na regra, adicionar as receitas aos recomendados
-                if (usuarioTemMateriais) {
+                // Verificar se os materiais ou categorias do usuário estão nos antecedents da regra
+                boolean usuarioTemMateriais = isMaterialAntecedent || (antecedents.size() > 1 && materiaisUsuario.stream().anyMatch(materialUsuario -> antecedents.get(1).contains(materialUsuario.getNome())));
+                boolean usuarioTemCategorias = isCategoriaAntecedent || (antecedents.size() > 1 && categoriasUsuario.stream().anyMatch(categoriaUsuario -> antecedents.get(1).contains(categoriaUsuario.getDescricao())));
+
+                // Se os materiais ou categorias do usuário estiverem na regra, adicionar as receitas aos recomendados
+                if (usuarioTemMateriais || usuarioTemCategorias) {
                     for (String consequent : consequents) {
                         for (ReceitaUtilizaMaterial utilizaMaterial : todasReceitasUtilizaMaterial) {
                             Material materialReceita = utilizaMaterial.getMaterial();
@@ -384,20 +401,30 @@ public class UsuarioController {
                                 }
                             }
                         }
+                        for (ReceitaSeparadaCategoria separadaCategoria : todasReceitaSeparadaCategoria) {
+                            Categoria categoriaReceita = separadaCategoria.getCategoria();
+                            Receita receita = separadaCategoria.getReceita();
+                            // Se a categoria da receita corresponde a um consequent, adicione a receita à lista
+                            if (categoriaReceita.getDescricao().contains(consequent)) {
+                                if (!receitasRecomendadas.contains(receita)) {
+                                    receitasRecomendadas.add(receita);
+                                }
+                            }
+                        }
                     }
                 }
             }
-            if (!receitasRecomendadas.isEmpty()){
+            if (!receitasRecomendadas.isEmpty()) {
                 receitasRecomendadas.removeAll(receitasNaLista);
-                for(Receita receita : receitasRecomendadas){
+                for (Receita receita : receitasRecomendadas) {
                     receita.setUser(null);
                     receita.setFoto(null);
                 }
                 return new ResponseEntity<>(receitasRecomendadas, HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>(receitasRecomendadas, HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

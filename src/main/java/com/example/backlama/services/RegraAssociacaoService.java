@@ -13,12 +13,12 @@ import java.util.List;
 @Service
 public class RegraAssociacaoService {
 
-    public List<RegrasAssociacaoDTO> lerRegrasDeAssociacao() {
+    public List<RegrasAssociacaoDTO> lerRegrasDeAssociacao(String path) {
         List<RegrasAssociacaoDTO> regras = new ArrayList<>();
         boolean firstLineSkipped = false;
 
         try {
-            FileReader fileReader = new FileReader(ResourceUtils.getFile("python-scripts/regras.csv"));
+            FileReader fileReader = new FileReader(ResourceUtils.getFile(path));
             CSVReader csvReader = new CSVReader(fileReader);
             String[] line;
 
