@@ -22,7 +22,7 @@ public class RegrasController {
     @GetMapping("/all")
     public ResponseEntity<List<RegrasAssociacaoDTO>> listarTodas(){
         try{
-                List<RegrasAssociacaoDTO> regrasAssociacaoDTOList =  regraAssociacaoService.lerRegrasDeAssociacao("python-scripts/regras-ambos.csv");
+                List<RegrasAssociacaoDTO> regrasAssociacaoDTOList =  regraAssociacaoService.lerRegrasDeAssociacao("python-scripts/regras-material-categoria.csv");
                 return new ResponseEntity<>(regrasAssociacaoDTOList, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

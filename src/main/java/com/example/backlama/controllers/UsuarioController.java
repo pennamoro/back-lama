@@ -417,7 +417,7 @@ public class UsuarioController {
                 }
             }
             if (!receitasRecomendadas.isEmpty()) {
-                receitasRecomendadas.removeAll(receitasNaLista);
+                receitasRecomendadas.removeAll(receitasUsuario);
                 for (Receita receita : receitasRecomendadas) {
                     receita.setUser(null);
                     receita.setFoto(null);

@@ -1,40 +1,10 @@
 antecedents,consequents,confidence,lift
-"['Lã Amigurumi  Pelúcia', 'outros']",['diversos'],1.0,30.333333333333332
-"['diversos', 'Lã Amigurumi  Pelúcia']",['outros'],1.0,30.333333333333332
-"['Lã algodão 4', 'Barbante 8']","['Agulha de Crochê 4,0 mm']",1.0,3.763157894736842
-['outros'],['diversos'],1.0,30.333333333333332
-['diversos'],['outros'],1.0,30.333333333333332
-"['Barbante 4', 'Lã algodão 8']","['Agulha de Crochê 4,0 mm']",0.923076923076923,3.4736842105263155
-"['Barbante 8', 'Lã algodão 8']","['Agulha de Crochê 4,0 mm']",0.9130434782608696,3.435926773455378
-"['Lã algodão 4', 'Lã algodão 8']","['Agulha de Crochê 4,0 mm']",0.8846153846153845,3.328947368421052
-['Lã algodão 8'],"['Agulha de Crochê 4,0 mm']",0.7814569536423841,2.94074590449634
-['Barbante 8'],"['Agulha de Crochê 4,0 mm']",0.7777777777777779,2.9269005847953222
-['Olhos de Cachorro de Pelúcia 12mm'],['Lã Amigurumi  Pelúcia'],0.7777777777777777,3.1267291387773315
-['Focinho de Porco 18mm'],['Lã Amigurumi Soft'],0.7647058823529412,3.1243697478991597
-['Barbante 4'],"['Agulha de Crochê 4,0 mm']",0.75,2.8223684210526314
-['Lã algodão 4'],"['Agulha de Crochê 4,0 mm']",0.7460317460317459,2.8074352548036754
-['Boca de Sorriso 15mm'],['Lã Amigurumi Soft'],0.736842105263158,3.0105263157894737
-['Focinho de Gato 10mm'],['Lã Amigurumi  Pelúcia'],0.7222222222222222,2.9033913431503793
-['Chapéu de Sol'],['Lã Amigurumi Soft'],0.7222222222222222,2.9507936507936505
-['Boca de Boneca 12mm'],['Lã Amigurumi Soft'],0.6875,2.8089285714285714
-['Focinho de Cachorro 12mm'],['Lã Amigurumi  Pelúcia'],0.6842105263157896,2.7505812724582546
-['Focinho de Cachorro 12mm'],['Lã Amigurumi Soft'],0.6842105263157896,2.7954887218045115
-['Focinho de Porco 20mm'],['Lã Amigurumi  Pelúcia'],0.65,2.6130522088353416
-['Óculos de Natação'],['Lã Amigurumi Soft'],0.6470588235294118,2.6436974789915966
-['Olhos de Cachorro de Botão 8mm'],['Lã Amigurumi Soft'],0.6363636363636364,2.5999999999999996
-['Olhos de Cachorro de Botão 8mm'],['Lã Amigurumi  Pelúcia'],0.6363636363636364,2.558232931726908
-['Olhos de Cachorro de Botão 6mm'],['Lã Amigurumi Soft'],0.6315789473684211,2.580451127819549
-['Olhos de Cachorro de Botão 6mm'],['Lã Amigurumi  Pelúcia'],0.6315789473684211,2.5389980976537734
-['Boca de Cachorro 12mm'],['Lã Amigurumi Soft'],0.6153846153846153,2.514285714285714
-['Chapéu de Palha'],['Lã Amigurumi  Pelúcia'],0.611111111111111,2.456715751896475
-['Boca de Sorriso 20mm'],['Lã Amigurumi  Pelúcia'],0.611111111111111,2.456715751896475
-['Chapéu de Palha'],['Lã Amigurumi Soft'],0.611111111111111,2.4968253968253964
-['Olhos de Gato de Plástico 6mm'],['Lã Amigurumi  Pelúcia'],0.6086956521739131,2.4470054129561727
-['Óculos de Esportes'],['Lã Amigurumi Soft'],0.6,2.451428571428571
-['Óculos de Mergulho'],['Lã Amigurumi Soft'],0.6,2.451428571428571
-['Focinho de Porco 20mm'],['Lã Amigurumi Soft'],0.6,2.451428571428571
-['Óculos de Esportes'],['Lã Amigurumi  Pelúcia'],0.5599999999999999,2.2512449799196785
-['Óculos de Mergulho'],['Lã Amigurumi  Pelúcia'],0.55,2.2110441767068276
-['Chapéu de Inverno'],['Lã Amigurumi Soft'],0.55,2.2471428571428573
-['Chapéu de Inverno'],['Lã Amigurumi  Pelúcia'],0.55,2.2110441767068276
-['Olhos de Gato de Plástico 6mm'],['Lã Amigurumi Soft'],0.5217391304347826,2.1316770186335403
+['Marcador de pontos'],['Agulha de tapeçaria'],1.0,3.5
+['Top Cropped'],"['Agulha de Crochê 2,0 mm']",0.75,2.625
+['Lã algodão 4'],"['Agulha de Crochê 3,0 mm']",0.75,3.5
+['Top Cropped'],['Tesoura'],0.75,2.625
+"['Agulha de Crochê 2,0 mm']",['Lã algodão 2'],0.5,1.75
+['Lã algodão 2'],"['Agulha de Crochê 2,0 mm']",0.5,1.75
+"['Agulha de Crochê 3,0 mm']",['Lã algodão 4'],0.5,3.5
+['Agulha de tapeçaria'],['Tesoura'],0.5,1.75
+['Tesoura'],['Agulha de tapeçaria'],0.5,1.75
