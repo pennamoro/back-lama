@@ -50,7 +50,10 @@ public class UsuarioService {
 
     public Map<String, Object> loginUsuario(String email, String senha) {
         Usuario usuario = usuarioRepository.findByEmail(email);
-        if (usuario == null || !passwordEncoder.matches(senha, usuario.getSenha())) {
+        if (usuario == null){
+            throw new RuntimeException("Usuario não encontrado");
+        }
+        if(!passwordEncoder.matches(senha, usuario.getSenha())) {
             throw new RuntimeException("Credenciais inválidas");
         }
         if (!usuario.isConfirmed()){

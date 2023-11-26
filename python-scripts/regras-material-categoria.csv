@@ -1,10 +1,12 @@
 antecedents,consequents,confidence,lift
-['Marcador de pontos'],['Agulha de tapeçaria'],1.0,3.5
-['Top Cropped'],"['Agulha de Crochê 2,0 mm']",0.75,2.625
-['Lã algodão 4'],"['Agulha de Crochê 3,0 mm']",0.75,3.5
-['Top Cropped'],['Tesoura'],0.75,2.625
-"['Agulha de Crochê 2,0 mm']",['Lã algodão 2'],0.5,1.75
-['Lã algodão 2'],"['Agulha de Crochê 2,0 mm']",0.5,1.75
-"['Agulha de Crochê 3,0 mm']",['Lã algodão 4'],0.5,3.5
-['Agulha de tapeçaria'],['Tesoura'],0.5,1.75
-['Tesoura'],['Agulha de tapeçaria'],0.5,1.75
+['Fita métrica'],['Tesoura'],1.0,4.857142857142858
+"['Agulha de Crochê 5,0 mm']",['Agulha de tapeçaria'],0.7999999999999999,2.7199999999999998
+['Top Cropped'],['Tesoura'],0.7999999999999999,3.8857142857142857
+['Marcador de pontos'],['Agulha de tapeçaria'],0.7142857142857143,2.4285714285714284
+['Amigurumis'],['Lã Amigurumi '],0.7142857142857143,5.396825396825397
+['Tesoura'],['Agulha de tapeçaria'],0.6428571428571429,2.185714285714286
+['Barbante 2'],"['Agulha de Crochê 2,0 mm']",0.625,3.035714285714286
+"['Agulha de Crochê 2,5 mm']",['Agulha de tapeçaria'],0.625,2.125
+['Lã algodão 2'],"['Agulha de Crochê 2,0 mm']",0.5833333333333333,2.833333333333333
+['Lã Amigurumi '],['Amigurumis'],0.5555555555555556,5.396825396825397
+"['Agulha de Crochê 2,0 mm']",['Lã algodão 2'],0.5,2.833333333333333

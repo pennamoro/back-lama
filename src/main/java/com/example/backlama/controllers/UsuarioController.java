@@ -53,8 +53,8 @@ public class UsuarioController {
     @PermitAll
     public ResponseEntity<Usuario> registrarUsuario(@RequestBody Usuario usuario) {
         try {
+            usuario.setFoto(fotoBase);
             Usuario registeredUsuario = usuarioService.registerUsuario(usuario);
-            registeredUsuario.setFoto(fotoBase);
             emailService.sendConfirmationEmail(registeredUsuario);
             return new ResponseEntity<>(registeredUsuario, HttpStatus.CREATED);
         }catch (Exception e){
@@ -86,6 +86,7 @@ public class UsuarioController {
             Map<String, Object> response = usuarioService.loginUsuario(usuario.getEmail(), usuario.getSenha());
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
+            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -453,6 +454,20 @@ public class UsuarioController {
             }
             emailService.sendDeleteEmail(usuario);
             usuarioService.deleteUsuario(usuario);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/admin/{id}")
+    public ResponseEntity<String> adminUsuario(@PathVariable Long id){
+        try{
+            Usuario usuario = usuarioService.buscarUsuarioById(id);
+            if(usuario == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            usuario.setAdmin(true);
+            usuarioService.updateUsuario(usuario);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

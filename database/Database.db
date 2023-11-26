@@ -1,0 +1,84 @@
+CREATE TABLE usuario (
+    id_usuario SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    apelido VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    nivel_experiencia VARCHAR(255) NOT NULL,
+    foto text,
+    is_admin BOOLEAN,
+	confirmed BOOLEAN NOT NULL
+);
+
+CREATE TABLE receita (
+    id_receita SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    foto TEXT NOT NULL,
+    nivel_experiencia VARCHAR(255) NOT NULL,
+    visibilidade VARCHAR(255) NOT NULL,
+    cores BOOLEAN NOT NULL,
+    id_usuario INTEGER REFERENCES usuario(id_usuario) NOT NULL
+);
+
+CREATE TABLE avaliacao (
+    id_avaliacao SERIAL PRIMARY KEY,
+    id_receita INTEGER REFERENCES receita(id_receita),
+    id_usuario INTEGER REFERENCES usuario(id_usuario),
+    estrelas INTEGER NOT NULL,
+    comentario TEXT NOT NULL,
+    titulo VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE lista_pessoal (
+    id_lista_pessoal SERIAL PRIMARY KEY,
+    id_receita INTEGER REFERENCES receita(id_receita),
+    id_usuario INTEGER REFERENCES usuario(id_usuario),
+    progresso VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE tipo (
+    id_tipo SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE material (
+    id_material SERIAL PRIMARY KEY,
+    id_tipo INTEGER REFERENCES tipo(id_tipo),
+    nome VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE receita_utiliza_material (
+    id_receita_utiliza_material SERIAL PRIMARY KEY,
+    id_receita INTEGER REFERENCES receita(id_receita),
+    id_material INTEGER REFERENCES material(id_material)
+);
+
+CREATE TABLE etapas (
+    id_etapas SERIAL PRIMARY KEY,
+    id_receita INTEGER REFERENCES receita(id_receita),
+    descricao TEXT NOT NULL
+);
+
+CREATE TABLE passos (
+    id_passos SERIAL PRIMARY KEY,
+    id_etapas INTEGER REFERENCES etapas(id_etapas),
+    descricao TEXT NOT NULL
+);
+
+CREATE TABLE categoria (
+    id_categoria SERIAL PRIMARY KEY,
+    descricao TEXT NOT NULL
+);
+
+CREATE TABLE receita_separada_categoria (
+    id_receita_separada_categoria SERIAL PRIMARY KEY,
+    id_receita INTEGER REFERENCES receita(id_receita),
+    id_categoria INTEGER REFERENCES categoria(id_categoria)
+);
+
+CREATE TABLE usuario_possui_material (
+    id_usuario_possui_material SERIAL PRIMARY KEY,
+    id_usuario INTEGER REFERENCES usuario(id_usuario) NOT NULL,
+    id_material INTEGER REFERENCES material(id_material) NOT NULL,
+	UNIQUE (id_usuario, id_material)
+);
