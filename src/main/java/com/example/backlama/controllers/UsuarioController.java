@@ -86,7 +86,6 @@ public class UsuarioController {
             Map<String, Object> response = usuarioService.loginUsuario(usuario.getEmail(), usuario.getSenha());
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
