@@ -1,36 +1,51 @@
 antecedents,consequents,confidence,lift
-"['Enchimento acrílico', 'Bichinhos']",['Amigurumis'],1.0,6.157894736842105
-"['Amigurumis', 'Bichinhos']",['Enchimento acrílico'],1.0,7.800000000000001
-"['Enchimento acrílico', 'Lã Amigurumi ']",['Amigurumis'],1.0,6.157894736842105
-"['Agulha de tapeçaria', 'Enchimento acrílico']",['Amigurumis'],1.0,6.157894736842105
+"['Tapetes de Banheiro', 'Barbante 4']","['Agulha de Crochê 3,5 mm']",1.0,6.157894736842105
 ['Tapetes de Banheiro'],['Tapetes'],1.0,7.800000000000001
-['Bichinhos'],['Enchimento acrílico'],1.0,7.800000000000001
-['Bichinhos'],"['Enchimento acrílico', 'Amigurumis']",1.0,7.800000000000001
-['Bichinhos'],['Amigurumis'],1.0,6.157894736842105
-['Enchimento acrílico'],['Amigurumis'],1.0,6.157894736842105
-"['Agulha de tapeçaria', 'Amigurumis']",['Enchimento acrílico'],0.8181818181818182,6.381818181818183
-"['Amigurumis', 'Lã Amigurumi ']",['Enchimento acrílico'],0.8,6.240000000000001
-['Amigurumis'],['Enchimento acrílico'],0.7894736842105262,6.157894736842105
+"['Tapetes de Banheiro', 'Barbante 4', 'Agulha de Crochê 3,5 mm']",['Tapetes'],1.0,7.800000000000001
+"['Tapetes de Banheiro', 'Barbante 4']",['Tapetes'],1.0,7.800000000000001
+"['Tapetes de Banheiro', 'Tapetes', 'Agulha de Crochê 3,5 mm']",['Barbante 4'],1.0,5.086956521739131
+"['Tapetes de Banheiro', 'Barbante 4']","['Tapetes', 'Agulha de Crochê 3,5 mm']",1.0,16.714285714285715
+"['Tapetes de Banheiro', 'Barbante 4', 'Tapetes']","['Agulha de Crochê 3,5 mm']",1.0,6.157894736842105
+"['Tapetes de Banheiro', 'Agulha de Crochê 3,5 mm']",['Tapetes'],1.0,7.800000000000001
+['Enchimento acrílico'],['Amigurumis'],1.0,9.0
+"['Tapetes de Banheiro', 'Agulha de Crochê 3,5 mm']",['Barbante 4'],1.0,5.086956521739131
+"['Agulha de tapeçaria', 'Enchimento acrílico']",['Amigurumis'],1.0,9.0
+"['Barbante 4', 'Tapetes', 'Agulha de Crochê 3,5 mm']",['Tapetes de Banheiro'],1.0,10.636363636363637
+"['Tapetes de Banheiro', 'Agulha de Crochê 3,5 mm']","['Barbante 4', 'Tapetes']",1.0,14.624999999999998
+"['Tapetes', 'Agulha de Crochê 3,5 mm']","['Tapetes de Banheiro', 'Barbante 4']",0.8571428571428571,16.714285714285715
+"['Tapetes', 'Agulha de Crochê 3,5 mm']",['Barbante 4'],0.8571428571428571,4.3602484472049685
+"['Tapetes', 'Agulha de Crochê 3,5 mm']",['Tapetes de Banheiro'],0.8571428571428571,9.116883116883116
 ['Barbante 2'],"['Agulha de Crochê 2,0 mm']",0.7857142857142857,3.9968944099378882
+['Fita métrica'],['Tesoura'],0.7777777777777778,4.136363636363637
+"['Enchimento acrílico', 'Amigurumis']",['Agulha de tapeçaria'],0.7777777777777778,2.3947368421052633
+['Enchimento acrílico'],"['Agulha de tapeçaria', 'Amigurumis']",0.7777777777777778,10.11111111111111
+['Fita métrica'],['Agulha de tapeçaria'],0.7777777777777778,2.3947368421052633
+['Enchimento acrílico'],['Agulha de tapeçaria'],0.7777777777777778,2.3947368421052633
+"['Agulha de tapeçaria', 'Amigurumis']",['Enchimento acrílico'],0.7777777777777778,10.11111111111111
+"['Barbante 4', 'Tapetes']","['Agulha de Crochê 3,5 mm']",0.7499999999999999,4.618421052631578
+"['Barbante 4', 'Tapetes']","['Tapetes de Banheiro', 'Agulha de Crochê 3,5 mm']",0.7499999999999999,14.624999999999998
+"['Barbante 4', 'Tapetes']",['Tapetes de Banheiro'],0.7499999999999999,7.977272727272726
 ['Tapetes'],['Tapetes de Banheiro'],0.7333333333333334,7.800000000000001
-['Tesoura'],['Agulha de tapeçaria'],0.7272727272727274,2.1272727272727274
-['Lã Amigurumi '],['Amigurumis'],0.7142857142857143,4.398496240601504
+['Tesoura'],['Agulha de tapeçaria'],0.7272727272727274,2.2392344497607657
+['Amigurumis'],['Enchimento acrílico'],0.6923076923076924,9.0
+['Amigurumis'],['Agulha de tapeçaria'],0.6923076923076924,2.1315789473684212
 ['Lã algodão 2'],"['Agulha de Crochê 2,0 mm']",0.6666666666666667,3.3913043478260874
-['Enchimento acrílico'],['Agulha de tapeçaria'],0.6000000000000001,1.7550000000000001
-"['Enchimento acrílico', 'Amigurumis']",['Agulha de tapeçaria'],0.6000000000000001,1.7550000000000001
-['Enchimento acrílico'],"['Agulha de tapeçaria', 'Amigurumis']",0.6000000000000001,6.381818181818183
-['Amigurumis'],['Agulha de tapeçaria'],0.5789473684210527,1.693421052631579
-['Lã Amigurumi '],['Agulha de tapeçaria'],0.5714285714285715,1.6714285714285717
-['Lã Amigurumi '],['Enchimento acrílico'],0.5714285714285715,4.457142857142858
-['Lã Amigurumi '],"['Agulha de Crochê 3,0 mm']",0.5714285714285715,3.5187969924812035
-['Lã Amigurumi '],"['Enchimento acrílico', 'Amigurumis']",0.5714285714285715,4.457142857142858
-"['Enchimento acrílico', 'Amigurumis']",['Lã Amigurumi '],0.5333333333333334,4.457142857142858
-['Enchimento acrílico'],"['Amigurumis', 'Bichinhos']",0.5333333333333334,7.800000000000001
-['Enchimento acrílico'],['Lã Amigurumi '],0.5333333333333334,4.457142857142858
-"['Enchimento acrílico', 'Amigurumis']",['Bichinhos'],0.5333333333333334,7.800000000000001
-['Enchimento acrílico'],['Bichinhos'],0.5333333333333334,7.800000000000001
+"['Barbante 4', 'Agulha de Crochê 3,5 mm']",['Tapetes de Banheiro'],0.6666666666666666,7.090909090909091
+"['Barbante 4', 'Agulha de Crochê 3,5 mm']",['Tapetes'],0.6666666666666666,5.2
+"['Barbante 4', 'Agulha de Crochê 3,5 mm']","['Tapetes de Banheiro', 'Tapetes']",0.6666666666666666,7.090909090909091
+['Lã Amigurumi '],['Amigurumis'],0.6363636363636364,5.7272727272727275
+['Lã Amigurumi '],['Agulha de tapeçaria'],0.6363636363636364,1.9593301435406698
+['Amigurumis'],"['Agulha de Crochê 3,0 mm']",0.6153846153846155,4.23529411764706
+"['Tapetes de Banheiro', 'Tapetes']","['Barbante 4', 'Agulha de Crochê 3,5 mm']",0.5454545454545454,7.09090909090909
+['Tapetes de Banheiro'],"['Barbante 4', 'Agulha de Crochê 3,5 mm']",0.5454545454545454,7.09090909090909
+['Tapetes de Banheiro'],"['Barbante 4', 'Tapetes']",0.5454545454545454,7.977272727272726
+"['Tapetes de Banheiro', 'Tapetes']",['Barbante 4'],0.5454545454545454,2.774703557312253
+['Tapetes de Banheiro'],"['Tapetes', 'Agulha de Crochê 3,5 mm']",0.5454545454545454,9.116883116883116
+"['Tapetes de Banheiro', 'Tapetes']","['Agulha de Crochê 3,5 mm']",0.5454545454545454,3.358851674641148
+['Tapetes de Banheiro'],['Barbante 4'],0.5454545454545454,2.774703557312253
+['Tapetes de Banheiro'],"['Agulha de Crochê 3,5 mm']",0.5454545454545454,3.358851674641148
+['Lã Amigurumi '],"['Agulha de Crochê 3,0 mm']",0.5454545454545454,3.7540106951871652
+['Tapetes de Banheiro'],"['Barbante 4', 'Tapetes', 'Agulha de Crochê 3,5 mm']",0.5454545454545454,10.636363636363637
+['Amigurumis'],"['Agulha de tapeçaria', 'Enchimento acrílico']",0.5384615384615385,9.000000000000002
+['Amigurumis'],['Lã Amigurumi '],0.5384615384615385,5.727272727272728
 ['Tapetes'],['Barbante 4'],0.5333333333333334,2.7130434782608703
-['Enchimento acrílico'],"['Amigurumis', 'Lã Amigurumi ']",0.5333333333333334,6.240000000000001
-['Amigurumis'],['Lã Amigurumi '],0.5263157894736842,4.398496240601503
-"['Agulha de Crochê 3,0 mm']",['Amigurumis'],0.5263157894736842,3.240997229916897
-['Amigurumis'],"['Agulha de Crochê 3,0 mm']",0.5263157894736842,3.240997229916897
