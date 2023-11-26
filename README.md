@@ -11,15 +11,17 @@ O back-end desse projeto foi contruido em Java Spring Maven e usa MVC para trata
 - [JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) 17.0.9
 
 ## Pré-configurações:
-- Foram utilizados os valores padrões de porta (```5432```) e nome de usuário(```postgres```) no Postgres
-- A senha padrão do banco é ```1234```
-- O nome utilizado para o banco foi ```lama```
+- Foram utilizados os valores padrões de porta (`5432`) e nome de usuário(`postgres`) no Postgres
+- A senha padrão do banco é `1234`
+- O nome utilizado para o banco foi `lama`
 - Qualquer alteração nessas informações devem ser alteradas no ```./resources/application.properties```
   
 ## Como rodar
 - Faça o clone do projeto para a pasta desejada
-- Faça a criação do Banco de Dados de nome lama, utilizando os scripts do arquivo ```./database/Database.db ```
-- Utilize o arquivo ``` ./database/lama.bkp ``` para restaurar os valores iniciais do banco
+- Faça a criação do Banco de Dados de nome lama, utilizando os scripts do arquivo `./database/Database.db`
+- Utilize o arquivo `./database/lama.bkp` para restaurar os valores iniciais do banco
 - Abra o projeto na usa IDE ou similar de preferencia
 - Faça o download das dependencias do Maven
-- Certifique-se de que o projeto esteja utilizando o JDK ```17.0.9``` e que a linguagem utilizada é a mesma do JDK
+- Certifique-se de que o projeto esteja utilizando o JDK `17.0.9` e que a linguagem utilizada é a mesma do JDK
+- Rode a aplicação no arquivo `./src/main/java/com/example/backlama/BackLamaAplication.java`
+- Não esqueça de rodar o [front-end](https://github.com/gealberti/Lama) também!
