@@ -1,12 +1,36 @@
 antecedents,consequents,confidence,lift
-['Fita métrica'],['Tesoura'],1.0,4.857142857142858
-"['Agulha de Crochê 5,0 mm']",['Agulha de tapeçaria'],0.7999999999999999,2.7199999999999998
-['Top Cropped'],['Tesoura'],0.7999999999999999,3.8857142857142857
-['Marcador de pontos'],['Agulha de tapeçaria'],0.7142857142857143,2.4285714285714284
-['Amigurumis'],['Lã Amigurumi '],0.7142857142857143,5.396825396825397
-['Tesoura'],['Agulha de tapeçaria'],0.6428571428571429,2.185714285714286
-['Barbante 2'],"['Agulha de Crochê 2,0 mm']",0.625,3.035714285714286
-"['Agulha de Crochê 2,5 mm']",['Agulha de tapeçaria'],0.625,2.125
-['Lã algodão 2'],"['Agulha de Crochê 2,0 mm']",0.5833333333333333,2.833333333333333
-['Lã Amigurumi '],['Amigurumis'],0.5555555555555556,5.396825396825397
-"['Agulha de Crochê 2,0 mm']",['Lã algodão 2'],0.5,2.833333333333333
+"['Enchimento acrílico', 'Bichinhos']",['Amigurumis'],1.0,6.157894736842105
+"['Amigurumis', 'Bichinhos']",['Enchimento acrílico'],1.0,7.800000000000001
+"['Enchimento acrílico', 'Lã Amigurumi ']",['Amigurumis'],1.0,6.157894736842105
+"['Agulha de tapeçaria', 'Enchimento acrílico']",['Amigurumis'],1.0,6.157894736842105
+['Tapetes de Banheiro'],['Tapetes'],1.0,7.800000000000001
+['Bichinhos'],['Enchimento acrílico'],1.0,7.800000000000001
+['Bichinhos'],"['Enchimento acrílico', 'Amigurumis']",1.0,7.800000000000001
+['Bichinhos'],['Amigurumis'],1.0,6.157894736842105
+['Enchimento acrílico'],['Amigurumis'],1.0,6.157894736842105
+"['Agulha de tapeçaria', 'Amigurumis']",['Enchimento acrílico'],0.8181818181818182,6.381818181818183
+"['Amigurumis', 'Lã Amigurumi ']",['Enchimento acrílico'],0.8,6.240000000000001
+['Amigurumis'],['Enchimento acrílico'],0.7894736842105262,6.157894736842105
+['Barbante 2'],"['Agulha de Crochê 2,0 mm']",0.7857142857142857,3.9968944099378882
+['Tapetes'],['Tapetes de Banheiro'],0.7333333333333334,7.800000000000001
+['Tesoura'],['Agulha de tapeçaria'],0.7272727272727274,2.1272727272727274
+['Lã Amigurumi '],['Amigurumis'],0.7142857142857143,4.398496240601504
+['Lã algodão 2'],"['Agulha de Crochê 2,0 mm']",0.6666666666666667,3.3913043478260874
+['Enchimento acrílico'],['Agulha de tapeçaria'],0.6000000000000001,1.7550000000000001
+"['Enchimento acrílico', 'Amigurumis']",['Agulha de tapeçaria'],0.6000000000000001,1.7550000000000001
+['Enchimento acrílico'],"['Agulha de tapeçaria', 'Amigurumis']",0.6000000000000001,6.381818181818183
+['Amigurumis'],['Agulha de tapeçaria'],0.5789473684210527,1.693421052631579
+['Lã Amigurumi '],['Agulha de tapeçaria'],0.5714285714285715,1.6714285714285717
+['Lã Amigurumi '],['Enchimento acrílico'],0.5714285714285715,4.457142857142858
+['Lã Amigurumi '],"['Agulha de Crochê 3,0 mm']",0.5714285714285715,3.5187969924812035
+['Lã Amigurumi '],"['Enchimento acrílico', 'Amigurumis']",0.5714285714285715,4.457142857142858
+"['Enchimento acrílico', 'Amigurumis']",['Lã Amigurumi '],0.5333333333333334,4.457142857142858
+['Enchimento acrílico'],"['Amigurumis', 'Bichinhos']",0.5333333333333334,7.800000000000001
+['Enchimento acrílico'],['Lã Amigurumi '],0.5333333333333334,4.457142857142858
+"['Enchimento acrílico', 'Amigurumis']",['Bichinhos'],0.5333333333333334,7.800000000000001
+['Enchimento acrílico'],['Bichinhos'],0.5333333333333334,7.800000000000001
+['Tapetes'],['Barbante 4'],0.5333333333333334,2.7130434782608703
+['Enchimento acrílico'],"['Amigurumis', 'Lã Amigurumi ']",0.5333333333333334,6.240000000000001
+['Amigurumis'],['Lã Amigurumi '],0.5263157894736842,4.398496240601503
+"['Agulha de Crochê 3,0 mm']",['Amigurumis'],0.5263157894736842,3.240997229916897
+['Amigurumis'],"['Agulha de Crochê 3,0 mm']",0.5263157894736842,3.240997229916897
