@@ -6,9 +6,9 @@
 O back-end desse projeto foi contruido em Java Spring Maven e usa MVC para tratar e utilizar os dados do banco de dados. Além disso no projeto estão os scripts de criação do banco de dados e sua população inicial, assim como os scripts em python que foram usados para a geração das regras de associação usadas no back-end para a recomendação personalizada de receitas de crochê para os usuários.
 
 ## Pre-requisitos:
-- IDE Java ou similar, capaz de rodar projetos Maven
-- Postgres 7.0 ou acima instalado
-- JDK 17.0.9
+- IDE Java ou similar, capaz de rodar projetos Maven, foi utilizado o [IntelliJ IDEA](https://www.jetbrains.com/pt-br/idea/download/?section=windows) para esse projeto
+- [Postgres](https://www.postgresql.org/download/) 7.0 ou acima instalado
+- [JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) 17.0.9
 
 ## Pré-configurações:
 - Foram utilizados os valores padrões de porta (```5432```) e nome de usuário(```postgres```) no Postgres
